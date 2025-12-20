@@ -94,14 +94,45 @@
 
         .stat-row { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center; }
         .selection-item { border-bottom: 1px dashed rgba(0,0,0,0.1); padding: 5px; font-size: 0.9rem; }
+        /* Splash Text Styling */
+#splash-container {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    perspective: 1000px;
+}
+
+#splash-text {
+    color: #ffcc00; /* Vibrant Gold */
+    font-size: 0.6rem;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    text-shadow: 2px 2px 0px #000;
+    animation: splash-pulse 1.5s infinite ease-in-out;
+    pointer-events: none;
+}
+
+@keyframes splash-pulse {
+    0% { transform: scale(1) rotate(-2deg); opacity: 0.8; }
+    50% { transform: scale(1.1) rotate(1deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-2deg); opacity: 0.8; }
+}
     </style>
 </head>
 <body>
 
 <div id="sidebar-left">
     <h2 style="margin-top:0">Investment</h2>
-    <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">
+    <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 5px;">
         <span id="used-pts">0</span> / <span id="max-pts">410</span>
+    </div>
+
+    <!-- ADD THIS HERE -->
+    <div id="splash-container">
+        <div id="splash-text"></div>
     </div>
 
     <div class="category-title" style="font-size: 0.9rem; cursor: default; border: none;">Core Attributes</div>
@@ -327,7 +358,38 @@ let userStats = {};
 let selectedItems = new Set();
 let collapsedCats = new Set(); 
 
+// --- MUTUAL EXCLUSIVE DEFINITIONS ---
+const mutualGroups = [
+    ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
+    ["Unyielding Frost", "Glass Path: Crystallization"],
+    ["The Final Act", "Eruption Path: Lava Serpent"],
+    ["Gilded Path: Scrapsinger", "Decay Path: Oxidize"],
+    ["Manipulation Path: Spirit Lantern", "Manipulation Path: Agile Misery", "Simple Manipulation: Unstable Blood"],
+    ["Wraith Path: Umbra", "Eruption Path: Lava Serpent"],
+    ["Flashboil", "Wraith Path: Umbra", "Eruption Path: Lava Serpent"],
+    ["Flashboil", "Glass Path: Crystallization"],
+    ["Volcanic Glass", "Flashboil"],
+    ["Fulgurite Formation", "Unyielding Frost"],
+    ["Emperor Flame", "Eruption Path: Lava Serpent"]
+];
+
 function init() {
+    const splashes = [
+        "time for a shower twin",
+        "please dont go for more than 80 will",
+        "FUCK MY LIFE... IM JUST A RETARD... -nnecrochromatic",
+        "?timeout @Nebula 27d ramadan",
+        "im a fat greasy pig -stank",
+        "maybe its time to get out of the kitchen",
+        "hold it, this guy is cooking",
+        "your dragon backshots gave me ping spikes up to 3000+ ms -pepper",
+        "@astr0phone Wanna be my valentine -yzord",
+        "Dont make me hit one of yall wit my bbc -mon"
+    ];
+    
+    const splashEl = document.getElementById('splash-text');
+    splashEl.innerText = splashes[Math.floor(Math.random() * splashes.length)];
+
     const core = document.getElementById('core-inputs');
     core.innerHTML = "";
     gameData.attributes.forEach(a => {
@@ -343,6 +405,7 @@ function init() {
     });
 
     updateUI();
+    
 }
 
 function setStat(name, val) {
@@ -444,8 +507,27 @@ function renderTalents() {
 }
 
 function toggleTalent(name, met) {
-    if (!met && !selectedItems.has(name)) return;
-    selectedItems.has(name) ? selectedItems.delete(name) : selectedItems.add(name);
+    // Check for mutual exclusivity if trying to select a new one
+    if (!selectedItems.has(name)) {
+        if (!met) return;
+
+        // Search through all groups for conflicts
+        for (const group of mutualGroups) {
+            if (group.includes(name)) {
+                for (const other of group) {
+                    if (other !== name && selectedItems.has(other)) {
+                        alert(`❌ MUTUAL EXCLUSIVE ERROR:\n"${name}" cannot be picked because you already have "${other}".`);
+                        return; // Stop the function here
+                    }
+                }
+            }
+        }
+        selectedItems.add(name);
+    } else {
+        // Just remove it if already selected
+        selectedItems.delete(name);
+    }
+    
     updateUI();
 }
 
