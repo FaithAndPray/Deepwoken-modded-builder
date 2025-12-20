@@ -11,7 +11,6 @@
             --parchment: #d8d7ca;
             --parchment-text: #1a1a1a;
             --border-path: url('border.png');
-            /* Updated for exact fit */
             --border-slice: 10; 
         }
 
@@ -21,7 +20,6 @@
             margin: 0; display: flex; height: 100vh; overflow: hidden; 
         }
 
-        /* SIDEBARS */
         #sidebar-left { 
             width: 320px; min-width: 320px; background: var(--sidebar-bg); 
             border-right: 2px solid #2f2f35; padding: 20px; overflow-y: auto; 
@@ -30,7 +28,6 @@
         #sidebar-right {
             width: 340px; min-width: 340px; background: var(--parchment);
             color: var(--parchment-text); margin: 15px; display: flex; flex-direction: column;
-            /* Exact Border Logic */
             border: 12px solid transparent; 
             border-image: var(--border-path) var(--border-slice) repeat;
             image-rendering: pixelated;
@@ -39,13 +36,11 @@
         #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
         #talent-container { flex: 1; overflow-y: auto; padding-right: 10px; }
 
-        /* SEARCH & UI */
         .search-bar-container {
             background: rgba(0,0,0,0.3); padding: 15px; border-radius: 4px;
             margin-bottom: 20px; border: 1px solid #333;
         }
 
-        /* COLLAPSIBLE CATEGORIES */
         .category-block { margin-bottom: 10px; }
         .category-title { 
             font-size: 1.2rem; border-bottom: 2px solid #333; 
@@ -60,7 +55,6 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; padding: 5px; }
 
-        /* CARDS WITH FIXED BORDERS */
         .card {
             background: rgba(255,255,255,0.03); padding: 10px; cursor: pointer;
             border: 8px solid transparent; 
@@ -70,22 +64,22 @@
         }
         .card:hover { transform: translateY(-1px); background: rgba(255,255,255,0.08); }
         .card.locked { 
-    background: rgba(0,0,0,0.4); 
-    border-color: rgba(255,255,255,0.05);
-    opacity: 0.7; /* Increased from 0.3 so you can actually read it */
-    filter: grayscale(0.5); 
-    cursor: not-allowed;
+            background: rgba(0,0,0,0.4); 
+            border-color: rgba(255,255,255,0.05);
+            opacity: 0.7;
+            filter: grayscale(0.5); 
+            cursor: not-allowed;
         }
         .card.selected { background: rgba(122, 184, 122, 0.15); border-image-source: url('border_gold.png'); }
-.req-text {
-    color: #c2a35d; /* A muted gold color that matches fantasy UIs */
-    font-size: 0.75rem;
-    margin-top: 8px;
-    font-weight: bold;
-    letter-spacing: 0.02rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 4px;
-}
+        .req-text {
+            color: #c2a35d; 
+            font-size: 0.75rem;
+            margin-top: 8px;
+            font-weight: bold;
+            letter-spacing: 0.02rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 4px;
+        }
         button {
             background: #1a1a1c; border: 1px solid #444; color: #fff;
             padding: 8px 12px; cursor: pointer; font-family: 'Lora'; margin: 2px;
@@ -140,7 +134,6 @@
 </div>
 
 <script>
-// (Previous gameData object stays the same)
 const gameData = {
     attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
     attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
@@ -153,195 +146,197 @@ const gameData = {
         "Intelligence": [{ "name": "Ether Absorption", "desc": "Receive Ether back when inflicted with damage from Mantras.", "req": { "Intelligence": 15 } },{ "name": "Perfect Flash", "desc": "Over 95% health causes mantras to do +25% damage.", "req": { "Intelligence": 25 } },{ "name": "Eureka", "desc": "Gain Inspiration stacks on mantra land/parry. 3 stacks grant +10% Mantra Damage.", "req": { "Intelligence": 30 } },{ "name": "True Ether Bullets", "desc": "Ether Bullets apply elemental damage of highest investment.", "req": { "Intelligence": 30, "Weapon": 20 } },{ "name": "Overflowing Dam", "desc": "Full Ether for 2s grants an aura for 10% more damage.", "req": { "Intelligence": 40 } },{ "name": "Foolish Outburst", "desc": "Blocking or parrying a vent absorbs the Tempo cost of the vent.", "req": { "Intelligence": 50 } },{ "name": "Keen Recovery", "desc": "Basic attack after feinting a mantra restores the feinted mantra's ether cost.", "req": { "Intelligence": 55 } },{ "name": "Prime Ether Bullets", "desc": "Bullets take one less hit to proc elements and have intelligence scaling.", "req": { "Intelligence": 60, "Light": 90 } },{ "name": "Twelve Steps Ahead", "desc": "Landing Prediction halves cooldown; whiffing doubles it.", "req": { "Intelligence": 80 } },{ "name": "Ether Overdrive", "desc": "Gain 5% extra PEN and remove the cap on your PEN.", "req": { "Intelligence": 90, "Elemental": 20 } },{ "name": "Absolute Pitch", "desc": "You can cast ritual mantra’s instantly.", "req": { "Intelligence": 100 } }],
         "Willpower": [{ "name": "Disbelief", "desc": "Resistant to Illusion magic, charms, and tricks.", "req": { "Willpower": 25 } },{ "name": "Magical Resolve", "desc": "Being hit increases ether regen.", "req": { "Willpower": 40 } },{ "name": "Ardour Scream", "desc": "Amplify shout to make victims take 25% more DMG and Posture for 10s.", "req": { "Willpower": 40 } },{ "name": "Underdog", "desc": "Deal more damage to those with higher HP, scales with WIL.", "req": { "Willpower": 50 } },{ "name": "Heretic's Sutra", "desc": "A chant that steers you into the state of Insanity for 20 seconds.", "req": { "Willpower": 80 } },{ "name": "Piercing Will", "desc": "When sanity is below 35%, gain up to +15% PEN.", "req": { "Willpower": 80 } },{ "name": "Psychic", "desc": "Opponents with <50% sanity cannot proc Deep Gems against you briefly.", "req": { "Willpower": 80 } },{ "name": "Shared Misery", "desc": "Attacking while losing sanity causes enemies to lose sanity.", "req": { "Willpower": 90 } },{ "name": "Beleaguered But Unbowed", "desc": "Damage reduction when surrounded by 2 or more opponents.", "req": { "Willpower": 90 } },{ "name": "Sin Stacker", "desc": "All The Dead Gods' duration is based on enemy antiheal stacks.", "req": { "Willpower": 90 } },{ "name": "Indomitable Spirit", "desc": "Sanity attacks are redirected to nearby opponents.", "req": { "Willpower": 100 } }],
         "Charisma": [{ "name": "Charismatic Cast", "desc": "Landing mantras charms enemies, reducing damage done to you.", "req": { "Charisma": 25 } },{ "name": "Tough Love", "desc": "Deal 10% more damage to charmed enemies.", "req": { "Charisma": 25 } },{ "name": "Give and Take", "desc": "Deal and receive less DMG from comrades.", "req": { "Charisma": 35 } },{ "name": "Golden Tongue", "desc": "Typing or gestures give random buffs to you and allies.", "req": { "Charisma": 40 } },{ "name": "Lasting Charisma", "desc": "Enemies charmed by mantras stay charmed longer.", "req": { "Charisma": 55 } },{ "name": "Chaotic Charm", "desc": "At low health, naturally apply charm to reduce incoming damage.", "req": { "Charisma": 55 } },{ "name": "Dazing Finisher", "desc": "Flourishing charmed enemies dazes them instead of knockback.", "req": { "Charisma": 55 } },{ "name": "Manipulator", "desc": "Deal 20% more critical damage to charmed enemies; removes charm.", "req": { "Charisma": 60 } },{ "name": "Narcissist", "desc": "Charming an already charmed opponent Overcharms you briefly.", "req": { "Charisma": 60 } },{ "name": "Unnecessary Theatrics", "desc": "Deliver a one-liner on heavy attacks that charms opponents briefly.", "req": { "Charisma": 75 } },{ "name": "Cornered Fool", "desc": "Blockbreaking a charmed opponent procs Taunt.", "req": { "Charisma": 85 } },{ "name": "Cult of Personality", "desc": "Gain +3% PEN for each person Charmed, capping at 15%.", "req": { "Charisma": 90 } },{ "name": "Off Your Game", "desc": "Slow Taunted enemies when you hit them.", "req": { "Charisma": 90 } }],
-        "Multi-Stats": [{ "name": "Parasol's Brain", "desc": "You feel as if your brain were expanding.", "req": { "Intelligence": 100, "Charisma": 50, "Willpower": 80 } },{ "name": "Sturdy Control", "desc": "Gain 2.5% pen for every M1/Crit after being hit, cap 15%.", "req": { "Precision": 1, "Fortitude": 40 } },{ "name": "Master of His Craft", "desc": "Parrying a vent grants +20% PEN for 5 seconds.", "req": { "Precision": 10, "Intelligence": 10 } },{ "name": "Concussion", "desc": "Flourishing enemies into walls dazes them longer and alters vision.", "req": { "Strength": 20, "Fortitude": 15 } },{ "name": "Matador", "desc": "Deal +20% more damage to human enemies with hyperarmor.", "req": { "Strength": 20, "Agility": 5 } },{ "name": "Lightspeed Reflexes", "desc": "Feinting gives a very brief auto-parry window.", "req": { "Agility": 20, "Intelligence": 20 } },{ "name": "Grasp on Reality", "desc": "Reduced damage from insanity; Shared Misery is less effective.", "req": { "Fortitude": 25, "Willpower": 5 } },{ "name": "Strong Stern", "desc": "The duration you are dazed from wall bangs is cut in half.", "req": { "Strength": 15, "Fortitude": 25 } },{ "name": "Endurance Runner", "desc": "Keep moving even when things look dire.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Conditioned Runner", "desc": "Regen faster while running, slower while not.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Spine Cutter", "desc": "Hit enemy in back after roll cancel for raw weapon damage follow-up.", "req": { "Strength": 20, "Agility": 25 } },{ "name": "Knight's Rally", "desc": "When using a shield, ready block more quickly after a hit.", "req": { "Fortitude": 30, "Willpower": 10 } },{ "name": "Breaking Stereotype", "desc": "Guard breaking an opponent with your critical applies knockdown.", "req": { "Precision": 50, "Strength": 50 } },{ "name": "All The Dead Gods", "desc": "Your Attacks now Apply Anti-Heal. [+5 hp]", "req": { "Intelligence": 40, "Willpower": 65 } },{ "name": "Stress Resistant", "desc": "While in Combat, Insanity only affects every 2nd time.", "req": { "Precision": 25, "Willpower": 40 } },{ "name": "Unfazed", "desc": "More resilient to insanity side effects. No shivering, less panic.", "req": { "Willpower": 50, "Fortitude": 50 } },{ "name": "Steady Nerves", "desc": "Successful dodges restore posture.", "req": { "Strength": 15, "Agility": 45 } },{ "name": "Tooth and Claw", "desc": "Precision & Strength mantras now have 20% PEN.", "req": { "Strength": 50, "Precision": 50 } },{ "name": "Behind You", "desc": "Basic attack behind enemy after mantra feint deals ether-scaling damage.", "req": { "Intelligence": 70, "Agility": 40 } },{ "name": "One of a Kind", "desc": "Crits/Flourishes extend Charm duration and ignore Disbelief.", "req": { "Charisma": 80, "Willpower": 80 } },{ "name": "Dancing With The Dead", "desc": "For every nearby enemy gain 2.5% PEN.", "req": { "Precision": 80, "Intelligence": 20 } },{ "name": "Bad Guy Coming Through", "desc": "Block-breaking an opponent applies 50% damage as Insanity.", "req": { "Strength": 100, "Willpower": 50 } },{ "name": "All Above, Gods Below", "desc": "Stun and steal any healing opponent would receive.", "req": { "Willpower": 100, "Intelligence": 100 } },{ "name": "Crisis Point", "desc": "At 30% Health, disable all anti-heals for 20s.", "req": { "Fortitude": 50, "Willpower": 100 } },{ "name": "Brick Wall", "desc": "Immune to knockdown until knocked unconscious.", "req": { "Fortitude": 100, "Willpower": 100 } },{ "name": "On Your Toes", "desc": "Gain brief auto-parry frames while equipping weapon.", "req": { "Agility": 40, "Willpower": 40 } }]
-"Weapon Talents": [
-        { "name": "Flash Pressure", "desc": "Breeze Blitz extender.", "req": { "Light Weapon": 40 } },
-        { "name": "Knife's Journey", "desc": "Cancelling enemy mantra windup with M1 deals 15% more damage.", "req": { "Light Weapon": 30 } },
-        { "name": "Decisive Blow", "desc": "Critting after an enemy dodge procs Knife's Journey for 2x Armor dmg.", "req": { "Light Weapon": 30 } },
-        { "name": "Successive Throw", "desc": "Throw a dagger after a successful flourish.", "req": { "Light Weapon": 35 } },
-        { "name": "Switchblade", "desc": "Utilize Dagger Talents when not wielding a dagger.", "req": { "Light Weapon": 50, "Weapon": 50 } },
-        { "name": "Mayday", "desc": "Aerial flourishes knockdown for much longer.", "req": { "Precision": 80, "Weapon": 40 } },
-        { "name": "Virtuoso", "desc": "Temporarily proc talents of other weapon types in same class.", "req": { "Precision": 80, "Weapon": 80 } },
-        { "name": "Prodigy of All", "desc": "Flourish/Uppercut allows procing talents from other weapon classes for 15s.", "req": { "Light Weapon": 80, "Medium Weapon": 80, "Heavy Weapon": 80 } },
-        { "name": "Critical Engine", "desc": "Ability to use Deep Gems on your critical attack.", "req": { "Intelligence": 90, "Weapon": 30 } }
-    ],
+        "Multi-Stats": [{ "name": "Parasol's Brain", "desc": "You feel as if your brain were expanding.", "req": { "Intelligence": 100, "Charisma": 50, "Willpower": 80 } },{ "name": "Sturdy Control", "desc": "Gain 2.5% pen for every M1/Crit after being hit, cap 15%.", "req": { "Precision": 1, "Fortitude": 40 } },{ "name": "Master of His Craft", "desc": "Parrying a vent grants +20% PEN for 5 seconds.", "req": { "Precision": 10, "Intelligence": 10 } },{ "name": "Concussion", "desc": "Flourishing enemies into walls dazes them longer and alters vision.", "req": { "Strength": 20, "Fortitude": 15 } },{ "name": "Matador", "desc": "Deal +20% more damage to human enemies with hyperarmor.", "req": { "Strength": 20, "Agility": 5 } },{ "name": "Lightspeed Reflexes", "desc": "Feinting gives a very brief auto-parry window.", "req": { "Agility": 20, "Intelligence": 20 } },{ "name": "Grasp on Reality", "desc": "Reduced damage from insanity; Shared Misery is less effective.", "req": { "Fortitude": 25, "Willpower": 5 } },{ "name": "Strong Stern", "desc": "The duration you are dazed from wall bangs is cut in half.", "req": { "Strength": 15, "Fortitude": 25 } },{ "name": "Endurance Runner", "desc": "Keep moving even when things look dire.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Conditioned Runner", "desc": "Regen faster while running, slower while not.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Spine Cutter", "desc": "Hit enemy in back after roll cancel for raw weapon damage follow-up.", "req": { "Strength": 20, "Agility": 25 } },{ "name": "Knight's Rally", "desc": "When using a shield, ready block more quickly after a hit.", "req": { "Fortitude": 30, "Willpower": 10 } },{ "name": "Breaking Stereotype", "desc": "Guard breaking an opponent with your critical applies knockdown.", "req": { "Precision": 50, "Strength": 50 } },{ "name": "All The Dead Gods", "desc": "Your Attacks now Apply Anti-Heal. [+5 hp]", "req": { "Intelligence": 40, "Willpower": 65 } },{ "name": "Stress Resistant", "desc": "While in Combat, Insanity only affects every 2nd time.", "req": { "Precision": 25, "Willpower": 40 } },{ "name": "Unfazed", "desc": "More resilient to insanity side effects. No shivering, less panic.", "req": { "Willpower": 50, "Fortitude": 50 } },{ "name": "Steady Nerves", "desc": "Successful dodges restore posture.", "req": { "Strength": 15, "Agility": 45 } },{ "name": "Tooth and Claw", "desc": "Precision & Strength mantras now have 20% PEN.", "req": { "Strength": 50, "Precision": 50 } },{ "name": "Behind You", "desc": "Basic attack behind enemy after mantra feint deals ether-scaling damage.", "req": { "Intelligence": 70, "Agility": 40 } },{ "name": "One of a Kind", "desc": "Crits/Flourishes extend Charm duration and ignore Disbelief.", "req": { "Charisma": 80, "Willpower": 80 } },{ "name": "Dancing With The Dead", "desc": "For every nearby enemy gain 2.5% PEN.", "req": { "Precision": 80, "Intelligence": 20 } },{ "name": "Bad Guy Coming Through", "desc": "Block-breaking an opponent applies 50% damage as Insanity.", "req": { "Strength": 100, "Willpower": 50 } },{ "name": "All Above, Gods Below", "desc": "Stun and steal any healing opponent would receive.", "req": { "Willpower": 100, "Intelligence": 100 } },{ "name": "Crisis Point", "desc": "At 30% Health, disable all anti-heals for 20s.", "req": { "Fortitude": 50, "Willpower": 100 } },{ "name": "Brick Wall", "desc": "Immune to knockdown until knocked unconscious.", "req": { "Fortitude": 100, "Willpower": 100 } },{ "name": "On Your Toes", "desc": "Gain brief auto-parry frames while equipping weapon.", "req": { "Agility": 40, "Willpower": 40 } }],
+        "Weapon Talents": [
+            { "name": "Flash Pressure", "desc": "Breeze Blitz extender.", "req": { "Light Weapon": 40 } },
+            { "name": "Knife's Journey", "desc": "Cancelling enemy mantra windup with M1 deals 15% more damage.", "req": { "Light Weapon": 30 } },
+            { "name": "Decisive Blow", "desc": "Critting after an enemy dodge procs Knife's Journey for 2x Armor dmg.", "req": { "Light Weapon": 30 } },
+            { "name": "Successive Throw", "desc": "Throw a dagger after a successful flourish.", "req": { "Light Weapon": 35 } },
+            { "name": "Switchblade", "desc": "Utilize Dagger Talents when not wielding a dagger.", "req": { "Light Weapon": 50, "Weapon": 50 } },
+            { "name": "Mayday", "desc": "Aerial flourishes knockdown for much longer.", "req": { "Precision": 80, "Weapon": 40 } },
+            { "name": "Virtuoso", "desc": "Temporarily proc talents of other weapon types in same class.", "req": { "Precision": 80, "Weapon": 80 } },
+            { "name": "Prodigy of All", "desc": "Flourish/Uppercut allows procing talents from other weapon classes for 15s.", "req": { "Light Weapon": 80, "Medium Weapon": 80, "Heavy Weapon": 80 } },
+            { "name": "Critical Engine", "desc": "Ability to use Deep Gems on your critical attack.", "req": { "Intelligence": 90, "Weapon": 30 } }
+        ],
         "Flamecharm": [
-        { "name": "Eruption Path: Lava Serpent", "desc": "Every time you would set people aflame, eruptions spawn at their feet instead.", "req": { "Flamecharm": 50 } },
-        { "name": "Molten Defense", "desc": "Upon being Block Broken, cause an eruption. (30s CD)", "req": { "Flamecharm": 75, "Path": "Eruption" } },
-        { "name": "Flash Point", "desc": "Landing 3 fire mantras will set your enemy aflame.", "req": { "Flamecharm": 100, "Path": "Eruption" } },
-        { "name": "Double Trouble", "desc": "Landing a fire attack while eruption is charging causes an explosion.", "req": { "Flamecharm": 100, "Path": "Eruption" } },
-        { "name": "The Floor is Lava", "desc": "Your eruptions leave burning pools of lava beneath them.", "req": { "Flamecharm": 100, "Path": "Eruption" } },
-        { "name": "Flaming Flourish", "desc": "Your Flourish applies burn.", "req": { "Flamecharm": 25 } },
-        { "name": "Pleeksty’s Faith", "desc": "When on fire, automatically put out the flames at the cost of some ether.", "req": { "Flamecharm": 25, "Willpower": 15, "Charisma": 15 } },
-        { "name": "Meteor Impact", "desc": "Aerial moves follow up into a devastating slam.", "req": { "Flamecharm": 25 } },
-        { "name": "Dancing Steps", "desc": "Dash forward whenever using a flame mantra.", "req": { "Flamecharm": 35 } },
-        { "name": "Cauterized Wounds", "desc": "Blood loss from all sources is lowered.", "req": { "Flamecharm": 40, "Fortitude": 5 } },
-        { "name": "Explosive Flourish", "desc": "Hitting opponents with a fire attack after a flourish causes an explosion. (15s CD)", "req": { "Flamecharm": 50 } },
-        { "name": "Flame Within", "desc": "Set yourself on fire for a 10% DMG and 10% speed increase.", "req": { "Flamecharm": 50 } },
-        { "name": "Immolation", "desc": "Mantras cost 70% less ether while burning. M1s gain innate blazing. Take 50% less dmg from Flame Within.", "req": { "Flamecharm": 50 } },
-        { "name": "Mirage Clone", "desc": "Dodging an attack successfully sets the attacker on fire.", "req": { "Flamecharm": 65 } },
-        { "name": "Azure Flames", "desc": "Flames burn blue, increasing DoT. Eruption variant delays eruptions but increases dmg.", "req": { "Flamecharm": 75, "Willpower": 40 } },
-        { "name": "Ash Ember", "desc": "The more wither your opponent has, the more damage your burn deals.", "req": { "Flamecharm": 90, "Weapon": 1 } },
-        { "name": "Scorching Decay", "desc": "The wither dealt from Emperor's Flame is massively increased.", "req": { "Flamecharm": 100, "Weapon": 100 } },
-        { "name": "The Final Act", "desc": "M1s on burning enemies cause explosions. (15s CD) (Mutual with Eruption)", "req": { "Flamecharm": 75 } },
-        { "name": "Emperor Flame", "desc": "Upon activating Final Act, coat yourself in flames, increasing DMG and speed for 20s. (60s CD)", "req": { "Flamecharm": 80 } }
-    ],
-    "Frostdraw": [
-        { "name": "Glass Path: Crystallization", "desc": "Ice mantras no longer slow; instead, they grow crystals on opponents.", "req": { "Frostdraw": 40 } },
-        { "name": "Crystal Shrapnel", "desc": "Crystal explosions have an AoE that applies crystals to all hit.", "req": { "Frostdraw": 60, "Path": "Glass" } },
-        { "name": "Reclaimed Glass", "desc": "Crystal Shrapnel grants you and allies 10% Elemental Resistance for 10s.", "req": { "Frostdraw": 65, "Path": "Glass" } },
-        { "name": "Frostbite", "desc": "Enemies no longer heal when under the effect of chill.", "req": { "Frostdraw": 25 } },
-        { "name": "Saint Jay", "desc": "Redirect 60% of an enemy's nullified healing to yourself. Increased if enemy is on ice.", "req": { "Frostdraw": 25, "Talent": "Frostbite" } },
-        { "name": "Cool Head", "desc": "Being set on fire while on ice puts it out and grants fire immunity for 30s. (15s CD)", "req": { "Frostdraw": 30 } },
-        { "name": "Cryonis", "desc": "All ice spells cast on ice cost less ether.", "req": { "Frostdraw": 40 } },
-        { "name": "Cold Front", "desc": "Your vent is imbued with glacial frost.", "req": { "Frostdraw": 40, "Talent": "Cryonis" } },
-        { "name": "Chilling Flourish", "desc": "Flourish applies chill or crystals.", "req": { "Frostdraw": 50 } },
-        { "name": "Fragile Freeze", "desc": "Light attacks and criticals freeze chilled opponents on guardbreak.", "req": { "Frostdraw": 55 } },
-        { "name": "Frozen Pin-Cushion", "desc": "Ice Daggers freeze opponents in place.", "req": { "Frostdraw": 60, "Mantra": "Ice Daggers" } },
-        { "name": "Orbital Ice", "desc": "Parrying on ice forms a ring that absorbs 15% physical damage.", "req": { "Frostdraw": 65 } },
-        { "name": "Cryostasis", "desc": "Take decreased damage for 3s after being guard broken. (25s CD)", "req": { "Frostdraw": 80 } },
-        { "name": "Stasis Strike", "desc": "Crystal explosions deal more damage if the opponent is bottom frozen.", "req": { "Frostdraw": 90, "Weapon": 90 } },
-        { "name": "Frozen Anchor", "desc": "Apply bottom freeze and chill on flourish, uppercut, or crit.", "req": { "Frostdraw": 100, "Weapon": 100 } },
-        { "name": "Unyielding Frost", "desc": "Chill procs through block at 80% duration.", "req": { "Frostdraw": 100 } }
-    ],
-    "Galebreathe": [
-        { "name": "Haunted Path: Specter", "desc": "Lose suffocation for a spectral gauge.", "req": { "Galebreathe": 50 } },
-        { "name": "Apparitions", "desc": "Phantoms apply winded; cannot be parried during phantom step.", "req": { "Galebreathe": 50, "Path": "Haunted" } },
-        { "name": "Phantom Step", "desc": "High speed running and gale dashes (Requires 10% spectral gauge).", "req": { "Galebreathe": 55, "Path": "Haunted" } },
-        { "name": "Vanishing Wraith", "desc": "Aerial attacks in phantom step teleport you behind the target.", "req": { "Galebreathe": 60, "Path": "Haunted" } },
-        { "name": "Possession", "desc": "Apparition hits grant posture dmg or chip dmg depending on phantom step.", "req": { "Galebreathe": 75, "Path": "Haunted" } },
-        { "name": "Suffocating Impact", "desc": "Suffocate enemies when flourishing them into walls.", "req": { "Galebreathe": 35, "Strength": 15 } },
-        { "name": "Wind Step", "desc": "Gain a double jump and a large slide leap. (7s CD)", "req": { "Galebreathe": 40 } },
-        { "name": "Haunted Gale", "desc": "Every 3 hits with perfect cast gale mantras strike the target with a wind phantom.", "req": { "Galebreathe": 40 } },
-        { "name": "Cyclone Blade", "desc": "Gale dashes empower your next light attack with 30% bleed DMG and 10% chip.", "req": { "Galebreathe": 55, "Agility": 30 } },
-        { "name": "Silencer's Blade", "desc": "Meleeing a suffocated opponent extends duration and grants speed.", "req": { "Galebreathe": 60 } },
-        { "name": "Air Pressure", "desc": "Dodging or hitting blocks turns your next dash into a gale dash.", "req": { "Galebreathe": 50, "Agility": 20 } },
-        { "name": "AWS (A World Without Song)", "desc": "Wind attacks inflict suffocation for 5s.", "req": { "Galebreathe": 75 } },
-        { "name": "Silencer's Song", "desc": "Silencer’s Blade now procs on mantras.", "req": { "Galebreathe": 100, "Weapon": 100 } }
-    ],
-    "Thundercall": [
-        { "name": "Surge Path: Unstable Capacitor", "desc": "Apply surge stacks instead of shock. Max stacks cause an overload arc.", "req": { "Thundercall": 40 } },
-        { "name": "Fried Circuits", "desc": "Overloading an enemy applies Sapped for 5s.", "req": { "Thundercall": 40, "Path": "Surge" } },
-        { "name": "Closed Circuit", "desc": "Failed overload arcs deal damage directly to the overloaded enemy.", "req": { "Thundercall": 40, "Path": "Surge" } },
-        { "name": "Catalytic Strike", "desc": "Posture breaking a target overloads their surge stacks.", "req": { "Thundercall": 40, "Path": "Surge" } },
-        { "name": "Human Battery", "desc": "Convert nearby surge stacks into ether when empty.", "req": { "Thundercall": 40, "Path": "Surge" } },
-        { "name": "Raiton Path: Enlightened", "desc": "Decrease ether regen and tempo gain. 3 stacks overcharge the opponent.", "req": { "Thundercall": 50 } },
-        { "name": "Raiton's Charge", "desc": "Overcharge now sets people on fire.", "req": { "Thundercall": 75, "Path": "Raiton" } },
-        { "name": "Simple Path: Electrocution", "desc": "3 thunder hits apply Electrocution, increasing blood loss and burn dmg taken.", "req": { "Thundercall": 50 } },
-        { "name": "Scatter", "desc": "Flourishing an enemy applies Electrocution.", "req": { "Thundercall": 50, "Path": "Electrocution" } },
-        { "name": "Short Circuit", "desc": "Electrocution now sets the target on fire.", "req": { "Thundercall": 75, "Path": "Electrocution" } },
-        { "name": "Static Fakeout", "desc": "Roll canceling after a parry teleports you behind the opponent.", "req": { "Thundercall": 35, "Agility": 30 } },
-        { "name": "Static Link", "desc": "Flourishing or uppercutting creates a static link tether.", "req": { "Thundercall": 40, "Intelligence": 15 } },
-        { "name": "Jumper Cables", "desc": "Getting knocked while tethered steals HP and prevents the knockdown. (3-4s CD)", "req": { "Thundercall": 1, "Fortitude": 20, "Talent": "Static Link" } },
-        { "name": "Link Conduction", "desc": "Lightning mantras cost 30% less ether per active link.", "req": { "Thundercall": 65, "Talent": "Static Link" } },
-        { "name": "Static Allure", "desc": "Two active tethers pull targets together; increased duration.", "req": { "Thundercall": 50, "Talent": "Static Link" } },
-        { "name": "Grounding Bolt", "desc": "Summoned lightning strikes apply knockdown.", "req": { "Thundercall": 90, "Weapon": 90 } },
-        { "name": "Overload", "desc": "Hitting opponent 3 times overloads yourself, increasing DMG and tempo. Raiton covers you in shock.", "req": { "Thundercall": 100 } }
-    ],
-    "Shadowcast": [
-        { "name": "Withering Path: Decay", "desc": "Your shadow now withers away opponent health.", "req": { "Shadowcast": 50 } },
-        { "name": "Voidcaller", "desc": "Opponents with no ether or tempo suffer additional wither damage.", "req": { "Shadowcast": 50, "Path": "Withering" } },
-        { "name": "Infection", "desc": "Wither from shadowcast spreads to nearby enemies.", "req": { "Shadowcast": 60, "Path": "Withering" } },
-        { "name": "Crushing Thrall", "desc": "Doubles wither received if a shadow mantra breaks guard.", "req": { "Shadowcast": 75, "Path": "Withering" } },
-        { "name": "Suppression", "desc": "The ether of victims withers away.", "req": { "Shadowcast": 80 } },
-        { "name": "Senseless Destruction", "desc": "Opponents with >10% wither take more damage from shadow attacks.", "req": { "Shadowcast": 100 } },
-        { "name": "Dark Synergy", "desc": "Engulf enemies in shadows when flourishing.", "req": { "Shadowcast": 25 } },
-        { "name": "Sightless Still", "desc": "Shadow attacks increasingly obscure vision. (Mutual with Singularity)", "req": { "Shadowcast": 30 } },
-        { "name": "Singularity", "desc": "Enemies hang in place when hit by shadow. (Mutual with Sightless Still)", "req": { "Shadowcast": 40 } },
-        { "name": "Blackhole", "desc": "Singularity pulls nearby people in.", "req": { "Shadowcast": 50, "Talent": "Singularity" } },
-        { "name": "Energy Siphon", "desc": "Singularity pulls ether from those affected.", "req": { "Shadowcast": 50, "Talent": "Singularity" } },
-        { "name": "Lord’s Tithe", "desc": "Drains the tempo of enemies you reinforce.", "req": { "Shadowcast": 40, "Mantra": "Reinforce" } },
-        { "name": "Dark God", "desc": "Steal tempo if a mantra would drain enemy ether to 0.", "req": { "Shadowcast": 50 } },
-        { "name": "Lasting Sorrow", "desc": "Shadows last longer on the opponent.", "req": { "Shadowcast": 50 } },
-        { "name": "Fear The Dark", "desc": "Enemies stop in place when running from you.", "req": { "Shadowcast": 50 } },
-        { "name": "Dark Rift", "desc": "Enter a rift with I-frames when dodging.", "req": { "Shadowcast": 60 } },
-        { "name": "Dark Waltz", "desc": "Guardbreaking with light attacks/crits steals half of opponent's tempo.", "req": { "Shadowcast": 90, "Weapon": 90 } },
-        { "name": "Night Terror", "desc": "Light attacks proc Fear the Dark.", "req": { "Shadowcast": 100, "Weapon": 100 } }
-    ],
-    "Ironsing": [
-        { "name": "Decay Path: Oxidize", "desc": "Metal attacks store damage released 7.5s later.", "req": { "Ironsing": 50 } },
-        { "name": "Decaying Posture", "desc": "Deal more damage to opponents with more posture than you.", "req": { "Ironsing": 75, "Path": "Decay" } },
-        { "name": "Tetanus", "desc": "Hitting with 5+ rods negates healing based on damage and slows.", "req": { "Ironsing": 80, "Path": "Decay" } },
-        { "name": "Laced Blade", "desc": "Light attacks on targets with tetanus apply poison.", "req": { "Ironsing": 90, "Path": "Decay" } },
-        { "name": "Oxidizing Blitz", "desc": "Mantras apply DoT to Health/Blood. Tetanus redirects 20% of healing to you.", "req": { "Ironsing": 100, "Path": "Decay" } },
-        { "name": "Gilded Path: Scrapsinger", "desc": "Flourish consumes rods to siphon enemy armor to you.", "req": { "Ironsing": 35 } },
-        { "name": "Artisan's Blade", "desc": "Forges metal blades that fire upon landing metal-infused attacks.", "req": { "Ironsing": 45, "Path": "Gilded" } },
-        { "name": "Refine and Reuse", "desc": "Consuming rods reduces incoming PEN multiplicatively.", "req": { "Ironsing": 45, "Path": "Gilded" } },
-        { "name": "Songs Unforged", "desc": "Weapon criticals activate Scrapsinger.", "req": { "Ironsing": 50, "Path": "Gilded" } },
-        { "name": "Masterwork", "desc": "Artisan’s Blades proc metal rods and deal 50% more damage.", "req": { "Ironsing": 60, "Path": "Gilded" } },
-        { "name": "Reshape and Remold", "desc": "Scrapsinger procs increase opponent armor damage taken.", "req": { "Ironsing": 70, "Path": "Gilded" } },
-        { "name": "Thornmail", "desc": "Getting flourished applies a metal rod to the attacker.", "req": { "Ironsing": 45 } },
-        { "name": "Metal Thief", "desc": "Pulling an opponent absorbs a portion of their armor durability.", "req": { "Ironsing": 50 } },
-        { "name": "Piercing Metal", "desc": "Deal additional armor damage per rod affecting the enemy.", "req": { "Ironsing": 60 } },
-        { "name": "Exposed Durability", "desc": "10% more damage to opponents with no armor durability.", "req": { "Ironsing": 60 } },
-        { "name": "Oh The Irony", "desc": "Taunted opponents receive double iron rods.", "req": { "Ironsing": 60, "Charisma": 45 } },
-        { "name": "An Ironsinger's Instinct", "desc": "Dodging coats you in metal, reducing damage of next hit. (18s CD)", "req": { "Ironsing": 75 } },
-        { "name": "Phantom Edge", "desc": "Basic attacks have +0.25 range.", "req": { "Ironsing": 75 } },
-        { "name": "Polished Armor", "desc": "Receive 5-10% less damage when armor is above 90% durability.", "req": { "Ironsing": 75 } },
-        { "name": "Metal Eater", "desc": "Consume armor durability to cast mantras when ether is empty.", "req": { "Ironsing": 80 } },
-        { "name": "Alloyblood", "desc": "Bleed damage reduced by 30%; blood loss reduced by 75%.", "req": { "Ironsing": 100 } },
-        { "name": "Rending Needle: Conductor", "desc": "Reflect non-ironsing mantra element if target has 5+ rods.", "req": { "Ironsing": 75 } },
-        { "name": "Rending Needle: Jailer", "desc": "Restrain enemy instead of pulling if they have 5+ rods.", "req": { "Ironsing": 75 } },
-        { "name": "Rending Needle: Impaler", "desc": "Pull rods out for damage if enemy has 5+ rods.", "req": { "Ironsing": 75 } }
-    ],
-    "Bloodrend": [
-        { "name": "Harvest Season", "desc": "Critical attacks spawn blood pools under the opponent.", "req": { "Bloodrend": 25 } },
-        { "name": "Not So Cheap Trick", "desc": "Chance to blind opponents with blood control.", "req": { "Bloodrend": 25 } },
-        { "name": "Rush Hour", "desc": "Stab yourself for DMG/Speed; lose blood/HP over time.", "req": { "Bloodrend": 50 } },
-        { "name": "Sow and Mend", "desc": "Sacrifice blood for temporary HP.", "req": { "Bloodrend": 60 } },
-        { "name": "Cyclical Exsanguination", "desc": "Pause Temp HP decay on hit; reduces enemy posture regain from parries.", "req": { "Bloodrend": 65 } },
-        { "name": "Smell of Blood", "desc": "See enemy blood/poison when they touch pools or are block broken.", "req": { "Bloodrend": 65 } },
-        { "name": "Sucker Strike", "desc": "Landing a critical while inside a blood pool increases DMG.", "req": { "Bloodrend": 80 } },
-        { "name": "Gruesome Harvest", "desc": "Landing attacks on heavily poisoned enemies gives Temp HP.", "req": { "Bloodrend": 85 } },
-        { "name": "Hemorrhaging Blow", "desc": "Block breaking with a mantra turns enemy healing into damage for 8s.", "req": { "Bloodrend": 95 } },
-        { "name": "Simple Manipulation: Unstable Blood", "desc": "Attacks spawn pools and cause heavy bleeding.", "req": { "Bloodrend": 50 } },
-        { "name": "Peaking Control", "desc": "Chance for blood pool eruptions to explode.", "req": { "Bloodrend": 75, "Path": "Simple" } },
-        { "name": "Piercing Totality", "desc": "Explosions affect everyone in range with increased PEN.", "req": { "Bloodrend": 100, "Path": "Simple" } },
-        { "name": "Manipulation Path: Agile Misery", "desc": "Speed increased; agility mantras empowered with blood.", "req": { "Bloodrend": 50 } },
-        { "name": "Rushing Demise", "desc": "Spawning pools grants a blood trail that empowers dashes.", "req": { "Bloodrend": 75, "Path": "Agile" } },
-        { "name": "Protective Offense", "desc": "Spawn protective crosses on blood pool creation for defense.", "req": { "Bloodrend": 100, "Path": "Agile" } },
-        { "name": "Manipulation Path: Spirit Lantern", "desc": "Attacks poison instead of spawning pools; increased blood regen.", "req": { "Bloodrend": 50 } },
-        { "name": "Venomous Chain", "desc": "Poison bypasses resistance and deals 2% true damage on chain hits.", "req": { "Bloodrend": 75, "Path": "Lantern" } },
-        { "name": "Heavy Disease", "desc": "Venomous Chain now also summons a blood pool.", "req": { "Bloodrend": 100, "Path": "Lantern" } }
-    ],
-    "Earthbend": [
-        { "name": "Bastion Path: Reinforce", "desc": "Stand still for 3s to harden skin and reduce incoming damage by 20%.", "req": { "Earthbend": 50, "Fortitude": 25 } },
-        { "name": "Immovable Fortress", "desc": "Bastion only requires 2s; immune to ragdoll while active.", "req": { "Earthbend": 70, "Fortitude": 30 } },
-        { "name": "Kinetic Buffer", "desc": "Store damage while in Bastion to buff next Earth or Light attack.", "req": { "Earthbend": 70, "Fortitude": 40 } },
-        { "name": "Reactive Plates", "desc": "Erupt rock shards when hit during active Bastion. (20s CD)", "req": { "Earthbend": 75, "Fortitude": 50 } },
-        { "name": "Battlefield Strategist", "desc": "Long-range attacks spawn spikes; short-range spawn walls. (20s CD)", "req": { "Earthbend": 40 } },
-        { "name": "Natural Disaster", "desc": "Apply Concussion on 3 hits, blinding and hiding enemy HP bar.", "req": { "Earthbend": 50 } },
-        { "name": "Force of Nature", "desc": "Enemies hitting walls are dazed for longer.", "req": { "Earthbend": 50 } },
-        { "name": "Momento Mori", "desc": "Going insane increases Earthbend destruction AoE.", "req": { "Earthbend": 50, "Willpower": 20 } },
-        { "name": "Annihilator", "desc": "Attacks cause bone destruction, slowing opponents.", "req": { "Earthbend": 50, "Strength": 50 } },
-        { "name": "Vengeful Chase", "desc": "Enemies flourished into walls are struck by Earth Spikes.", "req": { "Earthbend": 70 } },
-        { "name": "Impermeable", "desc": "Close-range mantras coat you in dust, reducing blood loss.", "req": { "Earthbend": 80 } },
-        { "name": "Solidifier", "desc": "Elemental hits grant resistance to further elemental damage for 10s.", "req": { "Earthbend": 100 } }
-    ],
-    "Multi-Elemental": [
-        { "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },
-        { "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 1, "Frostdraw": 40, "Talent": "Haunted Gale" } },
-        { "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },
-        { "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },
-        { "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 1, "Frostdraw": 1, "Path": "Eruption/Glass" } },
-        { "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },
-        { "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } }
-    ]
+            { "name": "Eruption Path: Lava Serpent", "desc": "Every time you would set people aflame, eruptions spawn at their feet instead.", "req": { "Flamecharm": 50 } },
+            { "name": "Molten Defense", "desc": "Upon being Block Broken, cause an eruption. (30s CD)", "req": { "Flamecharm": 75, "Path": "Eruption" } },
+            { "name": "Flash Point", "desc": "Landing 3 fire mantras will set your enemy aflame.", "req": { "Flamecharm": 100, "Path": "Eruption" } },
+            { "name": "Double Trouble", "desc": "Landing a fire attack while eruption is charging causes an explosion.", "req": { "Flamecharm": 100, "Path": "Eruption" } },
+            { "name": "The Floor is Lava", "desc": "Your eruptions leave burning pools of lava beneath them.", "req": { "Flamecharm": 100, "Path": "Eruption" } },
+            { "name": "Flaming Flourish", "desc": "Your Flourish applies burn.", "req": { "Flamecharm": 25 } },
+            { "name": "Pleeksty’s Faith", "desc": "When on fire, automatically put out the flames at the cost of some ether.", "req": { "Flamecharm": 25, "Willpower": 15, "Charisma": 15 } },
+            { "name": "Meteor Impact", "desc": "Aerial moves follow up into a devastating slam.", "req": { "Flamecharm": 25 } },
+            { "name": "Dancing Steps", "desc": "Dash forward whenever using a flame mantra.", "req": { "Flamecharm": 35 } },
+            { "name": "Cauterized Wounds", "desc": "Blood loss from all sources is lowered.", "req": { "Flamecharm": 40, "Fortitude": 5 } },
+            { "name": "Explosive Flourish", "desc": "Hitting opponents with a fire attack after a flourish causes an explosion. (15s CD)", "req": { "Flamecharm": 50 } },
+            { "name": "Flame Within", "desc": "Set yourself on fire for a 10% DMG and 10% speed increase.", "req": { "Flamecharm": 50 } },
+            { "name": "Immolation", "desc": "Mantras cost 70% less ether while burning. M1s gain innate blazing. Take 50% less dmg from Flame Within.", "req": { "Flamecharm": 50 } },
+            { "name": "Mirage Clone", "desc": "Dodging an attack successfully sets the attacker on fire.", "req": { "Flamecharm": 65 } },
+            { "name": "Azure Flames", "desc": "Flames burn blue, increasing DoT. Eruption variant delays eruptions but increases dmg.", "req": { "Flamecharm": 75, "Willpower": 40 } },
+            { "name": "Ash Ember", "desc": "The more wither your opponent has, the more damage your burn deals.", "req": { "Flamecharm": 90, "Weapon": 1 } },
+            { "name": "Scorching Decay", "desc": "The wither dealt from Emperor's Flame is massively increased.", "req": { "Flamecharm": 100, "Weapon": 100 } },
+            { "name": "The Final Act", "desc": "M1s on burning enemies cause explosions. (15s CD) (Mutual with Eruption)", "req": { "Flamecharm": 75 } },
+            { "name": "Emperor Flame", "desc": "Upon activating Final Act, coat yourself in flames, increasing DMG and speed for 20s. (60s CD)", "req": { "Flamecharm": 80 } }
+        ],
+        "Frostdraw": [
+            { "name": "Glass Path: Crystallization", "desc": "Ice mantras no longer slow; instead, they grow crystals on opponents.", "req": { "Frostdraw": 40 } },
+            { "name": "Crystal Shrapnel", "desc": "Crystal explosions have an AoE that applies crystals to all hit.", "req": { "Frostdraw": 60, "Path": "Glass" } },
+            { "name": "Reclaimed Glass", "desc": "Crystal Shrapnel grants you and allies 10% Elemental Resistance for 10s.", "req": { "Frostdraw": 65, "Path": "Glass" } },
+            { "name": "Frostbite", "desc": "Enemies no longer heal when under the effect of chill.", "req": { "Frostdraw": 25 } },
+            { "name": "Saint Jay", "desc": "Redirect 60% of an enemy's nullified healing to yourself. Increased if enemy is on ice.", "req": { "Frostdraw": 25, "Talent": "Frostbite" } },
+            { "name": "Cool Head", "desc": "Being set on fire while on ice puts it out and grants fire immunity for 30s. (15s CD)", "req": { "Frostdraw": 30 } },
+            { "name": "Cryonis", "desc": "All ice spells cast on ice cost less ether.", "req": { "Frostdraw": 40 } },
+            { "name": "Cold Front", "desc": "Your vent is imbued with glacial frost.", "req": { "Frostdraw": 40, "Talent": "Cryonis" } },
+            { "name": "Chilling Flourish", "desc": "Flourish applies chill or crystals.", "req": { "Frostdraw": 50 } },
+            { "name": "Fragile Freeze", "desc": "Light attacks and criticals freeze chilled opponents on guardbreak.", "req": { "Frostdraw": 55 } },
+            { "name": "Frozen Pin-Cushion", "desc": "Ice Daggers freeze opponents in place.", "req": { "Frostdraw": 60, "Mantra": "Ice Daggers" } },
+            { "name": "Orbital Ice", "desc": "Parrying on ice forms a ring that absorbs 15% physical damage.", "req": { "Frostdraw": 65 } },
+            { "name": "Cryostasis", "desc": "Take decreased damage for 3s after being guard broken. (25s CD)", "req": { "Frostdraw": 80 } },
+            { "name": "Stasis Strike", "desc": "Crystal explosions deal more damage if the opponent is bottom frozen.", "req": { "Frostdraw": 90, "Weapon": 90 } },
+            { "name": "Frozen Anchor", "desc": "Apply bottom freeze and chill on flourish, uppercut, or crit.", "req": { "Frostdraw": 100, "Weapon": 100 } },
+            { "name": "Unyielding Frost", "desc": "Chill procs through block at 80% duration.", "req": { "Frostdraw": 100 } }
+        ],
+        "Galebreathe": [
+            { "name": "Haunted Path: Specter", "desc": "Lose suffocation for a spectral gauge.", "req": { "Galebreathe": 50 } },
+            { "name": "Apparitions", "desc": "Phantoms apply winded; cannot be parried during phantom step.", "req": { "Galebreathe": 50, "Path": "Haunted" } },
+            { "name": "Phantom Step", "desc": "High speed running and gale dashes (Requires 10% spectral gauge).", "req": { "Galebreathe": 55, "Path": "Haunted" } },
+            { "name": "Vanishing Wraith", "desc": "Aerial attacks in phantom step teleport you behind the target.", "req": { "Galebreathe": 60, "Path": "Haunted" } },
+            { "name": "Possession", "desc": "Apparition hits grant posture dmg or chip dmg depending on phantom step.", "req": { "Galebreathe": 75, "Path": "Haunted" } },
+            { "name": "Suffocating Impact", "desc": "Suffocate enemies when flourishing them into walls.", "req": { "Galebreathe": 35, "Strength": 15 } },
+            { "name": "Wind Step", "desc": "Gain a double jump and a large slide leap. (7s CD)", "req": { "Galebreathe": 40 } },
+            { "name": "Haunted Gale", "desc": "Every 3 hits with perfect cast gale mantras strike the target with a wind phantom.", "req": { "Galebreathe": 40 } },
+            { "name": "Cyclone Blade", "desc": "Gale dashes empower your next light attack with 30% bleed DMG and 10% chip.", "req": { "Galebreathe": 55, "Agility": 30 } },
+            { "name": "Silencer's Blade", "desc": "Meleeing a suffocated opponent extends duration and grants speed.", "req": { "Galebreathe": 60 } },
+            { "name": "Air Pressure", "desc": "Dodging or hitting blocks turns your next dash into a gale dash.", "req": { "Galebreathe": 50, "Agility": 20 } },
+            { "name": "AWS (A World Without Song)", "desc": "Wind attacks inflict suffocation for 5s.", "req": { "Galebreathe": 75 } },
+            { "name": "Silencer's Song", "desc": "Silencer’s Blade now procs on mantras.", "req": { "Galebreathe": 100, "Weapon": 100 } }
+        ],
+        "Thundercall": [
+            { "name": "Surge Path: Unstable Capacitor", "desc": "Apply surge stacks instead of shock. Max stacks cause an overload arc.", "req": { "Thundercall": 40 } },
+            { "name": "Fried Circuits", "desc": "Overloading an enemy applies Sapped for 5s.", "req": { "Thundercall": 40, "Path": "Surge" } },
+            { "name": "Closed Circuit", "desc": "Failed overload arcs deal damage directly to the overloaded enemy.", "req": { "Thundercall": 40, "Path": "Surge" } },
+            { "name": "Catalytic Strike", "desc": "Posture breaking a target overloads their surge stacks.", "req": { "Thundercall": 40, "Path": "Surge" } },
+            { "name": "Human Battery", "desc": "Convert nearby surge stacks into ether when empty.", "req": { "Thundercall": 40, "Path": "Surge" } },
+            { "name": "Raiton Path: Enlightened", "desc": "Decrease ether regen and tempo gain. 3 stacks overcharge the opponent.", "req": { "Thundercall": 50 } },
+            { "name": "Raiton's Charge", "desc": "Overcharge now sets people on fire.", "req": { "Thundercall": 75, "Path": "Raiton" } },
+            { "name": "Simple Path: Electrocution", "desc": "3 thunder hits apply Electrocution, increasing blood loss and burn dmg taken.", "req": { "Thundercall": 50 } },
+            { "name": "Scatter", "desc": "Flourishing an enemy applies Electrocution.", "req": { "Thundercall": 50, "Path": "Electrocution" } },
+            { "name": "Short Circuit", "desc": "Electrocution now sets the target on fire.", "req": { "Thundercall": 75, "Path": "Electrocution" } },
+            { "name": "Static Fakeout", "desc": "Roll canceling after a parry teleports you behind the opponent.", "req": { "Thundercall": 35, "Agility": 30 } },
+            { "name": "Static Link", "desc": "Flourishing or uppercutting creates a static link tether.", "req": { "Thundercall": 40, "Intelligence": 15 } },
+            { "name": "Jumper Cables", "desc": "Getting knocked while tethered steals HP and prevents the knockdown. (3-4s CD)", "req": { "Thundercall": 1, "Fortitude": 20, "Talent": "Static Link" } },
+            { "name": "Link Conduction", "desc": "Lightning mantras cost 30% less ether per active link.", "req": { "Thundercall": 65, "Talent": "Static Link" } },
+            { "name": "Static Allure", "desc": "Two active tethers pull targets together; increased duration.", "req": { "Thundercall": 50, "Talent": "Static Link" } },
+            { "name": "Grounding Bolt", "desc": "Summoned lightning strikes apply knockdown.", "req": { "Thundercall": 90, "Weapon": 90 } },
+            { "name": "Overload", "desc": "Hitting opponent 3 times overloads yourself, increasing DMG and tempo. Raiton covers you in shock.", "req": { "Thundercall": 100 } }
+        ],
+        "Shadowcast": [
+            { "name": "Withering Path: Decay", "desc": "Your shadow now withers away opponent health.", "req": { "Shadowcast": 50 } },
+            { "name": "Voidcaller", "desc": "Opponents with no ether or tempo suffer additional wither damage.", "req": { "Shadowcast": 50, "Path": "Withering" } },
+            { "name": "Infection", "desc": "Wither from shadowcast spreads to nearby enemies.", "req": { "Shadowcast": 60, "Path": "Withering" } },
+            { "name": "Crushing Thrall", "desc": "Doubles wither received if a shadow mantra breaks guard.", "req": { "Shadowcast": 75, "Path": "Withering" } },
+            { "name": "Suppression", "desc": "The ether of victims withers away.", "req": { "Shadowcast": 80 } },
+            { "name": "Senseless Destruction", "desc": "Opponents with >10% wither take more damage from shadow attacks.", "req": { "Shadowcast": 100 } },
+            { "name": "Dark Synergy", "desc": "Engulf enemies in shadows when flourishing.", "req": { "Shadowcast": 25 } },
+            { "name": "Sightless Still", "desc": "Shadow attacks increasingly obscure vision. (Mutual with Singularity)", "req": { "Shadowcast": 30 } },
+            { "name": "Singularity", "desc": "Enemies hang in place when hit by shadow. (Mutual with Sightless Still)", "req": { "Shadowcast": 40 } },
+            { "name": "Blackhole", "desc": "Singularity pulls nearby people in.", "req": { "Shadowcast": 50, "Talent": "Singularity" } },
+            { "name": "Energy Siphon", "desc": "Singularity pulls ether from those affected.", "req": { "Shadowcast": 50, "Talent": "Singularity" } },
+            { "name": "Lord’s Tithe", "desc": "Drains the tempo of enemies you reinforce.", "req": { "Shadowcast": 40, "Mantra": "Reinforce" } },
+            { "name": "Dark God", "desc": "Steal tempo if a mantra would drain enemy ether to 0.", "req": { "Shadowcast": 50 } },
+            { "name": "Lasting Sorrow", "desc": "Shadows last longer on the opponent.", "req": { "Shadowcast": 50 } },
+            { "name": "Fear The Dark", "desc": "Enemies stop in place when running from you.", "req": { "Shadowcast": 50 } },
+            { "name": "Dark Rift", "desc": "Enter a rift with I-frames when dodging.", "req": { "Shadowcast": 60 } },
+            { "name": "Dark Waltz", "desc": "Guardbreaking with light attacks/crits steals half of opponent's tempo.", "req": { "Shadowcast": 90, "Weapon": 90 } },
+            { "name": "Night Terror", "desc": "Light attacks proc Fear the Dark.", "req": { "Shadowcast": 100, "Weapon": 100 } }
+        ],
+        "Ironsing": [
+            { "name": "Decay Path: Oxidize", "desc": "Metal attacks store damage released 7.5s later.", "req": { "Ironsing": 50 } },
+            { "name": "Decaying Posture", "desc": "Deal more damage to opponents with more posture than you.", "req": { "Ironsing": 75, "Path": "Decay" } },
+            { "name": "Tetanus", "desc": "Hitting with 5+ rods negates healing based on damage and slows.", "req": { "Ironsing": 80, "Path": "Decay" } },
+            { "name": "Laced Blade", "desc": "Light attacks on targets with tetanus apply poison.", "req": { "Ironsing": 90, "Path": "Decay" } },
+            { "name": "Oxidizing Blitz", "desc": "Mantras apply DoT to Health/Blood. Tetanus redirects 20% of healing to you.", "req": { "Ironsing": 100, "Path": "Decay" } },
+            { "name": "Gilded Path: Scrapsinger", "desc": "Flourish consumes rods to siphon enemy armor to you.", "req": { "Ironsing": 35 } },
+            { "name": "Artisan's Blade", "desc": "Forges metal blades that fire upon landing metal-infused attacks.", "req": { "Ironsing": 45, "Path": "Gilded" } },
+            { "name": "Refine and Reuse", "desc": "Consuming rods reduces incoming PEN multiplicatively.", "req": { "Ironsing": 45, "Path": "Gilded" } },
+            { "name": "Songs Unforged", "desc": "Weapon criticals activate Scrapsinger.", "req": { "Ironsing": 50, "Path": "Gilded" } },
+            { "name": "Masterwork", "desc": "Artisan’s Blades proc metal rods and deal 50% more damage.", "req": { "Ironsing": 60, "Path": "Gilded" } },
+            { "name": "Reshape and Remold", "desc": "Scrapsinger procs increase opponent armor damage taken.", "req": { "Ironsing": 70, "Path": "Gilded" } },
+            { "name": "Thornmail", "desc": "Getting flourished applies a metal rod to the attacker.", "req": { "Ironsing": 45 } },
+            { "name": "Metal Thief", "desc": "Pulling an opponent absorbs a portion of their armor durability.", "req": { "Ironsing": 50 } },
+            { "name": "Piercing Metal", "desc": "Deal additional armor damage per rod affecting the enemy.", "req": { "Ironsing": 60 } },
+            { "name": "Exposed Durability", "desc": "10% more damage to opponents with no armor durability.", "req": { "Ironsing": 60 } },
+            { "name": "Oh The Irony", "desc": "Taunted opponents receive double iron rods.", "req": { "Ironsing": 60, "Charisma": 45 } },
+            { "name": "An Ironsinger's Instinct", "desc": "Dodging coats you in metal, reducing damage of next hit. (18s CD)", "req": { "Ironsing": 75 } },
+            { "name": "Phantom Edge", "desc": "Basic attacks have +0.25 range.", "req": { "Ironsing": 75 } },
+            { "name": "Polished Armor", "desc": "Receive 5-10% less damage when armor is above 90% durability.", "req": { "Ironsing": 75 } },
+            { "name": "Metal Eater", "desc": "Consume armor durability to cast mantras when ether is empty.", "req": { "Ironsing": 80 } },
+            { "name": "Alloyblood", "desc": "Bleed damage reduced by 30%; blood loss reduced by 75%.", "req": { "Ironsing": 100 } },
+            { "name": "Rending Needle: Conductor", "desc": "Reflect non-ironsing mantra element if target has 5+ rods.", "req": { "Ironsing": 75 } },
+            { "name": "Rending Needle: Jailer", "desc": "Restrain enemy instead of pulling if they have 5+ rods.", "req": { "Ironsing": 75 } },
+            { "name": "Rending Needle: Impaler", "desc": "Pull rods out for damage if enemy has 5+ rods.", "req": { "Ironsing": 75 } }
+        ],
+        "Bloodrend": [
+            { "name": "Harvest Season", "desc": "Critical attacks spawn blood pools under the opponent.", "req": { "Bloodrend": 25 } },
+            { "name": "Not So Cheap Trick", "desc": "Chance to blind opponents with blood control.", "req": { "Bloodrend": 25 } },
+            { "name": "Rush Hour", "desc": "Stab yourself for DMG/Speed; lose blood/HP over time.", "req": { "Bloodrend": 50 } },
+            { "name": "Sow and Mend", "desc": "Sacrifice blood for temporary HP.", "req": { "Bloodrend": 60 } },
+            { "name": "Cyclical Exsanguination", "desc": "Pause Temp HP decay on hit; reduces enemy posture regain from parries.", "req": { "Bloodrend": 65 } },
+            { "name": "Smell of Blood", "desc": "See enemy blood/poison when they touch pools or are block broken.", "req": { "Bloodrend": 65 } },
+            { "name": "Sucker Strike", "desc": "Landing a critical while inside a blood pool increases DMG.", "req": { "Bloodrend": 80 } },
+            { "name": "Gruesome Harvest", "desc": "Landing attacks on heavily poisoned enemies gives Temp HP.", "req": { "Bloodrend": 85 } },
+            { "name": "Hemorrhaging Blow", "desc": "Block breaking with a mantra turns enemy healing into damage for 8s.", "req": { "Bloodrend": 95 } },
+            { "name": "Simple Manipulation: Unstable Blood", "desc": "Attacks spawn pools and cause heavy bleeding.", "req": { "Bloodrend": 50 } },
+            { "name": "Peaking Control", "desc": "Chance for blood pool eruptions to explode.", "req": { "Bloodrend": 75, "Path": "Simple" } },
+            { "name": "Piercing Totality", "desc": "Explosions affect everyone in range with increased PEN.", "req": { "Bloodrend": 100, "Path": "Simple" } },
+            { "name": "Manipulation Path: Agile Misery", "desc": "Speed increased; agility mantras empowered with blood.", "req": { "Bloodrend": 50 } },
+            { "name": "Rushing Demise", "desc": "Spawning pools grants a blood trail that empowers dashes.", "req": { "Bloodrend": 75, "Path": "Agile" } },
+            { "name": "Protective Offense", "desc": "Spawn protective crosses on blood pool creation for defense.", "req": { "Bloodrend": 100, "Path": "Agile" } },
+            { "name": "Manipulation Path: Spirit Lantern", "desc": "Attacks poison instead of spawning pools; increased blood regen.", "req": { "Bloodrend": 50 } },
+            { "name": "Venomous Chain", "desc": "Poison bypasses resistance and deals 2% true damage on chain hits.", "req": { "Bloodrend": 75, "Path": "Lantern" } },
+            { "name": "Heavy Disease", "desc": "Venomous Chain now also summons a blood pool.", "req": { "Bloodrend": 100, "Path": "Lantern" } }
+        ],
+        "Earthbend": [
+            { "name": "Bastion Path: Reinforce", "desc": "Stand still for 3s to harden skin and reduce incoming damage by 20%.", "req": { "Earthbend": 50, "Fortitude": 25 } },
+            { "name": "Immovable Fortress", "desc": "Bastion only requires 2s; immune to ragdoll while active.", "req": { "Earthbend": 70, "Fortitude": 30 } },
+            { "name": "Kinetic Buffer", "desc": "Store damage while in Bastion to buff next Earth or Light attack.", "req": { "Earthbend": 70, "Fortitude": 40 } },
+            { "name": "Reactive Plates", "desc": "Erupt rock shards when hit during active Bastion. (20s CD)", "req": { "Earthbend": 75, "Fortitude": 50 } },
+            { "name": "Battlefield Strategist", "desc": "Long-range attacks spawn spikes; short-range spawn walls. (20s CD)", "req": { "Earthbend": 40 } },
+            { "name": "Natural Disaster", "desc": "Apply Concussion on 3 hits, blinding and hiding enemy HP bar.", "req": { "Earthbend": 50 } },
+            { "name": "Force of Nature", "desc": "Enemies hitting walls are dazed for longer.", "req": { "Earthbend": 50 } },
+            { "name": "Momento Mori", "desc": "Going insane increases Earthbend destruction AoE.", "req": { "Earthbend": 50, "Willpower": 20 } },
+            { "name": "Annihilator", "desc": "Attacks cause bone destruction, slowing opponents.", "req": { "Earthbend": 50, "Strength": 50 } },
+            { "name": "Vengeful Chase", "desc": "Enemies flourished into walls are struck by Earth Spikes.", "req": { "Earthbend": 70 } },
+            { "name": "Impermeable", "desc": "Close-range mantras coat you in dust, reducing blood loss.", "req": { "Earthbend": 80 } },
+            { "name": "Solidifier", "desc": "Elemental hits grant resistance to further elemental damage for 10s.", "req": { "Earthbend": 100 } }
+        ],
+        "Multi-Elemental": [
+            { "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },
+            { "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 1, "Frostdraw": 40, "Talent": "Haunted Gale" } },
+            { "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },
+            { "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },
+            { "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 1, "Frostdraw": 1, "Path": "Eruption/Glass" } },
+            { "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },
+            { "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } }
+        ]
     }
 };
 
 let userStats = {};
 let selectedItems = new Set();
-let collapsedCats = new Set(); // Track closed categories
+let collapsedCats = new Set(); 
 
 function init() {
     const core = document.getElementById('core-inputs');
+    core.innerHTML = "";
     gameData.attributes.forEach(a => {
         userStats[a] = 0;
         core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" onchange="setStat('${a}', this.value)"></div>`;
     });
 
     const att = document.getElementById('att-inputs');
+    att.innerHTML = "";
     gameData.attunements.forEach(a => {
         userStats[a] = 0;
         att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" onchange="setStat('${a}', this.value)"></div>`;
@@ -409,17 +404,15 @@ function renderTalents() {
 
     for (let cat in gameData.talents) {
         const isCollapsed = collapsedCats.has(cat);
+        let hasVisible = false;
         let catHtml = `<div class="category-block ${isCollapsed ? 'collapsed' : ''}">
                         <div class="category-title" onclick="toggleCategory('${cat}')">${cat}</div>
                         <div class="grid">`;
-        let hasVisible = false;
 
         gameData.talents[cat].forEach(t => {
-            // Check if requirements are met
             let met = true;
             for (let r in t.req) { if ((userStats[r] || 0) < t.req[r]) met = false; }
 
-            // Filter logic
             const matchesSearch = t.name.toLowerCase().includes(search) || t.desc.toLowerCase().includes(search);
             const matchesMet = !showOnlyMet || met;
 
@@ -427,15 +420,11 @@ function renderTalents() {
                 hasVisible = true;
                 const isSelected = selectedItems.has(t.name);
 
-                // --- NEW READABLE REQ LOGIC ---
                 let reqHtml = "";
                 if (Object.keys(t.req).length > 0) {
-                    // This turns {"Strength": 100} into "Strength: 100"
                     const reqList = Object.entries(t.req)
                         .map(([stat, val]) => `${stat}: ${val}`)
                         .join(", ");
-                    
-                    // We show this even if met, but style it differently if locked
                     reqHtml = `<div class="req-text">Req: ${reqList}</div>`;
                 }
 
@@ -486,4 +475,3 @@ window.onload = () => {
 </script>
 </body>
 </html>
-
