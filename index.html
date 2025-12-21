@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Deepwoken Modded Builder - Fixed Logic & Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepwoken Builder - Responsive Update</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,7 +13,7 @@
             --parchment: #d8d7ca;
             --parchment-text: #1a1a1a;
             --gold: #c2a35d;
-            --border-path: url('border.png'); /* Ensure this file exists in your directory */
+            --border-path: url('border.png');
             --border-slice: 10;
         }
 
@@ -22,26 +23,38 @@
             margin: 0; display: flex; height: 100vh; overflow: hidden; 
         }
 
+        /* Responsive Sidebar Left */
         #sidebar-left { 
             width: 320px; min-width: 320px; background: var(--sidebar-bg); 
             border-right: 2px solid #2f2f35; padding: 20px; overflow-y: auto; 
+            z-index: 100; transition: transform 0.3s ease;
         }
         
-        /* Sidebar Right with restored Border */
+        /* Responsive Sidebar Right */
         #sidebar-right {
             width: 340px; min-width: 340px; background: var(--parchment);
             color: var(--parchment-text); margin: 15px; display: flex; flex-direction: column;
             border: 12px solid transparent; 
             border-image: var(--border-path) var(--border-slice) repeat;
             image-rendering: pixelated;
+            z-index: 100; transition: transform 0.3s ease;
         }
 
-        #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
+        #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; width: 100%; }
         #item-container { flex: 1; overflow-y: auto; padding-right: 10px; }
+
+        /* Mobile Header Controls */
+        #mobile-nav {
+            display: none;
+            justify-content: space-between;
+            padding: 10px;
+            background: #000;
+            border-bottom: 1px solid #333;
+        }
 
         .tab-container { display: flex; gap: 5px; margin-bottom: 15px; }
         .tab-btn { 
-            flex: 1; padding: 10px; background: #111; border: 1px solid #333; color: #666; 
+            flex: 1; padding: 12px; background: #111; border: 1px solid #333; color: #666; 
             cursor: pointer; font-weight: bold; transition: 0.2s; font-family: 'Lora';
         }
         .tab-btn.active { background: #1a1a1a; color: #fff; border-bottom: 2px solid var(--gold); }
@@ -61,79 +74,82 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; padding: 5px; }
 
-        /* Card design matching reference image */
         .card {
-            background: var(--card-bg);
-            padding: 15px;
-            cursor: pointer;
-            border: 8px solid transparent; 
-            border-image: var(--border-path) var(--border-slice) repeat;
-            image-rendering: pixelated;
-            position: relative;
-            transition: 0.1s;
+            background: var(--card-bg); padding: 15px; cursor: pointer;
+            border: 8px solid transparent; border-image: var(--border-path) var(--border-slice) repeat;
+            image-rendering: pixelated; transition: 0.1s;
         }
-        .card:hover { transform: translateY(-2px); background: #141d18; }
+        .card:hover { transform: translateY(-2px); }
         .card.locked { opacity: 0.5; filter: grayscale(0.8); cursor: not-allowed; }
         .card.selected { border-image-source: url('border_gold.png'); background: rgba(194, 163, 93, 0.05); }
 
-        .card h3 { margin: 0 0 5px 0; font-size: 1.2rem; font-weight: 700; color: #e0e0e0; }
-        .card p { margin: 0; font-size: 0.95rem; color: #bbb; line-height: 1.4; }
-        
-        .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0; }
+        .card h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #e0e0e0; }
+        .card p { margin: 0; font-size: 0.85rem; color: #bbb; }
+        .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0; }
+        .req-text { color: var(--gold); font-size: 0.8rem; font-weight: 700; }
 
-        .req-text {
-            color: var(--gold); 
-            font-size: 0.85rem;
-            font-weight: 700;
+        /* Sidebar Overlay for Mobile */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 90;
         }
 
-        /* Embedded GIFs */
-        .gif-container {
-            margin-top: 10px;
-            display: none;
-            width: 100%;
-            border: 1px solid #333;
+        /* Media Queries for Mobile/PC adjustment */
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            #sidebar-left { 
+                position: fixed; left: 0; top: 0; height: 100vh; transform: translateX(-100%);
+            }
+            #sidebar-right { 
+                position: fixed; right: 0; top: 0; height: 100vh; margin: 0; transform: translateX(100%);
+            }
+            #mobile-nav { display: flex; }
+            
+            .sidebar-open-left #sidebar-left { transform: translateX(0); }
+            .sidebar-open-right #sidebar-right { transform: translateX(0); }
+            .sidebar-open-left .overlay, .sidebar-open-right .overlay { display: block; }
+            
+            .grid { grid-template-columns: 1fr; }
         }
+
+        .gif-container { margin-top: 10px; display: none; width: 100%; border: 1px solid #333; }
         .gif-container img { width: 100%; display: block; }
-        .toggle-gif-btn {
-            background: transparent; border: none; color: #55aaff; 
-            padding: 0; font-size: 0.75rem; cursor: pointer; text-decoration: underline;
-            margin-top: 8px;
-        }
+        .toggle-gif-btn { background: transparent; border: none; color: #55aaff; padding: 0; font-size: 0.75rem; cursor: pointer; text-decoration: underline; margin-top: 8px; }
 
-        button.action-btn {
-            background: #1a1a1c; border: 1px solid #444; color: #fff;
-            padding: 8px 12px; cursor: pointer; font-family: 'Lora'; margin: 2px;
-        }
-
-        input[type="number"], input[type="text"] {
-            background: #000; border: 1px solid #444; color: #fff; padding: 6px; width: 60px;
-        }
-
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center; }
-        .selection-item { border-bottom: 1px dashed rgba(0,0,0,0.1); padding: 5px; font-size: 0.9rem; }
-        .selection-header { font-weight: bold; font-size: 1rem; margin-top: 15px; border-bottom: 2px solid #000; padding: 5px; }
-
+        button.action-btn { background: #1a1a1c; border: 1px solid #444; color: #fff; padding: 10px; cursor: pointer; font-family: 'Lora'; margin: 2px; }
+        input[type="number"] { background: #000; border: 1px solid #444; color: #fff; padding: 8px; width: 60px; font-size: 1rem; }
+        .stat-row { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
+        .selection-header { font-weight: bold; font-size: 1rem; margin-top: 15px; border-bottom: 2px solid #000; }
         #splash-text { color: #ffcc00; font-size: 0.65rem; font-weight: bold; text-align: center; font-style: italic; }
     </style>
 </head>
 <body>
 
+<div class="overlay" onclick="closeSidebars()"></div>
+
+<div id="mobile-nav">
+    <button class="action-btn" onclick="toggleSidebar('left')">☰ Stats</button>
+    <button class="action-btn" onclick="toggleSidebar('right')">Build Summary ☰</button>
+</div>
+
 <div id="sidebar-left">
-    <h2 style="margin-top:0">Investment</h2>
-    <div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin:0">Investment</h2>
+        <button class="action-btn" style="display: none;" id="close-left" onclick="closeSidebars()">✕</button>
+    </div>
+    <div style="font-size: 1.5rem; font-weight: bold; margin: 15px 0;">
         <span id="used-pts">0</span> / <span id="max-pts">410</span>
     </div>
 
-    <div id="splash-text" style="margin-bottom: 20px; min-height: 30px;"></div>
+    <div id="splash-text" style="margin-bottom: 20px; min-height: 20px;"></div>
 
     <div id="core-inputs"></div>
     <div style="margin-top:20px" id="att-inputs"></div>
 
-    <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
-        <button class="action-btn" onclick="saveBuild()">Save Code</button>
-        <button class="action-btn" onclick="loadBuild()">Load Code</button>
-        <button class="action-btn" style="color:#ff4444" onclick="clearBuild()">Clear Build</button>
+    <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+        <button class="action-btn" onclick="saveBuild()">Save</button>
+        <button class="action-btn" onclick="loadBuild()">Load</button>
+        <button class="action-btn" style="color:#ff4444; grid-column: span 2;" onclick="clearBuild()">Clear Build</button>
     </div>
 </div>
 
@@ -144,9 +160,9 @@
     </div>
 
     <div class="search-bar-container">
-        <input type="text" id="search-input" placeholder="Search..." oninput="renderItems()" style="width: 60%;">
-        <label style="margin-left: 20px; font-size: 0.85rem;">
-            <input type="checkbox" id="filter-reqs" onchange="renderItems()"> Meet Requirements
+        <input type="text" id="search-input" placeholder="Search..." oninput="renderItems()" style="width: 100%; margin-bottom: 10px; padding: 10px;">
+        <label style="font-size: 0.9rem;">
+            <input type="checkbox" id="filter-reqs" onchange="renderItems()"> Show things that fit Requirements
         </label>
     </div>
 
@@ -154,22 +170,37 @@
 </div>
 
 <div id="sidebar-right">
-    <h3 style="text-align: center; margin-top: 10px;">Build Overview</h3>
-    <div id="selection-list" style="overflow-y: auto; flex: 1; padding: 0 15px;"></div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="margin:0">Build Overview</h3>
+        <button class="action-btn" style="display: none;" id="close-right" onclick="closeSidebars()">✕</button>
+    </div>
+    <div id="selection-list" style="overflow-y: auto; flex: 1;"></div>
 </div>
 
 <script>
-// Point Calculation Logic Fixed
-// 0 atts = 410, 1 att = 420, 2 atts = 425, 3 atts = 430...
+// Point Calculation Logic
 function calculateMaxPoints() {
     let count = 0;
-    gameData.attunements.forEach(a => {
-        if (userStats[a] > 0) count++;
-    });
-    
+    gameData.attunements.forEach(a => { if (userStats[a] > 0) count++; });
     if (count === 0) return 410;
     if (count === 1) return 420;
     return 420 + (count - 1) * 5;
+}
+
+// Sidebars responsive logic
+function toggleSidebar(side) {
+    const body = document.body;
+    if (side === 'left') {
+        body.classList.toggle('sidebar-open-left');
+        body.classList.remove('sidebar-open-right');
+    } else {
+        body.classList.toggle('sidebar-open-right');
+        body.classList.remove('sidebar-open-left');
+    }
+}
+
+function closeSidebars() {
+    document.body.classList.remove('sidebar-open-left', 'sidebar-open-right');
 }
 
 const gameData = {
@@ -182,7 +213,7 @@ const gameData = {
         "Fortitude": [{ "name": "Battle Tendency", "desc": "20% faster posture regen.", "req": { "Fortitude": 15 } },{ "name": "Braced Collapse", "desc": "After being block broken, the next attack to hit you deals reduced damage.", "req": { "Fortitude": 25 } },{ "name": "Exoskeleton", "desc": "Natural Armor resists 10% Physical Damage when active. Replenishes when resting.", "req": { "Fortitude": 40 } },{ "name": "To the Finish", "desc": "You take 10% less damage when below 30% health.", "req": { "Fortitude": 50 } },{ "name": "Turtle Shell", "desc": "If your shield is on your back, take reduced backstab damage and negate Spine Cutter.", "req": { "Fortitude": 50 } },{ "name": "Dancing Guard", "desc": "Parrying an opponent and then parrying another enemy in quick succession applies slow for 7s.", "req": { "Fortitude": 55 } },{ "name": "Knuckle Guard", "desc": "Hitting Dazed enemies grants you 10% posture resistance for 15s.", "req": { "Fortitude": 55, "Strength": 25 } },{ "name": "Down to your Level", "desc": "While you have a speed debuff, your Basic Attacks slow your enemies for 5s.", "req": { "Fortitude": 60 } },{ "name": "Defensive Reprisal", "desc": "Being flourished grants you 10% posture resistance for 20s.", "req": { "Fortitude": 65 } },{ "name": "Reinforced Armor", "desc": "Incoming PEN is reduced by 30%.", "req": { "Fortitude": 90 } },{ "name": "Armorclad", "desc": "Flourishing, or Getting Guardbroken gives you slight dmg resistance for 10s.", "req": { "Fortitude": 100 } }],
         "Agility": [{ "name": "Lowstride", "desc": "Crouching stealth and roll distance increased. Smaller speed penalty. Silent weapon draw.", "req": { "Agility": 20 } },{ "name": "Kick Off", "desc": "No damage from short falls. Higher wall jumps. Speed boost after wall jumping.", "req": { "Agility": 20 } },{ "name": "Safety Dance", "desc": "Your base dodge frames are increased by 0.05s.", "req": { "Agility": 20 } },{ "name": "Observation", "desc": "Dodge frames are larger if you cancel your roll immediately.", "req": { "Agility": 20 } },{ "name": "Risky Moves", "desc": "When you successfully dodge, you'll automatically dodge the next attack.", "req": { "Agility": 25 } },{ "name": "Speed Emission", "desc": "Gain a slight speed boost after landing a vent.", "req": { "Agility": 25 } },{ "name": "Speed Demon", "desc": "Your attacks now inflict a reduced-strength bleed while you have a speed boost. 1s cooldown.", "req": { "Agility": 25 } },{ "name": "Blade Dancer", "desc": "Landing a Basic Attack removes your roll cooldown.", "req": { "Agility": 25 } },{ "name": "Deep Wound", "desc": "Assassinating a target applies anti-heal for 20s and gives you a speed boost for 6s.", "req": { "Agility": 35 } },{ "name": "Ghost", "desc": "Dodging a move will briefly make you invisible, ending early if you attack.", "req": { "Agility": 40 } },{ "name": "Lights Out", "desc": "Assassinations give 30% PEN and blind the target for 5s.", "req": { "Agility": 55 } },{ "name": "Tap Dancer", "desc": "Rolling immediately after a roll-cancel no longer puts your roll on a longer cooldown.", "req": { "Agility": 60 } },{ "name": "Unseen Threat", "desc": "Assassinate those with weapons out if not in combat. Targets are slowed and cannot jump for 3s.", "req": { "Agility": 60 } },{ "name": "Cheap Shot", "desc": "Attacks gain 10% PEN multiplicatively with an active speed boost.", "req": { "Agility": 65 } },{ "name": "Down Comes the Claw", "desc": "Landing Critical with speed boost prevents opponent from dodging twice in a row for 5s.", "req": { "Agility": 75 } },{ "name": "Pursuit", "desc": "If you land Revenge, Reset the Cooldown (25s CD)", "req": { "Agility": 90 } },{ "name": "Dustlunge", "desc": "Assassinate from farther via shade stepping. Chain assassinate nearby enemies.", "req": { "Agility": 90 } },{ "name": "Maiming Claws", "desc": "Down Comes the Claw now disables opponent's posture regeneration for 6s on proc.", "req": { "Agility": 100 } }],
         "Intelligence": [{ "name": "Ether Absorption", "desc": "Receive Ether back when inflicted with damage from Mantras.", "req": { "Intelligence": 15 } },{ "name": "Perfect Flash", "desc": "Over 95% health causes mantras to do +25% damage.", "req": { "Intelligence": 25 } },{ "name": "Eureka", "desc": "Gain Inspiration stacks on mantra land/parry. 3 stacks grant +10% Mantra Damage.", "req": { "Intelligence": 30 } },{ "name": "True Ether Bullets", "desc": "Ether Bullets apply elemental damage of highest investment.", "req": { "Intelligence": 30, "Weapon": 20 } },{ "name": "Overflowing Dam", "desc": "Full Ether for 2s grants an aura for 10% more damage.", "req": { "Intelligence": 40 } },{ "name": "Foolish Outburst", "desc": "Blocking or parrying a vent absorbs the Tempo cost of the vent.", "req": { "Intelligence": 50 } },{ "name": "Keen Recovery", "desc": "Basic attack after feinting a mantra restores the feinted mantra's ether cost.", "req": { "Intelligence": 55 } },{ "name": "Prime Ether Bullets", "desc": "Bullets take one less hit to proc elements and have intelligence scaling.", "req": { "Intelligence": 60, "Light": 90 } },{ "name": "Twelve Steps Ahead", "desc": "Landing Prediction halves cooldown; whiffing doubles it.", "req": { "Intelligence": 80 } },{ "name": "Ether Overdrive", "desc": "Gain 5% extra PEN and remove the cap on your PEN.", "req": { "Intelligence": 90, "Elemental": 20 } },{ "name": "Absolute Pitch", "desc": "You can cast ritual mantra’s instantly.", "req": { "Intelligence": 100 } }],
-        "Willpower": [{ "name": "Disbelief", "desc": "Resistant to Illusion magic, charms, and tricks.", "req": { "Willpower": 25 } },{ "name": "Magical Resolve", "desc": "Being hit increases ether regen.", "req": { "Willpower": 40 } },{ "name": "Ardour Scream", "desc": "Amplify shout to make victims take 25% more DMG and Posture for 10s.", "req": { "Willpower": 40 } },{ "name": "Underdog", "desc": "Deal more damage to those with higher HP, scales with WIL.", "req": { "Willpower": 50 } },{ "name": "Heretic's Sutra", "desc": "A chant that steers you into the state of Insanity for 20 seconds.", "req": { "Willpower": 80 } },{ "name": "Piercing Will", "desc": "When sanity is below 35%, gain up to +15% PEN.", "req": { "Willpower": 80 } },{ "name": "Psychic", "desc": "Opponents with <50% sanity cannot proc Deep Gems against you briefly.", "req": { "Willpower": 80 } },{ "name": "Shared Misery", "desc": "Attacking while losing sanity causes enemies to lose sanity.", "req": { "Willpower": 90 } },{ "name": "Beleaguered But Unbowed", "desc": "Damage reduction when surrounded by 2 or more opponents.", "req": { "Willpower": 90 } },{ "name": "Sin Stacker", "desc": "All The Dead Gods' duration is based on enemy antiheal stacks.", "req": { "Willpower": 90 } },{ "name": "Indomitable Spirit", "desc": "Sanity attacks are redirected to nearby opponents.", "req": { "Willpower": 100 } }],
+        "Willpower": [{ "name": "Disbelief", "desc": "Resistant to Illusion magic, charms, and tricks.", "req": { "Willpower": 25 } },{ "name": "Magical Resolve", "desc": "Being hit increases ether regen.", "req": { "Willpower": 40 } },{ "name": "Ardour Scream", "desc": "Amplify shout to make victims take 25% more DMG and Posture for 10s.", "req": { "Willpower": 40 } },{ "name": "Underdog", "desc": "Deal more damage to those with higher HP, scales with WILL.", "req": { "Willpower": 40 } },{ "name": "Heretic's Sutra", "desc": "A chant that steers you into the state of Insanity for 20 seconds.", "req": { "Willpower": 80 } },{ "name": "Piercing Will", "desc": "When sanity is below 35%, gain up to +15% PEN.", "req": { "Willpower": 80 } },{ "name": "Psychic", "desc": "Opponents with <50% sanity cannot proc Deep Gems against you briefly.", "req": { "Willpower": 80 } },{ "name": "Shared Misery", "desc": "Attacking while losing sanity causes enemies to lose sanity.", "req": { "Willpower": 90 } },{ "name": "Beleaguered But Unbowed", "desc": "Damage reduction when surrounded by 2 or more opponents.", "req": { "Willpower": 90 } },{ "name": "Sin Stacker", "desc": "All The Dead Gods' duration is based on enemy antiheal stacks.", "req": { "Willpower": 90 } },{ "name": "Indomitable Spirit", "desc": "Sanity attacks are redirected to nearby opponents.", "req": { "Willpower": 100 } }],
         "Charisma": [{ "name": "Charismatic Cast", "desc": "Landing mantras charms enemies, reducing damage done to you.", "req": { "Charisma": 25 } },{ "name": "Tough Love", "desc": "Deal 10% more damage to charmed enemies.", "req": { "Charisma": 25 } },{ "name": "Give and Take", "desc": "Deal and receive less DMG from comrades.", "req": { "Charisma": 35 } },{ "name": "Golden Tongue", "desc": "Typing or gestures give random buffs to you and allies.", "req": { "Charisma": 40 } },{ "name": "Lasting Charisma", "desc": "Enemies charmed by mantras stay charmed longer.", "req": { "Charisma": 55 } },{ "name": "Chaotic Charm", "desc": "At low health, naturally apply charm to reduce incoming damage.", "req": { "Charisma": 55 } },{ "name": "Dazing Finisher", "desc": "Flourishing charmed enemies dazes them instead of knockback.", "req": { "Charisma": 55 } },{ "name": "Manipulator", "desc": "Deal 20% more critical damage to charmed enemies; removes charm.", "req": { "Charisma": 60 } },{ "name": "Narcissist", "desc": "Charming an already charmed opponent Overcharms you briefly.", "req": { "Charisma": 60 } },{ "name": "Unnecessary Theatrics", "desc": "Deliver a one-liner on heavy attacks that charms opponents briefly.", "req": { "Charisma": 75 } },{ "name": "Cornered Fool", "desc": "Blockbreaking a charmed opponent procs Taunt.", "req": { "Charisma": 85 } },{ "name": "Cult of Personality", "desc": "Gain +3% PEN for each person Charmed, capping at 15%.", "req": { "Charisma": 90 } },{ "name": "Off Your Game", "desc": "Slow Taunted enemies when you hit them.", "req": { "Charisma": 90 } }],
         "Multi-Stats": [{ "name": "Parasol's Brain", "desc": "You feel as if your brain were expanding.", "req": { "Intelligence": 100, "Charisma": 50, "Willpower": 80 } },{ "name": "Sturdy Control", "desc": "Gain 2.5% pen for every M1/Crit after being hit, cap 15%.", "req": { "Precision": 1, "Fortitude": 40 } },{ "name": "Master of His Craft", "desc": "Parrying a vent grants +20% PEN for 5 seconds.", "req": { "Precision": 10, "Intelligence": 10 } },{ "name": "Concussion", "desc": "Flourishing enemies into walls dazes them longer and alters vision.", "req": { "Strength": 20, "Fortitude": 15 } },{ "name": "Matador", "desc": "Deal +20% more damage to human enemies with hyperarmor.", "req": { "Strength": 20, "Agility": 5 } },{ "name": "Lightspeed Reflexes", "desc": "Feinting gives a very brief auto-parry window.", "req": { "Agility": 20, "Intelligence": 20 } },{ "name": "Grasp on Reality", "desc": "Reduced damage from insanity; Shared Misery is less effective.", "req": { "Fortitude": 25, "Willpower": 5 } },{ "name": "Strong Stern", "desc": "The duration you are dazed from wall bangs is cut in half.", "req": { "Strength": 15, "Fortitude": 25 } },{ "name": "Endurance Runner", "desc": "Keep moving even when things look dire.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Conditioned Runner", "desc": "Regen faster while running, slower while not.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Spine Cutter", "desc": "Hit enemy in back after roll cancel for raw weapon damage follow-up.", "req": { "Strength": 20, "Agility": 25 } },{ "name": "Knight's Rally", "desc": "When using a shield, ready block more quickly after a hit.", "req": { "Fortitude": 30, "Willpower": 10 } },{ "name": "Breaking Stereotype", "desc": "Guard breaking an opponent with your critical applies knockdown.", "req": { "Precision": 50, "Strength": 50 } },{ "name": "All The Dead Gods", "desc": "Your Attacks now Apply Anti-Heal. [+5 hp]", "req": { "Intelligence": 40, "Willpower": 65 } },{ "name": "Stress Resistant", "desc": "While in Combat, Insanity only affects every 2nd time.", "req": { "Precision": 25, "Willpower": 40 } },{ "name": "Unfazed", "desc": "More resilient to insanity side effects. No shivering, less panic.", "req": { "Willpower": 50, "Fortitude": 50 } },{ "name": "Steady Nerves", "desc": "Successful dodges restore posture.", "req": { "Strength": 15, "Agility": 45 } },{ "name": "Tooth and Claw", "desc": "Precision & Strength mantras now have 20% PEN.", "req": { "Strength": 50, "Precision": 50 } },{ "name": "Behind You", "desc": "Basic attack behind enemy after mantra feint deals ether-scaling damage.", "req": { "Intelligence": 70, "Agility": 40 } },{ "name": "One of a Kind", "desc": "Crits/Flourishes extend Charm duration and ignore Disbelief.", "req": { "Charisma": 80, "Willpower": 80 } },{ "name": "Dancing With The Dead", "desc": "For every nearby enemy gain 2.5% PEN.", "req": { "Precision": 80, "Intelligence": 20 } },{ "name": "Bad Guy Coming Through", "desc": "Block-breaking an opponent applies 50% damage as Insanity.", "req": { "Strength": 100, "Willpower": 50 } },{ "name": "All Above, Gods Below", "desc": "Stun and steal any healing opponent would receive.", "req": { "Willpower": 100, "Intelligence": 100 } },{ "name": "Crisis Point", "desc": "At 30% Health, disable all anti-heals for 20s.", "req": { "Fortitude": 50, "Willpower": 100 } },{ "name": "Brick Wall", "desc": "Immune to knockdown until knocked unconscious.", "req": { "Fortitude": 100, "Willpower": 100 } },{ "name": "On Your Toes", "desc": "Gain brief auto-parry frames while equipping weapon.", "req": { "Agility": 40, "Willpower": 40 } }],
         "Weapon Talents": [
@@ -367,20 +398,25 @@ let collapsedCats = new Set();
 let currentTab = 'talents';
 
 function init() {
-    const splashes = ["hold it, this guy is cooking", "please dont go for more than 80 will", "time for a shower twin"];
+    const splashes = ["hold it, this guy is cooking", "time for a shower twin", "DNI deepwoken classic", "Yzord NPC gives spec enchants and weps. however, you need to be whitelisted", "?timeout @nebula 27d ramadan", "FUCK MY LIFE NIGGA IM JUST A RETARD INCEL WHORE", "fart fart fart fart fart", "ping geo for prime kai theme", "bugs? dm or ping @faithandpray", "take a break"];
     document.getElementById('splash-text').innerText = splashes[Math.floor(Math.random() * splashes.length)];
 
     const core = document.getElementById('core-inputs');
     gameData.attributes.forEach(a => {
         userStats[a] = 0;
-        core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" onchange="setStat('${a}', this.value)"></div>`;
+        core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" onchange="setStat('${a}', this.value)"></div>`;
     });
 
     const att = document.getElementById('att-inputs');
     gameData.attunements.forEach(a => {
         userStats[a] = 0;
-        att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" onchange="setStat('${a}', this.value)"></div>`;
+        att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" onchange="setStat('${a}', this.value)"></div>`;
     });
+
+    if (window.innerWidth <= 1024) {
+        document.getElementById('close-left').style.display = 'block';
+        document.getElementById('close-right').style.display = 'block';
+    }
 
     updateUI();
 }
@@ -438,7 +474,7 @@ function renderItems() {
                         <p>${t.desc}</p>
                         <hr>
                         <div class="req-text">Req: ${Object.entries(t.req).length ? formatReqs(t.req) : "None"}</div>
-                        ${t.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Toggle Preview</button>
+                        ${t.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Preview</button>
                                    <div class="gif-container" id="gif-${safeId}"><img src="${t.gif}" loading="lazy"></div>` : ''}
                     </div>`;
             }
