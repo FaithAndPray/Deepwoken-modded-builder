@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepwoken Builder - Responsive Update</title>
+    <title>Deepwoken Builder Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -13,7 +13,7 @@
             --parchment: #d8d7ca;
             --parchment-text: #1a1a1a;
             --gold: #c2a35d;
-            --border-path: url('border.png');
+            --border-path: url('https://media.discordapp.net/attachments/1372657049485185125/1452405324723130408/border.png?ex=6949b15d&is=69485fdd&hm=ffd79f8b10f310c0c9da6d58b7241bf88afc69a16dec9569543f51f29daa4c3e&=&format=webp&quality=lossless&width=40&height=40'); 
             --border-slice: 10;
         }
 
@@ -23,104 +23,244 @@
             margin: 0; display: flex; height: 100vh; overflow: hidden; 
         }
 
-        /* Responsive Sidebar Left */
+        /* Sidebar Left - Centered Content */
         #sidebar-left { 
-            width: 320px; min-width: 320px; background: var(--sidebar-bg); 
-            border-right: 2px solid #2f2f35; padding: 20px; overflow-y: auto; 
-            z-index: 100; transition: transform 0.3s ease;
-        }
+    width: 320px; 
+    min-width: 320px; 
+    background: var(--sidebar-bg); 
+    border-right: 2px solid #2f2f35; 
+    padding: 20px; 
+    overflow-y: auto; /* Fixed: Now scrollable */
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    height: 100vh;
+}
+
         
-        /* Responsive Sidebar Right */
+        /* Sidebar Right - Parchment */
         #sidebar-right {
             width: 340px; min-width: 340px; background: var(--parchment);
             color: var(--parchment-text); margin: 15px; display: flex; flex-direction: column;
             border: 12px solid transparent; 
-            border-image: var(--border-path) var(--border-slice) repeat;
-            image-rendering: pixelated;
-            z-index: 100; transition: transform 0.3s ease;
+            border-image: var(--border-path) var(--border-slice) round;
+            image-rendering: pixelated; overflow: hidden;
         }
 
-        #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; width: 100%; }
+        #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
         #item-container { flex: 1; overflow-y: auto; padding-right: 10px; }
 
-        /* Mobile Header Controls */
-        #mobile-nav {
-            display: none;
-            justify-content: space-between;
-            padding: 10px;
-            background: #000;
-            border-bottom: 1px solid #333;
-        }
+        /* Investment Header */
+        .investment-header { text-align: center; margin-bottom: 20px; width: 100%; }
+        .investment-header h2 { margin: 0; font-size: 1.8rem; }
+        .pts-display { font-size: 2.5rem; font-weight: bold; margin: 5px 0; display: block; }
+        #splash-text { color: var(--gold); font-size: 0.8rem; font-style: italic; min-height: 1.2rem; }
 
-        .tab-container { display: flex; gap: 5px; margin-bottom: 15px; }
+        /* Tabs Style */
+        .tab-container { display: flex; gap: 15px; margin-bottom: 25px; }
         .tab-btn { 
-            flex: 1; padding: 12px; background: #111; border: 1px solid #333; color: #666; 
-            cursor: pointer; font-weight: bold; transition: 0.2s; font-family: 'Lora';
+            background: #000; color: #fff; font-family: 'Lora', serif; font-weight: 700;
+            padding: 10px 20px; cursor: pointer; text-transform: uppercase;
+            border: 10px solid transparent; border-image: var(--border-path) 10 round;
+            background-clip: padding-box; image-rendering: pixelated; transition: 0.1s;
         }
-        .tab-btn.active { background: #1a1a1a; color: #fff; border-bottom: 2px solid var(--gold); }
+        .tab-btn.active { filter: sepia(1) saturate(15) hue-rotate(-5deg); }
 
-        .search-bar-container {
-            background: rgba(0,0,0,0.3); padding: 15px; border-radius: 4px;
-            margin-bottom: 20px; border: 1px solid #333;
-        }
+        /* Search Bar */
+        .search-bar-container { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #333; }
+        #search-input { width: 100%; padding: 10px; background:#000; color:#fff; border:1px solid #444; font-family: 'Lora'; margin-bottom: 10px; }
 
-        .category-block { margin-bottom: 20px; }
-        .category-title { 
-            font-size: 1.1rem; border-bottom: 1px solid #444; 
-            margin-bottom: 15px; padding: 5px; color: #eee;
-            cursor: pointer; display: flex; justify-content: space-between;
-        }
-        .collapsed .grid { display: none; }
+        /* Cards */
+        .category-title {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; padding: 5px; }
+.category-title::after {
+    content: '▼';
+    font-size: 0.8rem;
+    transition: transform 0.2s;
+}
 
+.category-block { 
+    margin-bottom: 20px; 
+}
+.category-title { 
+    font-size: 1rem; 
+    margin-bottom: 10px; 
+    padding: 10px 15px; 
+    color: #fff; 
+    cursor: pointer; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    /* Deepwoken Border for Titles */
+    border: 8px solid transparent;
+    border-image: var(--border-path) 10 round;
+    background: #050505;
+    background-clip: padding-box;
+    image-rendering: pixelated;
+}
+
+.category-title:hover {
+    filter: brightness(1.3);
+}
+
+.category-title::after {
+    content: '▼';
+    font-size: 0.7rem;
+    transition: transform 0.2s;
+}
+.category-block.collapsed .grid { display: none; }
+.category-block.collapsed .category-title::after { transform: rotate(-90deg); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
         .card {
-            background: var(--card-bg); padding: 15px; cursor: pointer;
-            border: 8px solid transparent; border-image: var(--border-path) var(--border-slice) repeat;
-            image-rendering: pixelated; transition: 0.1s;
-        }
-        .card:hover { transform: translateY(-2px); }
-        .card.locked { opacity: 0.5; filter: grayscale(0.8); cursor: not-allowed; }
-        .card.selected { border-image-source: url('border_gold.png'); background: rgba(194, 163, 93, 0.05); }
+    background: var(--card-bg); 
+    padding: 15px; 
+    cursor: pointer;
+    /* Fixed Border Logic */
+    border: 10px solid transparent;
+    border-image-source: var(--border-path);
+    border-image-slice: 10;
+    border-image-repeat: round;
+    background-clip: padding-box;
+    image-rendering: pixelated;
+    
+    /* Animation transition */
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s, background 0.2s;
+}
 
-        .card h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #e0e0e0; }
+/* Re-adding the Hover Animation */
+.card:hover:not(.locked) {
+    transform: translateY(-5px); /* Lifts the card up */
+    filter: brightness(1.2);      /* Makes the card look "lit up" */
+    background: #121a16;          /* Slight background shift */
+    z-index: 10;
+}
+
+.card.selected {
+    /* Stronger gold filter for the selected state */
+    filter: sepia(1) saturate(12) hue-rotate(5deg) brightness(1.1);
+    background: rgba(194, 163, 93, 0.1);
+    transform: scale(1.02); /* Makes it slightly bigger to show it is selected */
+}
+
+/* Ensure locked cards don't animate */
+.card.locked:hover {
+    transform: none;
+}
+        .card.selected { filter: sepia(1) saturate(5) hue-rotate(10deg); }
+        .card.locked {
+    opacity: 0.6; /* Increased visibility */
+    filter: grayscale(0.7) contrast(0.8);
+    cursor: not-allowed;
+    border-image-source: var(--border-path); /* Keeps the border visible */
+}
+        .card h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; }
         .card p { margin: 0; font-size: 0.85rem; color: #bbb; }
-        .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 10px 0; }
-        .req-text { color: var(--gold); font-size: 0.8rem; font-weight: 700; }
+        .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0; }
+        .req-text { color: var(--gold); font-size: 0.85rem; font-weight: 700; }
 
-        /* Sidebar Overlay for Mobile */
-        .overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 90;
-        }
+        /* Stat Rows */
+        .stat-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; }
+        input[type="number"] { background: #000; border: 1px solid #444; color: #fff; padding: 5px; width: 65px; text-align: center; font-family: 'Lora'; font-size: 1rem; }
 
-        /* Media Queries for Mobile/PC adjustment */
+        /* Calculator wrapper */
+        .calc-wrapper { background: var(--parchment); color: var(--parchment-text); padding: 25px; border: 10px solid transparent; border-image: var(--border-path) 10 round; max-width: 600px; margin: 0 auto; }
+        .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dotted rgba(0,0,0,0.2); font-weight: bold; }
+        .calc-row span { font-weight: normal; color: #666; font-style: italic; }
+
+        /* Buttons */
+        .action-btn { background: #1a1a1c; border: 1px solid #444; color: #fff; padding: 12px; cursor: pointer; width: 100%; margin-top: 8px; font-family: 'Lora'; font-weight: bold; }
+
+        /* Mobile */
+        #mobile-nav { display: none; padding: 10px; background: #000; border-bottom: 1px solid #333; justify-content: space-between; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 90; }
+
         @media (max-width: 1024px) {
-            body { flex-direction: column; }
-            #sidebar-left { 
-                position: fixed; left: 0; top: 0; height: 100vh; transform: translateX(-100%);
-            }
-            #sidebar-right { 
-                position: fixed; right: 0; top: 0; height: 100vh; margin: 0; transform: translateX(100%);
-            }
-            #mobile-nav { display: flex; }
-            
-            .sidebar-open-left #sidebar-left { transform: translateX(0); }
-            .sidebar-open-right #sidebar-right { transform: translateX(0); }
-            .sidebar-open-left .overlay, .sidebar-open-right .overlay { display: block; }
-            
-            .grid { grid-template-columns: 1fr; }
-        }
+    body {
+        flex-direction: column;
+        overflow-y: auto; /* Allow body scrolling */
+        height: auto;
+    }
 
+    /* Fix: Give sidebars a solid background so they aren't see-through */
+    #sidebar-left, #sidebar-right {
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 280px;
+        z-index: 2000; /* Put them above everything */
+        display: flex; 
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+    }
+
+    #sidebar-left {
+        left: 0;
+        transform: translateX(-100%);
+        background: #0a0a0b; /* Solid black sidebar */
+    }
+
+    #sidebar-right {
+        right: 0;
+        transform: translateX(100%);
+        margin: 0;
+        background: var(--parchment); /* Solid parchment background */
+    }
+
+    /* Correct open logic */
+    body.sidebar-open-left #sidebar-left { transform: translateX(0); }
+    body.sidebar-open-right #sidebar-right { transform: translateX(0); }
+
+    /* Main area layout fix */
+    #main-area {
+        padding: 10px;
+        overflow: visible;
+        width: 100%;
+    }
+
+    /* Prevent overlap: Tabs shouldn't be huge on mobile */
+    .tab-container {
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: center;
+    }
+
+    .tab-btn {
+        font-size: 0.75rem;
+        padding: 8px 12px;
+        border-width: 6px; /* Slightly thinner border for mobile */
+    }
+
+    /* Nav bar stays at the top */
+    #mobile-nav {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 1500;
+        background: #000;
+    }
+}
+
+        .toggle-gif-btn { background: transparent; border: none; color: #55aaff; padding: 0; font-size: 0.75rem; cursor: pointer; text-decoration: underline; margin-top: 8px; }
         .gif-container { margin-top: 10px; display: none; width: 100%; border: 1px solid #333; }
         .gif-container img { width: 100%; display: block; }
-        .toggle-gif-btn { background: transparent; border: none; color: #55aaff; padding: 0; font-size: 0.75rem; cursor: pointer; text-decoration: underline; margin-top: 8px; }
+        body.sidebar-open-left #sidebar-left { transform: translateX(0); }
+    body.sidebar-open-right #sidebar-right { transform: translateX(0); }
+    
+    /* Show Overlay when menu is open */
+    body.sidebar-open-left .overlay, body.sidebar-open-right .overlay { display: block; }
 
-        button.action-btn { background: #1a1a1c; border: 1px solid #444; color: #fff; padding: 10px; cursor: pointer; font-family: 'Lora'; margin: 2px; }
-        input[type="number"] { background: #000; border: 1px solid #444; color: #fff; padding: 8px; width: 60px; font-size: 1rem; }
-        .stat-row { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
-        .selection-header { font-weight: bold; font-size: 1rem; margin-top: 15px; border-bottom: 2px solid #000; }
-        #splash-text { color: #ffcc00; font-size: 0.65rem; font-weight: bold; text-align: center; font-style: italic; }
+    /* Shrink search bar for mobile */
+    .search-bar-container { padding: 10px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -128,40 +268,37 @@
 <div class="overlay" onclick="closeSidebars()"></div>
 
 <div id="mobile-nav">
-    <button class="action-btn" onclick="toggleSidebar('left')">☰ Stats</button>
-    <button class="action-btn" onclick="toggleSidebar('right')">Build Summary ☰</button>
+    <button onclick="toggleSidebar('left')" style="background:none; border:1px solid #fff; color:#fff; padding:5px 15px;">Stats</button>
+    <button onclick="toggleSidebar('right')" style="background:none; border:1px solid #fff; color:#fff; padding:5px 15px;">Build</button>
 </div>
 
 <div id="sidebar-left">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="margin:0">Investment</h2>
-        <button class="action-btn" style="display: none;" id="close-left" onclick="closeSidebars()">✕</button>
+    <div class="investment-header">
+        <h2>Investment</h2>
+        <span class="pts-display"><span id="used-pts">0</span> / <span id="max-pts">410</span></span>
+        <div id="splash-text"></div>
     </div>
-    <div style="font-size: 1.5rem; font-weight: bold; margin: 15px 0;">
-        <span id="used-pts">0</span> / <span id="max-pts">410</span>
-    </div>
+    
+    <div id="core-inputs" style="width: 100%;"></div>
+    <hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
+    <div id="att-inputs" style="width: 100%;"></div>
 
-    <div id="splash-text" style="margin-bottom: 20px; min-height: 20px;"></div>
-
-    <div id="core-inputs"></div>
-    <div style="margin-top:20px" id="att-inputs"></div>
-
-    <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
-        <button class="action-btn" onclick="saveBuild()">Save</button>
-        <button class="action-btn" onclick="loadBuild()">Load</button>
-        <button class="action-btn" style="color:#ff4444; grid-column: span 2;" onclick="clearBuild()">Clear Build</button>
+    <div style="width: 100%; margin-top: auto;">
+        <button class="action-btn" onclick="saveBuild()" style="background: var(--gold); color: #000; border:none;">SHARE BUILD LINK</button>
+        <button class="action-btn" style="color:#ff4444;" onclick="clearBuild()">CLEAR BUILD</button>
     </div>
 </div>
 
 <div id="main-area">
     <div class="tab-container">
-        <div class="tab-btn active" id="tab-talents" onclick="switchTab('talents')">TALENTS</div>
-        <div class="tab-btn" id="tab-mantras" onclick="switchTab('mantras')">MANTRAS</div>
+        <div class="tab-btn active" id="tab-talents" onclick="switchTab('talents')">Talents</div>
+        <div class="tab-btn" id="tab-mantras" onclick="switchTab('mantras')">Mantras</div>
+        <div class="tab-btn" id="tab-calc" onclick="switchTab('calc')">Dmg & Pen</div>
     </div>
 
-    <div class="search-bar-container">
-        <input type="text" id="search-input" placeholder="Search..." oninput="renderItems()" style="width: 100%; margin-bottom: 10px; padding: 10px;">
-        <label style="font-size: 0.9rem;">
+    <div id="search-bar" class="search-bar-container">
+        <input type="text" id="search-input" placeholder="Search..." oninput="renderItems()">
+        <label style="font-size: 0.85rem; color: #ccc; cursor: pointer;">
             <input type="checkbox" id="filter-reqs" onchange="renderItems()"> Show things that fit Requirements
         </label>
     </div>
@@ -170,42 +307,16 @@
 </div>
 
 <div id="sidebar-right">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="margin:0">Build Overview</h3>
-        <button class="action-btn" style="display: none;" id="close-right" onclick="closeSidebars()">✕</button>
-    </div>
+    <div style="padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #000; font-size: 1.1rem; text-transform: uppercase;">Build Overview</div>
     <div id="selection-list" style="overflow-y: auto; flex: 1;"></div>
 </div>
 
 <script>
-// Point Calculation Logic
-function calculateMaxPoints() {
-    let count = 0;
-    gameData.attunements.forEach(a => { if (userStats[a] > 0) count++; });
-    if (count === 0) return 410;
-    if (count === 1) return 420;
-    return 420 + (count - 1) * 5;
-}
-
-// Sidebars responsive logic
-function toggleSidebar(side) {
-    const body = document.body;
-    if (side === 'left') {
-        body.classList.toggle('sidebar-open-left');
-        body.classList.remove('sidebar-open-right');
-    } else {
-        body.classList.toggle('sidebar-open-right');
-        body.classList.remove('sidebar-open-left');
-    }
-}
-
-function closeSidebars() {
-    document.body.classList.remove('sidebar-open-left', 'sidebar-open-right');
-}
-
+// --- 1. GAME DATA ---
 const gameData = {
-    attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
+   attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
     attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
+    // ... (Talent and Mantra data)
     talents: {
         "No Stat Reqs": [{ "name": "Return to the Dark Ages", "desc": "10% less Outgoing and Incoming Mantra DMG. [5 hp]", "req": {} },{ "name": "Lightweight", "desc": "Move faster when armor is 0%. [+1 Posture]", "req": {} },{ "name": "The Sounds from Below", "desc": "[+150hp]", "req": {} },{ "name": "Armor Conserver", "desc": "15% less armor drain on hit.", "req": {} },{ "name": "Murmur: Ardour", "desc": "Deal 15% more posture DMG and take 15% less when pressing H.", "req": {} }],
         "Strength": [{ "name": "Duelist’s Dance", "desc": "25% more posture from parrying. [+2 Posture]", "req": { "Strength": 20 } },{ "name": "Harsh Response", "desc": "Enemies receive less posture when parrying you.", "req": { "Strength": 25 } },{ "name": "Bulldozer", "desc": "Enemies you flourish into a wall have a chance of breaking the wall and are guard broken on impact.", "req": { "Strength": 25 } },{ "name": "Lose Your Mind", "desc": "Deal more DMG scaling with insanity up to 10% max. [+5 hp]", "req": { "Strength": 30 } },{ "name": "Unwavering Resolve", "desc": "Getting parried punishes your posture 33% less. [+2 Posture]", "req": { "Strength": 40 } },{ "name": "Shield Breaker", "desc": "Blunt Damage now fully ignores the posture from Shields. [+1 Posture]", "req": { "Strength": 60 } },{ "name": "Piercing Blow", "desc": "Guardbreaks Ignore Armor Resistance.", "req": { "Strength": 80 } },{ "name": "Berserk", "desc": "Succumb to the burning rage within, nullifying your own armor in exchange for nullifying the armor of your foes on your Basic Attacks. Grants your Criticals +10% PEN while active.", "req": { "Strength": 80 } },{ "name": "Million Ton Piercer", "desc": "Gain 5% extra PEN and remove the cap on your PEN. Go beyond your limits.", "req": { "Strength": 90 } },{ "name": "Collapsed Lung", "desc": "Block breaking an opponent closes off their ability to Vent for 8s, duration scales with Strength.", "req": { "Strength": 100 } },{ "name": "Dreambreaker", "desc": "On Flourish, Disables Tempo Drain and gives Tempo gain for 10s, Decrease target tempo gain for 7.5s. (Locks Collapsed Lung)", "req": { "Strength": 100 } }],
@@ -235,7 +346,7 @@ const gameData = {
         "Ironsing": [{ "name": "Decay Path: Oxidize", "desc": "Metal attacks store damage released 7.5s later.", "req": { "Ironsing": 50 } },{ "name": "Decaying Posture", "desc": "Deal more damage to opponents with more posture than you.", "req": { "Ironsing": 75, "Path": "Decay" } },{ "name": "Tetanus", "desc": "Hitting with 5+ rods negates healing based on damage and slows.", "req": { "Ironsing": 80, "Path": "Decay" } },{ "name": "Laced Blade", "desc": "Light attacks on targets with tetanus apply poison.", "req": { "Ironsing": 90, "Path": "Decay" } },{ "name": "Oxidizing Blitz", "desc": "Mantras apply DoT to Health/Blood. Tetanus redirects 20% of healing to you.", "req": { "Ironsing": 100, "Path": "Decay" } },{ "name": "Gilded Path: Scrapsinger", "desc": "Flourish consumes rods to siphon enemy armor to you.", "req": { "Ironsing": 35 } },{ "name": "Artisan's Blade", "desc": "Forges metal blades that fire upon landing metal-infused attacks.", "req": { "Ironsing": 45, "Path": "Gilded" } },{ "name": "Refine and Reuse", "desc": "Consuming rods reduces incoming PEN multiplicatively.", "req": { "Ironsing": 45, "Path": "Gilded" } },{ "name": "Songs Unforged", "desc": "Weapon criticals activate Scrapsinger.", "req": { "Ironsing": 50, "Path": "Gilded" } },{ "name": "Masterwork", "desc": "Artisan’s Blades proc metal rods and deal 50% more damage.", "req": { "Ironsing": 60, "Path": "Gilded" } },{ "name": "Reshape and Remold", "desc": "Scrapsinger procs increase opponent armor damage taken.", "req": { "Ironsing": 70, "Path": "Gilded" } },{ "name": "Thornmail", "desc": "Getting flourished applies a metal rod to the attacker.", "req": { "Ironsing": 45 } },{ "name": "Metal Thief", "desc": "Pulling an opponent absorbs a portion of their armor durability.", "req": { "Ironsing": 50 } },{ "name": "Piercing Metal", "desc": "Deal additional armor damage per rod affecting the enemy.", "req": { "Ironsing": 60 } },{ "name": "Exposed Durability", "desc": "10% more damage to opponents with no armor durability.", "req": { "Ironsing": 60 } },{ "name": "Oh The Irony", "desc": "Taunted opponents receive double iron rods.", "req": { "Ironsing": 60, "Charisma": 45 } },{ "name": "An Ironsinger's Instinct", "desc": "Dodging coats you in metal, reducing damage of next hit. (18s CD)", "req": { "Ironsing": 75 } },{ "name": "Phantom Edge", "desc": "Basic attacks have +0.25 range.", "req": { "Ironsing": 75 } },{ "name": "Polished Armor", "desc": "Receive 5-10% less damage when armor is above 90% durability.", "req": { "Ironsing": 75 } },{ "name": "Metal Eater", "desc": "Consume armor durability to cast mantras when ether is empty.", "req": { "Ironsing": 80 } },{ "name": "Alloyblood", "desc": "Bleed damage reduced by 30%; blood loss reduced by 75%.", "req": { "Ironsing": 100 } },{ "name": "Rending Needle: Conductor", "desc": "Reflect non-ironsing mantra element if target has 5+ rods.", "req": { "Ironsing": 75 } },{ "name": "Rending Needle: Jailer", "desc": "Restrain enemy instead of pulling if they have 5+ rods.", "req": { "Ironsing": 75 } },{ "name": "Rending Needle: Impaler", "desc": "Pull rods out for damage if enemy has 5+ rods.", "req": { "Ironsing": 75 } }],
         "Bloodrend": [{ "name": "Harvest Season", "desc": "Critical attacks spawn blood pools under the opponent.", "req": { "Bloodrend": 25 } },{ "name": "Not So Cheap Trick", "desc": "Chance to blind opponents with blood control.", "req": { "Bloodrend": 25 } },{ "name": "Rush Hour", "desc": "Stab yourself for DMG/Speed; lose blood/HP over time.", "req": { "Bloodrend": 50 } },{ "name": "Sow and Mend", "desc": "Sacrifice blood for temporary HP.", "req": { "Bloodrend": 60 } },{ "name": "Cyclical Exsanguination", "desc": "Pause Temp HP decay on hit; reduces enemy posture regain from parries.", "req": { "Bloodrend": 65 } },{ "name": "Smell of Blood", "desc": "See enemy blood/poison when they touch pools or are block broken.", "req": { "Bloodrend": 65 } },{ "name": "Sucker Strike", "desc": "Landing a critical while inside a blood pool increases DMG.", "req": { "Bloodrend": 80 } },{ "name": "Gruesome Harvest", "desc": "Landing attacks on heavily poisoned enemies gives Temp HP.", "req": { "Bloodrend": 85 } },{ "name": "Hemorrhaging Blow", "desc": "Block breaking with a mantra turns enemy healing into damage for 8s.", "req": { "Bloodrend": 95 } },{ "name": "Simple Manipulation: Unstable Blood", "desc": "Attacks spawn pools and cause heavy bleeding.", "req": { "Bloodrend": 50 } },{ "name": "Peaking Control", "desc": "Chance for blood pool eruptions to explode.", "req": { "Bloodrend": 75, "Path": "Simple" } },{ "name": "Piercing Totality", "desc": "Explosions affect everyone in range with increased PEN.", "req": { "Bloodrend": 100, "Path": "Simple" } },{ "name": "Manipulation Path: Agile Misery", "desc": "Speed increased; agility mantras empowered with blood.", "req": { "Bloodrend": 50 } },{ "name": "Rushing Demise", "desc": "Spawning pools grants a blood trail that empowers dashes.", "req": { "Bloodrend": 75, "Path": "Agile" } },{ "name": "Protective Offense", "desc": "Spawn protective crosses on blood pool creation for defense.", "req": { "Bloodrend": 100, "Path": "Agile" } },{ "name": "Manipulation Path: Spirit Lantern", "desc": "Attacks poison instead of spawning pools; increased blood regen.", "req": { "Bloodrend": 50 } },{ "name": "Venomous Chain", "desc": "Poison bypasses resistance and deals 2% true damage on chain hits.", "req": { "Bloodrend": 75, "Path": "Lantern" } },{ "name": "Heavy Disease", "desc": "Venomous Chain now also summons a blood pool.", "req": { "Bloodrend": 100, "Path": "Lantern" } }],
         "Earthbend": [{ "name": "Bastion Path: Reinforce", "desc": "Stand still for 3s to harden skin and reduce incoming damage by 20%.", "req": { "Earthbend": 50, "Fortitude": 25 } },{ "name": "Immovable Fortress", "desc": "Bastion only requires 2s; immune to ragdoll while active.", "req": { "Earthbend": 70, "Fortitude": 30 } },{ "name": "Kinetic Buffer", "desc": "Store damage while in Bastion to buff next Earth or Light attack.", "req": { "Earthbend": 70, "Fortitude": 40 } },{ "name": "Reactive Plates", "desc": "Erupt rock shards when hit during active Bastion. (20s CD)", "req": { "Earthbend": 75, "Fortitude": 50 } },{ "name": "Battlefield Strategist", "desc": "Long-range attacks spawn spikes; short-range spawn walls. (20s CD)", "req": { "Earthbend": 40 } },{ "name": "Natural Disaster", "desc": "Apply Concussion on 3 hits, blinding and hiding enemy HP bar.", "req": { "Earthbend": 50 } },{ "name": "Force of Nature", "desc": "Enemies hitting walls are dazed for longer.", "req": { "Earthbend": 50 } },{ "name": "Momento Mori", "desc": "Going insane increases Earthbend destruction AoE.", "req": { "Earthbend": 50, "Willpower": 20 } },{ "name": "Annihilator", "desc": "Attacks cause bone destruction, slowing opponents.", "req": { "Earthbend": 50, "Strength": 50 } },{ "name": "Vengeful Chase", "desc": "Enemies flourished into walls are struck by Earth Spikes.", "req": { "Earthbend": 70 } },{ "name": "Impermeable", "desc": "Close-range mantras coat you in dust, reducing blood loss.", "req": { "Earthbend": 80 } },{ "name": "Solidifier", "desc": "Elemental hits grant resistance to further elemental damage for 10s.", "req": { "Earthbend": 100 } }],
-        "Multi-Elemental": [{ "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },{ "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 1, "Frostdraw": 40, "Talent": "Haunted Gale" } },{ "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },{ "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },{ "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 1, "Frostdraw": 1, "Path": "Eruption/Glass" } },{ "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },{ "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } },{"name": "Chorus of Souls", "desc": "Alone, the wisp lack a voice. but surrounded by so many, The frequencies overlap and you hear it true. (NEEDS OATHLESS TO WORK)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}},{"name": "Wisp Convergence", "desc": " When empowered by the Chorus, your Wisps now grant their elements to your strikes. (Oathless, All Wisps, Chorus of Souls)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}}]
+        "Multi-Elemental": [{ "name": "Wraith Path: Umbra", "desc": "Darkened flames stops enemy ether gain; puppets are drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },{ "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 1, "Frostdraw": 40, "Talent": "Haunted Gale" } },{ "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },{ "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },{ "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 1, "Frostdraw": 1, "Path": "Eruption/Glass" } },{ "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },{ "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } },{"name": "Chorus of Souls", "desc": "Alone, the wisp lack a voice. but surrounded by so many, The frequencies overlap and you hear it true. (NEEDS OATHLESS TO WORK)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}},{"name": "Wisp Convergence", "desc": " When empowered by the Chorus, your Wisps now grant their elements to your strikes. (Oathless, All Wisps, Chorus of Souls)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}}]
     },
     mantras: {
         "Flamecharm": [
@@ -369,7 +480,7 @@ const gameData = {
             { "name": "Rapid Punches", "desc": "barrage of punchs", "req": { "Strength": 30 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692737a63ade2bf1d6c7e893/download/300px-Rapid_punches_Attunmentless___Deepwoken_Arena_Wiki.gif" },
             { "name": "Skyshatter Kick", "desc": "two gb kicks that AT LEAST deal a bar", "req": { "Strength": 80 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/6927379fc1db12a2630360a6/download/300px-Skyshatter_Kick_Attunmentless___Deepwoken_Arena_Wiki.gif" },
             { "name": "Precise Slashes", "desc": "Dashing barrage of slashes.", "req": { "Precision": 20 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692737e072ad98da9cfd1591/download/300px-Precise_slashes_Attunmentless___Deepwoken_Arena_Wiki.gif" },
-            { "name": "Controlled Punch", "desc": "Focused strike that moves you forward.", "req": { "Precision": 20 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/6929bbdbf90a3014494e1169/download/2025-11-2810-05-02-ezgif.com-video-to-gif-converter.gif" },
+            { "name": "Controlled Punch", "desc": "Focused strike that moves you forward.", "req": { "Precision": 20 }, "gif": "https://trello.com/1/cards/6929bbdbf90a3014494e1169/download/2025-11-2810-05-02-ezgif.com-video-to-gif-converter.gif" },
             { "name": "Shoulder Bash", "desc": "Charging bash.", "req": { "Fortitude": 20 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692738043806879911e152df/download/300px-Shoulder_bash_Attunmentless___Deepwoken_Arena_Wiki.gif" },
             { "name": "Reinforce", "desc": "Stat buff + free heal.", "req": { "Fortitude": 50 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/69273806176d8f57629165ba/download/300px-Reinforce_Attunmentless___Deepwoken_Arena_Wiki.gif" },
             { "name": "Revenge", "desc": "top 3 mantras", "req": { "Agility": 1 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/692738443c466c12d2a02d3b/download/Revenge_Attunmentless___Deepwoken_Arena_Wiki.gif" },
@@ -391,158 +502,301 @@ const gameData = {
     }
 };
 
+const calcData = {
+    dmg: [
+                { n: "Flame Within", v: 10, cat: "UB_PB" },
+        { n: "Speed Demon", v: 7.5, cat: "WB_TB" },
+        { n: "Lose Your Mind", v: 10, cat: "UB_PB" },
+        { n: "Decisive Battle", v: 10, cat: "UB_TB" },
+        { n: "Perfect Flash", v: 25, cat: "MB_TB" },
+        { n: "Eureka", v: 10, cat: "MB_TB" },
+        { n: "Overflowing Dam", v: 10, cat: "WB_PB" },
+        { n: "Ardour Scream", v: 25, cat: "UB_TB" },
+        { n: "Underdog", v: 4, cat: "UB_PB" },
+        { n: "Tough Love", v: 10, cat: "UB_PB" },
+        { n: "Manipulator", v: 20, cat: "UB_PB" },
+        { n: "Matador", v: 20, cat: "UB_TB" },
+        { n: "Knife's Journey", v: 15, cat: "WB_TB" },
+        { n: "Rush Hours", v: 15, cat: "UB_PB" },
+        { n: "Reshape and Remold", v: 5, cat: "UB_PB" },
+        { n: "Exposed Durability", v: 10, cat: "UB_PB" },
+        { n: "Reinforce Mantra", v: 3, cat: "UB_TB" },
+        { n: "Raiton Path (Enlightened)", v: 10, cat: "UB_PB" }
+    ],
+    pen: [
+                { n: "Million Ton Piercer", v: 5 },
+        { n: "Dead Eye", v: 10 },
+        { n: "Upcoming Opportunity", v: 30 },
+        { n: "Cheap Shot", v: 10 },
+        { n: "Ether Overdrive", v: 5 },
+        { n: "Piercing Will", v: 15 },
+        { n: "Cult of Personality", v: 15 },
+        { n: "Sturdy Control", v: 15 },
+        { n: "Tooth and Claw (for precision and strength mantras only)", v: 20 },
+        { n: "Dancing With The Dead", v: 12.5 }
+    ]
+};
+
+// --- 2. GLOBAL STATE ---
 let userStats = {};
 let selectedTalents = new Set();
 let selectedMantras = new Set();
-let collapsedCats = new Set(); 
+let activeBuffs = new Set();
 let currentTab = 'talents';
 
+const talentMap = Object.values(gameData.talents).flat().map(t => t.name);
+const mantraMap = Object.values(gameData.mantras).flat().map(m => m.name);
+const allStatKeys = [...gameData.attributes, ...gameData.attunements];
+
+const mutualExclusions = [
+    ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
+    ["Unyielding Frost", "Glass Path: Crystallization"],
+    ["The Final Act", "Emperor Flame", "Eruption Path: Lava Serpent"],
+    ["Gilded Path: Scrapsinger", "Decay Path: Oxidize"],
+    ["Manipulation Path: Spirit Lantern", "Manipulation Path: Agile Misery", "Simple Manipulation: Unstable Blood"],
+    ["Wraith Path: Umbra", "Eruption Path: Lava Serpent", "Flashboil"],
+    ["Flashboil", "Glass Path: Crystallization"]
+    ["Narcissist", "Tough Love"]
+];
+
+// --- 3. INITIALIZATION ---
 function init() {
-    const splashes = ["hold it, this guy is cooking", "time for a shower twin", "DNI deepwoken classic", "Yzord NPC gives spec enchants and weps. however, you need to be whitelisted", "?timeout @nebula 27d ramadan", "FUCK MY LIFE NIGGA IM JUST A RETARD INCEL WHORE", "fart fart fart fart fart", "ping geo for prime kai theme", "bugs? dm or ping @faithandpray", "take a break"];
-    document.getElementById('splash-text').innerText = splashes[Math.floor(Math.random() * splashes.length)];
+    // Splash Text
+    const splash = ["hold it, this guy is cooking", "time for a shower twin", "DNI deepwoken classic", "Yzord NPC gives spec enchants and weps. however, you need to be whitelisted", "?timeout @nebula 27d ramadan", "FUCK MY LIFE NIGGA IM JUST A RETARD INCEL WHORE", "fart fart fart fart fart", "ping geo for prime kai theme", "bugs? dm or ping @faithandpray", "take a break"];
+    document.getElementById('splash-text').innerText = splash[Math.floor(Math.random() * splash.length)];
 
     const core = document.getElementById('core-inputs');
+    const att = document.getElementById('att-inputs');
+    core.innerHTML = ""; att.innerHTML = "";
+
+    // Generate Attribute Inputs
     gameData.attributes.forEach(a => {
         userStats[a] = 0;
-        core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" onchange="setStat('${a}', this.value)"></div>`;
+        core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" onchange="setStat('${a}', this.value)"></div>`;
     });
 
-    const att = document.getElementById('att-inputs');
+    // Generate Attunement Inputs
     gameData.attunements.forEach(a => {
         userStats[a] = 0;
-        att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" onchange="setStat('${a}', this.value)"></div>`;
+        att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" onchange="setStat('${a}', this.value)"></div>`;
     });
 
-    if (window.innerWidth <= 1024) {
-        document.getElementById('close-left').style.display = 'block';
-        document.getElementById('close-right').style.display = 'block';
+    // Short Link Parsing
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('b')) {
+        try {
+            const sections = params.get('b').split('_');
+            const stats = sections[0].split('.');
+            allStatKeys.forEach((key, i) => {
+                let val = parseInt(stats[i]) || 0;
+                userStats[key] = val;
+                if(document.getElementById('in-'+key)) document.getElementById('in-'+key).value = val;
+            });
+            if(sections[1]) sections[1].split('-').forEach(b36 => {
+                let name = talentMap[parseInt(b36, 36)];
+                if(name) selectedTalents.add(name);
+            });
+            if(sections[2]) sections[2].split('-').forEach(b36 => {
+                let name = mantraMap[parseInt(b36, 36)];
+                if(name) selectedMantras.add(name);
+            });
+        } catch(e) { console.error("URL Load Error"); }
     }
-
     updateUI();
 }
 
+// --- 4. LOGIC ---
 function setStat(name, val) {
-    userStats[name] = Math.min(100, Math.max(0, parseInt(val) || 0));
+    let num = Math.min(100, Math.max(0, parseInt(val) || 0));
+    userStats[name] = num;
+    if(document.getElementById('in-'+name)) document.getElementById('in-'+name).value = num;
     updateUI();
 }
 
-function switchTab(tab) {
-    currentTab = tab;
-    document.getElementById('tab-talents').classList.toggle('active', tab === 'talents');
-    document.getElementById('tab-mantras').classList.toggle('active', tab === 'mantras');
+function updateUI() {
+    let count = 0; gameData.attunements.forEach(a => { if (userStats[a] > 0) count++; });
+    let max = count === 0 ? 410 : 420 + Math.max(0, (count - 1) * 5);
+    let used = 0; Object.values(userStats).forEach(v => used += v);
+    document.getElementById('max-pts').innerText = max;
+    document.getElementById('used-pts').innerText = used;
+    document.getElementById('used-pts').style.color = used > max ? "#ff4444" : "#fff";
+
+    const list = document.getElementById('selection-list');
+    list.innerHTML = "";
+    if(selectedTalents.size > 0) {
+        list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold;">Talents</div>`;
+        selectedTalents.forEach(t => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem;">• ${t}</div>`);
+    }
+    if(selectedMantras.size > 0) {
+        list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold; color:#2266aa;">Mantras</div>`;
+        selectedMantras.forEach(m => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem; color:#2266aa;">• ${m}</div>`);
+    }
     renderItems();
-}
-
-function checkReqs(reqObj) {
-    for (let r in reqObj) {
-        if (r === "OR_Weapon") {
-            if (userStats["Light Weapon"] < reqObj[r] && userStats["Medium Weapon"] < reqObj[r] && userStats["Heavy Weapon"] < reqObj[r]) return false;
-        } else if ((userStats[r] || 0) < reqObj[r]) return false;
-    }
-    return true;
-}
-
-function toggleGif(id, event) {
-    event.stopPropagation();
-    const el = document.getElementById('gif-' + id);
-    el.style.display = el.style.display === 'block' ? 'none' : 'block';
-}
-
-function renderItems() {
-    const container = document.getElementById('item-container');
-    const search = document.getElementById('search-input').value.toLowerCase();
-    const showOnlyMet = document.getElementById('filter-reqs').checked;
-    container.innerHTML = "";
-
-    const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
-    const selectedSet = currentTab === 'talents' ? selectedTalents : selectedMantras;
-
-    for (let cat in dataSet) {
-        let catHtml = `<div class="category-block ${collapsedCats.has(cat) ? 'collapsed' : ''}">
-                        <div class="category-title" onclick="toggleCategory('${cat}')">${cat} <span>${collapsedCats.has(cat) ? '▶' : '▼'}</span></div>
-                        <div class="grid">`;
-        let hasVisible = false;
-
-        dataSet[cat].forEach((t, idx) => {
-            let met = checkReqs(t.req);
-            if ((!showOnlyMet || met) && (t.name.toLowerCase().includes(search) || t.desc.toLowerCase().includes(search))) {
-                hasVisible = true;
-                const safeId = cat.replace(/\s/g, '') + idx;
-                catHtml += `
-                    <div class="card ${met ? '' : 'locked'} ${selectedSet.has(t.name) ? 'selected' : ''}" onclick="toggleItem('${t.name}', ${met})">
-                        <h3>${t.name}</h3>
-                        <p>${t.desc}</p>
-                        <hr>
-                        <div class="req-text">Req: ${Object.entries(t.req).length ? formatReqs(t.req) : "None"}</div>
-                        ${t.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Preview</button>
-                                   <div class="gif-container" id="gif-${safeId}"><img src="${t.gif}" loading="lazy"></div>` : ''}
-                    </div>`;
-            }
-        });
-
-        catHtml += `</div></div>`;
-        if (hasVisible) container.innerHTML += catHtml;
-    }
-}
-
-function formatReqs(reqObj) {
-    return Object.entries(reqObj).map(([s, v]) => (s === "OR_Weapon" ? "Any Weapon" : s) + ": " + v).join(", ");
 }
 
 function toggleItem(name, met) {
     if (!met) return;
     const set = currentTab === 'talents' ? selectedTalents : selectedMantras;
+    if (currentTab === 'talents' && !set.has(name)) {
+        for (const group of mutualExclusions) {
+            if (group.includes(name)) {
+                for (const other of group) {
+                    if (other !== name && set.has(other)) {
+                        alert(`MUTUAL EXCLUSION:\n\nYou cannot have "${name}" while you have "${other}".`);
+                        return;
+                    }
+                }
+            }
+        }
+    }
     set.has(name) ? set.delete(name) : set.add(name);
     updateUI();
 }
+// Track closed categories
+let collapsedCats = new Set();
 
-function toggleCategory(cat) {
-    collapsedCats.has(cat) ? collapsedCats.delete(cat) : collapsedCats.add(cat);
+function toggleCategory(catName) {
+    if (collapsedCats.has(catName)) collapsedCats.delete(catName);
+    else collapsedCats.add(catName);
     renderItems();
 }
 
-function updateUI() {
-    const max = calculateMaxPoints();
-    let used = 0;
-    Object.values(userStats).forEach(v => used += v);
-    
-    document.getElementById('max-pts').innerText = max;
-    document.getElementById('used-pts').innerText = used;
-    document.getElementById('used-pts').style.color = used > max ? "#ff4444" : "#fff";
-    
-    renderItems();
-    const list = document.getElementById('selection-list');
-    list.innerHTML = "";
-    if (selectedTalents.size) {
-        list.innerHTML += `<div class="selection-header">Talents</div>`;
-        selectedTalents.forEach(t => list.innerHTML += `<div class="selection-item">${t}</div>`);
-    }
-    if (selectedMantras.size) {
-        list.innerHTML += `<div class="selection-header">Mantras</div>`;
-        selectedMantras.forEach(m => list.innerHTML += `<div class="selection-item">${m}</div>`);
+function renderItems() {
+    const container = document.getElementById('item-container');
+    if (currentTab === 'calc') { renderCalculator(); return; }
+
+    const search = document.getElementById('search-input').value.toLowerCase();
+    const showMet = document.getElementById('filter-reqs').checked;
+    const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
+    const selectedSet = currentTab === 'talents' ? selectedTalents : selectedMantras;
+
+    container.innerHTML = "";
+
+    for (let cat in dataSet) {
+        const isCollapsed = collapsedCats.has(cat);
+        let hasItems = false;
+        let catHtml = `<div class="category-block ${isCollapsed ? 'collapsed' : ''}">
+                        <div class="category-title" onclick="toggleCategory('${cat}')">${cat}</div>
+                        <div class="grid">`;
+
+        dataSet[cat].forEach((item, idx) => {
+            let met = checkReqs(item.req);
+            if (showMet && !met) return;
+
+            if (item.name.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search)) {
+                hasItems = true;
+                let safeId = cat.replace(/\s/g, '') + idx;
+                
+                // FIX: Map internal keys to clean display names
+                let reqFormatted = Object.entries(item.req).map(([k, v]) => {
+                    let label = k;
+                    if (k === "OR_Weapon") label = "Any Weapon";
+                    if (k === "Weapon") label = "Any Weapon";
+                    return `${label}: ${v}`;
+                }).join(", ");
+
+                catHtml += `
+                    <div class="card ${met ? '' : 'locked'} ${selectedSet.has(item.name) ? 'selected' : ''}" 
+                         onclick="toggleItem('${item.name}', ${met})">
+                        <h3>${item.name}</h3>
+                        <p>${item.desc}</p>
+                        <hr>
+                        <span class="req-text"><span style="color:#fff">Req:</span> ${reqFormatted || 'None'}</span>
+                        ${item.gif ? `
+                            <button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Preview</button>
+                            <div class="gif-container" id="gif-${safeId}"><img src="${item.gif}" loading="lazy"></div>
+                        ` : ''}
+                    </div>`;
+            }
+        });
+        catHtml += `</div></div>`;
+        if (hasItems) container.innerHTML += catHtml;
     }
 }
 
+
+function renderCalculator() {
+    let html = `<div class="calc-wrapper"><div class="calc-row" style="border-bottom:2px solid #000; justify-content:center;">Modifiers</div>`;
+    calcData.dmg.forEach((b, i) => {
+        html += `<div class="calc-row"><label for="d${i}">${b.n} <span>${b.v}% DMG</span></label><input type="checkbox" id="d${i}" ${activeBuffs.has('d'+i)?'checked':''} onchange="toggleBuff('d${i}')"></div>`;
+    });
+    html += `<div class="calc-row" style="margin-top:20px; border-bottom:2px solid #000; justify-content:center;">Penetration</div>`;
+    calcData.pen.forEach((b, i) => {
+        html += `<div class="calc-row"><label for="p${i}">${b.n} <span>${b.v}% PEN</span></label><input type="checkbox" id="p${i}" ${activeBuffs.has('p'+i)?'checked':''} onchange="toggleBuff('p${i}')"></div>`;
+    });
+
+    let wPct = 0, mPct = 0, pen = 0;
+    activeBuffs.forEach(key => {
+        let idx = parseInt(key.slice(1));
+        if(key[0]==='d') {
+            let b = calcData.dmg[idx];
+            if(b.cat.includes('UB') || b.cat.includes('WB')) wPct += b.v;
+            if(b.cat.includes('UB') || b.cat.includes('MB')) mPct += b.v;
+        } else pen += calcData.pen[idx].v;
+    });
+
+    const cap = (p) => {
+        let m = 1 + (p/100);
+        if(m > 1.25) m = 1.25 + (m-1.25)/2;
+        return Math.min(1.5, m).toFixed(3);
+    };
+
+    html += `<div class="calc-result-box">
+        <strong>Weapon Multiplier:</strong> ${cap(wPct)}x<br>
+        <strong>Mantra Multiplier:</strong> ${cap(mPct)}x<br>
+        <strong>Total Penetration:</strong> ${pen}%
+    </div></div>`;
+    document.getElementById('item-container').innerHTML = html;
+}
+
+// Utils
+function checkReqs(reqObj) {
+    for (let r in reqObj) {
+        if (r === "OR_Weapon") {
+            // Check if ANY of the three weapon types meet the requirement
+            if (userStats["Light Weapon"] < reqObj[r] && 
+                userStats["Medium Weapon"] < reqObj[r] && 
+                userStats["Heavy Weapon"] < reqObj[r]) return false;
+        } else if ((userStats[r] || 0) < reqObj[r]) {
+            return false;
+        }
+    }
+    return true;
+}
+function switchTab(t) { currentTab = t; ['talents','mantras','calc'].forEach(id => document.getElementById('tab-'+id).classList.toggle('active', id===t)); document.getElementById('search-bar').style.display = t==='calc'?'none':'block'; updateUI(); }
+function toggleBuff(id) { activeBuffs.has(id) ? activeBuffs.delete(id) : activeBuffs.add(id); renderCalculator(); }
+function toggleGif(id, e) { e.stopPropagation(); const el = document.getElementById('gif-'+id); el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
 function saveBuild() {
-    const code = btoa(JSON.stringify({s: userStats, t: Array.from(selectedTalents), m: Array.from(selectedMantras)}));
-    prompt("Copy Build Code:", code);
+    let minS = {}; for(let k in userStats) if(userStats[k]>0) minS[k]=userStats[k];
+    const data = { s: minS, t: Array.from(selectedTalents).map(n => talentMap.indexOf(n)).map(i => i.toString(36)), m: Array.from(selectedMantras).map(n => mantraMap.indexOf(n)).map(i => i.toString(36)) };
+    const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
+    const code = `${statsPart}_${data.t.join('-')}_${data.m.join('-')}`;
+    const url = window.location.origin + window.location.pathname + '?b=' + code;
+    navigator.clipboard.writeText(url).then(() => alert("Hyper-Short link copied!"));
+}
+function clearBuild() { if(confirm("Clear build?")) window.location.href = window.location.pathname; }
+function toggleSidebar(side) {
+    const b = document.body;
+    const isOpening = !b.classList.contains('sidebar-open-' + side);
+
+    // Close any currently open sidebar first
+    b.classList.remove('sidebar-open-left', 'sidebar-open-right');
+
+    if (isOpening) {
+        b.classList.add('sidebar-open-' + side);
+        b.style.overflow = 'hidden'; // Stop background scroll while menu is open
+    } else {
+        b.style.overflow = ''; // Restore scroll
+    }
 }
 
-function loadBuild() {
-    const code = prompt("Paste Build Code:");
-    if (!code) return;
-    try {
-        const d = JSON.parse(atob(code));
-        userStats = d.s;
-        selectedTalents = new Set(d.t);
-        selectedMantras = new Set(d.m);
-        for(let s in userStats) if(document.getElementById('in-'+s)) document.getElementById('in-'+s).value = userStats[s];
-        updateUI();
-    } catch(e) { alert("Invalid build code!"); }
+function closeSidebars() {
+    document.body.classList.remove('sidebar-open-left', 'sidebar-open-right');
+    document.body.style.overflow = ''; // Restore scroll
 }
+function closeSidebars() { document.body.classList.remove('sidebar-open-left', 'sidebar-open-right'); }
 
 window.onload = init;
 </script>
 </body>
 </html>
-
