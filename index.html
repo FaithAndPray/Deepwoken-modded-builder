@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Deepwoken Modded Builder - Mantras & GIFs</title>
+    <title>Deepwoken Modded Builder - Fixed Logic & Design</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -12,6 +12,8 @@
             --parchment: #d8d7ca;
             --parchment-text: #1a1a1a;
             --gold: #c2a35d;
+            --border-path: url('border.png'); /* Ensure this file exists in your directory */
+            --border-slice: 10;
         }
 
         * { box-sizing: border-box; }
@@ -25,10 +27,13 @@
             border-right: 2px solid #2f2f35; padding: 20px; overflow-y: auto; 
         }
         
+        /* Sidebar Right with restored Border */
         #sidebar-right {
             width: 340px; min-width: 340px; background: var(--parchment);
             color: var(--parchment-text); margin: 15px; display: flex; flex-direction: column;
-            border: 8px solid #222;
+            border: 12px solid transparent; 
+            border-image: var(--border-path) var(--border-slice) repeat;
+            image-rendering: pixelated;
         }
 
         #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
@@ -56,24 +61,25 @@
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; padding: 5px; }
 
-        /* Card UI Update to match image */
+        /* Card design matching reference image */
         .card {
             background: var(--card-bg);
             padding: 15px;
             cursor: pointer;
-            border: 2px solid #fff;
-            border-style: dotted; /* Mimics the pixelated/dotted border in image */
+            border: 8px solid transparent; 
+            border-image: var(--border-path) var(--border-slice) repeat;
+            image-rendering: pixelated;
             position: relative;
-            transition: background 0.2s;
+            transition: 0.1s;
         }
-        .card:hover { background: #141d18; }
+        .card:hover { transform: translateY(-2px); background: #141d18; }
         .card.locked { opacity: 0.5; filter: grayscale(0.8); cursor: not-allowed; }
-        .card.selected { border-color: var(--gold); background: rgba(194, 163, 93, 0.1); }
+        .card.selected { border-image-source: url('border_gold.png'); background: rgba(194, 163, 93, 0.05); }
 
-        .card h3 { margin: 0 0 8px 0; font-size: 1.2rem; font-weight: 700; color: #e0e0e0; }
-        .card p { margin: 0 0 12px 0; font-size: 0.95rem; color: #bbb; line-height: 1.4; }
+        .card h3 { margin: 0 0 5px 0; font-size: 1.2rem; font-weight: 700; color: #e0e0e0; }
+        .card p { margin: 0; font-size: 0.95rem; color: #bbb; line-height: 1.4; }
         
-        .card hr { border: 0; border-top: 1px solid #333; margin: 12px 0; }
+        .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0; }
 
         .req-text {
             color: var(--gold); 
@@ -81,13 +87,11 @@
             font-weight: 700;
         }
 
-        /* GIF Styling */
+        /* Embedded GIFs */
         .gif-container {
             margin-top: 10px;
             display: none;
             width: 100%;
-            border-radius: 4px;
-            overflow: hidden;
             border: 1px solid #333;
         }
         .gif-container img { width: 100%; display: block; }
@@ -103,14 +107,14 @@
         }
 
         input[type="number"], input[type="text"] {
-            background: #000; border: 1px solid #444; color: #fff; padding: 6px;
+            background: #000; border: 1px solid #444; color: #fff; padding: 6px; width: 60px;
         }
 
         .stat-row { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center; }
         .selection-item { border-bottom: 1px dashed rgba(0,0,0,0.1); padding: 5px; font-size: 0.9rem; }
-        .selection-header { font-weight: bold; font-size: 1rem; margin-top: 15px; border-bottom: 2px solid #000; }
+        .selection-header { font-weight: bold; font-size: 1rem; margin-top: 15px; border-bottom: 2px solid #000; padding: 5px; }
 
-        #splash-text { color: #ffcc00; font-size: 0.65rem; font-weight: bold; text-align: center; }
+        #splash-text { color: #ffcc00; font-size: 0.65rem; font-weight: bold; text-align: center; font-style: italic; }
     </style>
 </head>
 <body>
@@ -121,15 +125,15 @@
         <span id="used-pts">0</span> / <span id="max-pts">410</span>
     </div>
 
-    <div id="splash-text" style="margin-bottom: 20px;"></div>
+    <div id="splash-text" style="margin-bottom: 20px; min-height: 30px;"></div>
 
     <div id="core-inputs"></div>
     <div style="margin-top:20px" id="att-inputs"></div>
 
     <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px;">
-        <button class="action-btn" onclick="saveBuild()">Save</button>
-        <button class="action-btn" onclick="loadBuild()">Load</button>
-        <button class="action-btn" style="color:#ff4444" onclick="clearBuild()">Clear</button>
+        <button class="action-btn" onclick="saveBuild()">Save Code</button>
+        <button class="action-btn" onclick="loadBuild()">Load Code</button>
+        <button class="action-btn" style="color:#ff4444" onclick="clearBuild()">Clear Build</button>
     </div>
 </div>
 
@@ -155,7 +159,19 @@
 </div>
 
 <script>
-// Logic and data embedded below
+// Point Calculation Logic Fixed
+// 0 atts = 410, 1 att = 420, 2 atts = 425, 3 atts = 430...
+function calculateMaxPoints() {
+    let count = 0;
+    gameData.attunements.forEach(a => {
+        if (userStats[a] > 0) count++;
+    });
+    
+    if (count === 0) return 410;
+    if (count === 1) return 420;
+    return 420 + (count - 1) * 5;
+}
+
 const gameData = {
     attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
     attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
@@ -188,7 +204,7 @@ const gameData = {
         "Ironsing": [{ "name": "Decay Path: Oxidize", "desc": "Metal attacks store damage released 7.5s later.", "req": { "Ironsing": 50 } },{ "name": "Decaying Posture", "desc": "Deal more damage to opponents with more posture than you.", "req": { "Ironsing": 75, "Path": "Decay" } },{ "name": "Tetanus", "desc": "Hitting with 5+ rods negates healing based on damage and slows.", "req": { "Ironsing": 80, "Path": "Decay" } },{ "name": "Laced Blade", "desc": "Light attacks on targets with tetanus apply poison.", "req": { "Ironsing": 90, "Path": "Decay" } },{ "name": "Oxidizing Blitz", "desc": "Mantras apply DoT to Health/Blood. Tetanus redirects 20% of healing to you.", "req": { "Ironsing": 100, "Path": "Decay" } },{ "name": "Gilded Path: Scrapsinger", "desc": "Flourish consumes rods to siphon enemy armor to you.", "req": { "Ironsing": 35 } },{ "name": "Artisan's Blade", "desc": "Forges metal blades that fire upon landing metal-infused attacks.", "req": { "Ironsing": 45, "Path": "Gilded" } },{ "name": "Refine and Reuse", "desc": "Consuming rods reduces incoming PEN multiplicatively.", "req": { "Ironsing": 45, "Path": "Gilded" } },{ "name": "Songs Unforged", "desc": "Weapon criticals activate Scrapsinger.", "req": { "Ironsing": 50, "Path": "Gilded" } },{ "name": "Masterwork", "desc": "Artisan’s Blades proc metal rods and deal 50% more damage.", "req": { "Ironsing": 60, "Path": "Gilded" } },{ "name": "Reshape and Remold", "desc": "Scrapsinger procs increase opponent armor damage taken.", "req": { "Ironsing": 70, "Path": "Gilded" } },{ "name": "Thornmail", "desc": "Getting flourished applies a metal rod to the attacker.", "req": { "Ironsing": 45 } },{ "name": "Metal Thief", "desc": "Pulling an opponent absorbs a portion of their armor durability.", "req": { "Ironsing": 50 } },{ "name": "Piercing Metal", "desc": "Deal additional armor damage per rod affecting the enemy.", "req": { "Ironsing": 60 } },{ "name": "Exposed Durability", "desc": "10% more damage to opponents with no armor durability.", "req": { "Ironsing": 60 } },{ "name": "Oh The Irony", "desc": "Taunted opponents receive double iron rods.", "req": { "Ironsing": 60, "Charisma": 45 } },{ "name": "An Ironsinger's Instinct", "desc": "Dodging coats you in metal, reducing damage of next hit. (18s CD)", "req": { "Ironsing": 75 } },{ "name": "Phantom Edge", "desc": "Basic attacks have +0.25 range.", "req": { "Ironsing": 75 } },{ "name": "Polished Armor", "desc": "Receive 5-10% less damage when armor is above 90% durability.", "req": { "Ironsing": 75 } },{ "name": "Metal Eater", "desc": "Consume armor durability to cast mantras when ether is empty.", "req": { "Ironsing": 80 } },{ "name": "Alloyblood", "desc": "Bleed damage reduced by 30%; blood loss reduced by 75%.", "req": { "Ironsing": 100 } },{ "name": "Rending Needle: Conductor", "desc": "Reflect non-ironsing mantra element if target has 5+ rods.", "req": { "Ironsing": 75 } },{ "name": "Rending Needle: Jailer", "desc": "Restrain enemy instead of pulling if they have 5+ rods.", "req": { "Ironsing": 75 } },{ "name": "Rending Needle: Impaler", "desc": "Pull rods out for damage if enemy has 5+ rods.", "req": { "Ironsing": 75 } }],
         "Bloodrend": [{ "name": "Harvest Season", "desc": "Critical attacks spawn blood pools under the opponent.", "req": { "Bloodrend": 25 } },{ "name": "Not So Cheap Trick", "desc": "Chance to blind opponents with blood control.", "req": { "Bloodrend": 25 } },{ "name": "Rush Hour", "desc": "Stab yourself for DMG/Speed; lose blood/HP over time.", "req": { "Bloodrend": 50 } },{ "name": "Sow and Mend", "desc": "Sacrifice blood for temporary HP.", "req": { "Bloodrend": 60 } },{ "name": "Cyclical Exsanguination", "desc": "Pause Temp HP decay on hit; reduces enemy posture regain from parries.", "req": { "Bloodrend": 65 } },{ "name": "Smell of Blood", "desc": "See enemy blood/poison when they touch pools or are block broken.", "req": { "Bloodrend": 65 } },{ "name": "Sucker Strike", "desc": "Landing a critical while inside a blood pool increases DMG.", "req": { "Bloodrend": 80 } },{ "name": "Gruesome Harvest", "desc": "Landing attacks on heavily poisoned enemies gives Temp HP.", "req": { "Bloodrend": 85 } },{ "name": "Hemorrhaging Blow", "desc": "Block breaking with a mantra turns enemy healing into damage for 8s.", "req": { "Bloodrend": 95 } },{ "name": "Simple Manipulation: Unstable Blood", "desc": "Attacks spawn pools and cause heavy bleeding.", "req": { "Bloodrend": 50 } },{ "name": "Peaking Control", "desc": "Chance for blood pool eruptions to explode.", "req": { "Bloodrend": 75, "Path": "Simple" } },{ "name": "Piercing Totality", "desc": "Explosions affect everyone in range with increased PEN.", "req": { "Bloodrend": 100, "Path": "Simple" } },{ "name": "Manipulation Path: Agile Misery", "desc": "Speed increased; agility mantras empowered with blood.", "req": { "Bloodrend": 50 } },{ "name": "Rushing Demise", "desc": "Spawning pools grants a blood trail that empowers dashes.", "req": { "Bloodrend": 75, "Path": "Agile" } },{ "name": "Protective Offense", "desc": "Spawn protective crosses on blood pool creation for defense.", "req": { "Bloodrend": 100, "Path": "Agile" } },{ "name": "Manipulation Path: Spirit Lantern", "desc": "Attacks poison instead of spawning pools; increased blood regen.", "req": { "Bloodrend": 50 } },{ "name": "Venomous Chain", "desc": "Poison bypasses resistance and deals 2% true damage on chain hits.", "req": { "Bloodrend": 75, "Path": "Lantern" } },{ "name": "Heavy Disease", "desc": "Venomous Chain now also summons a blood pool.", "req": { "Bloodrend": 100, "Path": "Lantern" } }],
         "Earthbend": [{ "name": "Bastion Path: Reinforce", "desc": "Stand still for 3s to harden skin and reduce incoming damage by 20%.", "req": { "Earthbend": 50, "Fortitude": 25 } },{ "name": "Immovable Fortress", "desc": "Bastion only requires 2s; immune to ragdoll while active.", "req": { "Earthbend": 70, "Fortitude": 30 } },{ "name": "Kinetic Buffer", "desc": "Store damage while in Bastion to buff next Earth or Light attack.", "req": { "Earthbend": 70, "Fortitude": 40 } },{ "name": "Reactive Plates", "desc": "Erupt rock shards when hit during active Bastion. (20s CD)", "req": { "Earthbend": 75, "Fortitude": 50 } },{ "name": "Battlefield Strategist", "desc": "Long-range attacks spawn spikes; short-range spawn walls. (20s CD)", "req": { "Earthbend": 40 } },{ "name": "Natural Disaster", "desc": "Apply Concussion on 3 hits, blinding and hiding enemy HP bar.", "req": { "Earthbend": 50 } },{ "name": "Force of Nature", "desc": "Enemies hitting walls are dazed for longer.", "req": { "Earthbend": 50 } },{ "name": "Momento Mori", "desc": "Going insane increases Earthbend destruction AoE.", "req": { "Earthbend": 50, "Willpower": 20 } },{ "name": "Annihilator", "desc": "Attacks cause bone destruction, slowing opponents.", "req": { "Earthbend": 50, "Strength": 50 } },{ "name": "Vengeful Chase", "desc": "Enemies flourished into walls are struck by Earth Spikes.", "req": { "Earthbend": 70 } },{ "name": "Impermeable", "desc": "Close-range mantras coat you in dust, reducing blood loss.", "req": { "Earthbend": 80 } },{ "name": "Solidifier", "desc": "Elemental hits grant resistance to further elemental damage for 10s.", "req": { "Earthbend": 100 } }],
-        "Multi-Elemental": [{ "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },{ "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 1, "Frostdraw": 40, "Talent": "Haunted Gale" } },{ "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },{ "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },{ "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 1, "Frostdraw": 1, "Path": "Eruption/Glass" } },{ "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },{ "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } }]
+        "Multi-Elemental": [{ "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },{ "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 1, "Frostdraw": 40, "Talent": "Haunted Gale" } },{ "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },{ "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },{ "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 1, "Frostdraw": 1, "Path": "Eruption/Glass" } },{ "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },{ "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } },{"name": "Chorus of Souls", "desc": "Alone, the wisp lack a voice. but surrounded by so many, The frequencies overlap and you hear it true. (NEEDS OATHLESS TO WORK)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}},{"name": "Wisp Convergence", "desc": " When empowered by the Chorus, your Wisps now grant their elements to your strikes. (Oathless, All Wisps, Chorus of Souls)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}}]
     },
     mantras: {
         "Flamecharm": [
@@ -234,7 +250,7 @@ const gameData = {
             { "name": "Gale Wisp", "desc": "Wind companion.", "req": { "Galebreathe": 30 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b6919bfa2b665955c7c92/download/Galewisp-ezgif.com-crop.gif" },
             { "name": "Wind Passage", "desc": "Teleporting wind strike.", "req": { "Galebreathe": 50 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b68551f884b58cbd51655/download/Windpassage-ezgif.com-crop.gif" },
             { "name": "Astral Wind", "desc": "top 3 mantras of all time", "req": { "Galebreathe": 50 }, "gif": "https://trello.com/1/cards/68cf8b422d1e4b6dfc7faaf7/attachments/691b686587d386959f425909/download/Astralwind-ezgif.com-crop.gif" },
-            { "name": "Talon Gale", "desc": "he tryna be rising wind but fails (dm me or ping me if u got the gif)", "req": { "Galebreathe": 50, "Agility": 20 }, "gif": "" }
+            { "name": "Talon Gale", "desc": "he tryna be rising wind but fails", "req": { "Galebreathe": 50, "Agility": 20 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263587044266085/RobloxStudioBeta_LMiiDnO9MO.gif?ex=69492d5c&is=6947dbdc&hm=1fa4883911fa600aceebb89d76033fb4f82e3de69ff4dad0786ae41f49d24998&=&width=718&height=581" }
         ],
         "Thundercall": [
             { "name": "Jolt Grab", "desc": "Electric grab attack.", "req": { "Thundercall": 1 }, "gif": "https://trello.com/1/cards/68cf8b4724b83fac7cbdf9ec/attachments/691b69e7a0a869e0e2bbb8d3/download/Joltgrab-ezgif.com-crop.gif" },
@@ -254,6 +270,7 @@ const gameData = {
             { "name": "Dark Blade", "desc": "3 shadow slashes.", "req": { "Shadowcast": 1 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b73b7daa9cc3191f21ac7/download/darkblade-ezgif.com-crop.gif" },
             { "name": "Clutching Shadow", "desc": "Grab from the abyss.(cold description ik)", "req": { "Shadowcast": 1 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b73fdcaf729a4812b9b97/download/Clutchingshadow-ezgif.com-crop.gif" },
             { "name": "Shadow Gun", "desc": "Ranged shadow shot.", "req": { "Shadowcast": 1 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b741a648277c53e238feb/download/Shadowgun-ezgif.com-crop.gif" },
+            { "name": "shadoww gun (blast spark)", "desc": "ceros.", "req": { "Shadowcast": 1 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264472876945623/RobloxStudioBeta_YpGxwdg0W0.gif?ex=69492e30&is=6947dcb0&hm=91184210793bbef4e3183f9bde0f783c8fcc9e4a27a80907754c74af524c266c&=&width=644&height=530" },
             { "name": "Shadow Eruption", "desc": "Blast of shadow infused in your blade.", "req": { "Shadowcast": 20 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b748a8b2becfe84cd8ebb/download/Shadoweruption-ezgif.com-crop.gif" },
             { "name": "Shadow Seekers", "desc": "Homing shadow orbs.", "req": { "Shadowcast": 20 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74adf39873020a782b60/download/Shadowseekers-ezgif.com-crop.gif" },
             { "name": "Shadow Flux", "desc": "Surrounding aura of darkness.", "req": { "Shadowcast": 20 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74d8ecb525ad102126f6/download/shadowflux-ezgif.com-crop.gif" },
@@ -262,7 +279,9 @@ const gameData = {
             { "name": "Rising Shadow (Base)", "desc": "rising flame enemy.", "req": { "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b744b06a079f6bd42f480/download/Risingshadow-ezgif.com-crop.gif" },
             { "name": "Rising Shadow (Blast Spark)", "desc": "Keeps targets stuck on ground, steals ether.", "req": { "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/6929cc4a4e16d041898da6c7/download/risingshadowblastspark-ezgif.com-crop.gif" },
             { "name": "Eclipse Kick", "desc": "Brutal shadow kick.", "req": { "Shadowcast": 50, "Strength": 30 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b753137b96f5a213c227a/download/Eclipse_Kick-ezgif.com-optimize.gif" },
-            { "name": "Shade Bringer", "desc": "Massive shadow slash.", "req": { "Shadowcast": 50 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74f91d950922f160376e/download/shadebringer-ezgif.com-crop.gif" }
+            { "name": "Shade Bringer", "desc": "Massive shadow slash.", "req": { "Shadowcast": 50 }, "gif": "https://trello.com/1/cards/68cf8a04ee0c7285c803c03a/attachments/691b74f91d950922f160376e/download/shadebringer-ezgif.com-crop.gif" },
+            { "name": "shadow meteors", "desc": "3 shadow meteors.", "req": { "Shadowcast": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263696108749002/RobloxStudioBeta_3bLvt6kYSn.gif?ex=69492d76&is=6947dbf6&hm=f878ddd667b1cabb2dd82b2a2391b2bd68bb60d291ad554ac79217f847919ae5&=&width=820&height=571" },
+            { "name": "umbral slash", "desc": "Very basic shadow-infused slash", "req": { "Shadowcast": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263808042012733/RobloxStudioBeta_zZcfYb1rAR.gif?ex=69492d91&is=6947dc11&hm=d59004d8f24af7134a8ae3ca5a7c15dd646521cabef33b9593ac57b5f622c49b&=&width=716&height=560" },
         ],
         "Ironsing": [
             { "name": "Metal Slash", "desc": "Basic iron slashes.", "req": { "Ironsing": 1 }, "gif": "https://trello.com/1/cards/68cf8b4b09f2fd31e820ec1a/attachments/691b762ae39b6fef749afca9/download/Metal_Slash-ezgif.com-video-to-gif-converter.gif" },
@@ -283,7 +302,9 @@ const gameData = {
             { "name": "Blood Orb", "desc": "Multiplying Spark available. dm me or ping me if u got the gif", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b78f70cca666299feab00/download/bloodorb-ezgif.com-crop.gif" },
             { "name": "Blood Beam", "desc": "choso aba move.", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7914b5c4c36300631619/download/bloodbeam-ezgif.com-crop.gif" },
             { "name": "Blood Explosion", "desc": "dont use this shit.", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b7931004fd802aa749121/download/bloodexplosion-ezgif.com-crop.gif" },
-            { "name": "Scarlet Cyclone", "desc": "Multiplying/Reversal sparks available. dm me or ping me if u got the gif", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b794eeafb369e33db0522/download/scarletcyclone-ezgif.com-crop.gif" },
+            { "name": "Scarlet Cyclone", "desc": "blood tornado", "req": { "Bloodrend": 1 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b794eeafb369e33db0522/download/scarletcyclone-ezgif.com-crop.gif" },
+            { "name": "multiplying spark scarlet cyclone", "desc": "3 tornados instead of one!.", "req": { "Bloodrend": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264071184257198/RobloxStudioBeta_tv0Vpqqk4p.gif?ex=69492dd0&is=6947dc50&hm=06233d5060a8d8a0e3e850a4b5d38c30ac3a90337d04ee663580fcb3dee8146a&=&width=646&height=576" },
+            { "name": "reversal spark scarlet cyclone", "desc": "the tornado noww comes back to you", "req": { "Bloodrend": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264295864733736/RobloxStudioBeta_U0vJuPcBDz.gif?ex=69492e05&is=6947dc85&hm=ff6820651bdf80f856670c55ce6833e8cf3fc80aaeb51632c930f9fa86f4d7a6&=&width=493&height=514" },
             { "name": "Bloodedge", "desc": "Blade of hardened blood. Works like gale lunge", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b796a69f256eaca966789/download/bloodedge-ezgif.com-crop.gif" },
             { "name": "Vicious Descent", "desc": "Dropping strike from above.", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b798a347720f0882b8b81/download/visciousdescent-ezgif.com-crop.gif" },
             { "name": "Exorcism", "desc": "Purging blood blast.", "req": { "Bloodrend": 20 }, "gif": "https://trello.com/1/cards/68cf8b5295fc8b6a1568616b/attachments/691b799b81a2973c71abcfe3/download/exorcism-ezgif.com-crop.gif" },
@@ -303,13 +324,13 @@ const gameData = {
             { "name": "Rocker Punch", "desc": "Earth-infused punch.", "req": { "Earthbend": 30 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7cb85caa0547a2614c6a/download/rockerpunch-ezgif.com-crop.gif" },
             { "name": "Elbow Strike", "desc": "Ex-strike ripoff.", "req": { "Earthbend": 30 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7cd06e4e9603f7dc5416/download/elbowstrike-ezgif.com-crop.gif" },
             { "name": "Compress", "desc": "gb ppl with two walls", "req": { "Earthbend": 50 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7cc9ce5d51236520103e/download/compress-ezgif.com-crop.gif" },
-            { "name": "Rock Flow", "desc": "Moving earth wave. works like gale lunge", "req": { "Earthbend": 50 }, "gif": "" },
-            { "name": "Hard Impact", "desc": "battleground ahhh mantra", "req": { "Earthbend": 50 }, "gif": "" },
-            { "name": "Formation", "desc": "Create homing pillars that deals too much dmg", "req": { "Earthbend": 50 }, "gif": "" }
+            { "name": "Rock Flow", "desc": "Moving earth wave. works like gale lunge", "req": { "Earthbend": 50 }, "gif": "https://trello.com/1/cards/68cf8b4ef926bc1f78ef0cde/attachments/691b7ceba2334ac1b9b2cd13/download/rockflow-ezgif.com-crop.gif" },
+            { "name": "Hard Impact", "desc": "battleground ahhh mantra", "req": { "Earthbend": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263290771083264/RobloxStudioBeta_Ab7RrgY3nl.gif?ex=69492d16&is=6947db96&hm=13d8682c223f03e0c11dd220eec2512730a8b2ee2acb76fbddffe3aa1e078f99&=&width=433&height=411" },
+            { "name": "Formation", "desc": "Create homing pillars that deals too much dmg", "req": { "Earthbend": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452263430005325846/RobloxStudioBeta_cVjDBUl7mx.gif?ex=69492d37&is=6947dbb7&hm=88b986bd85b42e43e29050bd20b08c22013d29212acbd58f71b0d76eccd52464&=&width=356&height=515" }
         ],
         "Hybrid Mantras": [
             { "name": "Vivisect", "desc": "Blood and shadow fusion.", "req": { "Bloodrend": 50, "Shadowcast": 30 }, "gif": "https://trello.com/1/cards/691b7d11431876c5b273c5db/attachments/691b7d221275122b130e9b4d/download/vivisect-ezgif.com-crop.gif" },
-            { "name": "Soul Beam", "desc": "Requires Oathless. Fusion of all elements.", "req": { "Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30 }, "gif": "" }
+            { "name": "Soul Beam", "desc": "Requires Oathless. Fusion of all elements.", "req": { "Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1452264665038983168/RobloxStudioBeta_RogMqjruF7.gif?ex=69492e5d&is=6947dcdd&hm=becd7b4f0d3c40e768f338dd09427ffb2c80864575d911a7d2fba84723714b16&=&width=429&height=500" }
         ],
         "Attunementless": [
             { "name": "Breeze Blitz", "desc": "Extends with that one Talent.", "req": { "Light Weapon": 40 }, "gif": "https://trello.com/1/cards/690e78bd709c72616adb9145/attachments/691b7fb66ed634af015422ae/download/breezeextend-ezgif.com-crop.gif" },
@@ -338,6 +359,7 @@ const gameData = {
         ]
     }
 };
+
 let userStats = {};
 let selectedTalents = new Set();
 let selectedMantras = new Set();
@@ -345,7 +367,7 @@ let collapsedCats = new Set();
 let currentTab = 'talents';
 
 function init() {
-    const splashes = ["hold it, this guy is cooking", "all this time spent on making a build just for a gale user to flawless you", "time for a shower twin"];
+    const splashes = ["hold it, this guy is cooking", "please dont go for more than 80 will", "time for a shower twin"];
     document.getElementById('splash-text').innerText = splashes[Math.floor(Math.random() * splashes.length)];
 
     const core = document.getElementById('core-inputs');
@@ -415,7 +437,7 @@ function renderItems() {
                         <h3>${t.name}</h3>
                         <p>${t.desc}</p>
                         <hr>
-                        <div class="req-text">Req: ${Object.entries(t.req).length ? Object.entries(t.req).map(([s,v]) => s==="OR_Weapon"?"Any Weapon":s).join(": ") + ": " + Object.values(t.req)[0] : "None"}</div>
+                        <div class="req-text">Req: ${Object.entries(t.req).length ? formatReqs(t.req) : "None"}</div>
                         ${t.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Toggle Preview</button>
                                    <div class="gif-container" id="gif-${safeId}"><img src="${t.gif}" loading="lazy"></div>` : ''}
                     </div>`;
@@ -425,6 +447,10 @@ function renderItems() {
         catHtml += `</div></div>`;
         if (hasVisible) container.innerHTML += catHtml;
     }
+}
+
+function formatReqs(reqObj) {
+    return Object.entries(reqObj).map(([s, v]) => (s === "OR_Weapon" ? "Any Weapon" : s) + ": " + v).join(", ");
 }
 
 function toggleItem(name, met) {
@@ -440,11 +466,13 @@ function toggleCategory(cat) {
 }
 
 function updateUI() {
-    const max = 410; // Simple logic
+    const max = calculateMaxPoints();
     let used = 0;
     Object.values(userStats).forEach(v => used += v);
-    document.getElementById('max-pts').innerText = used > 410 ? "410+" : "410";
+    
+    document.getElementById('max-pts').innerText = max;
     document.getElementById('used-pts').innerText = used;
+    document.getElementById('used-pts').style.color = used > max ? "#ff4444" : "#fff";
     
     renderItems();
     const list = document.getElementById('selection-list');
@@ -467,12 +495,14 @@ function saveBuild() {
 function loadBuild() {
     const code = prompt("Paste Build Code:");
     if (!code) return;
-    const d = JSON.parse(atob(code));
-    userStats = d.s;
-    selectedTalents = new Set(d.t);
-    selectedMantras = new Set(d.m);
-    for(let s in userStats) if(document.getElementById('in-'+s)) document.getElementById('in-'+s).value = userStats[s];
-    updateUI();
+    try {
+        const d = JSON.parse(atob(code));
+        userStats = d.s;
+        selectedTalents = new Set(d.t);
+        selectedMantras = new Set(d.m);
+        for(let s in userStats) if(document.getElementById('in-'+s)) document.getElementById('in-'+s).value = userStats[s];
+        updateUI();
+    } catch(e) { alert("Invalid build code!"); }
 }
 
 window.onload = init;
