@@ -3,19 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepwoken Modded builder by taxes/faithandpray</title>
+    <title>Deepwoken Builder Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: radial-gradient(#18221a, #04100d);
-            --sidebar-bg: #0a0a0b;
-            --card-bg: #0c120f;
-            --parchment: #d8d7ca;
-            --parchment-text: #1a1a1a;
-            --gold: #c2a35d;
-            --border-path: url('https://media.discordapp.net/attachments/1372657049485185125/1452405324723130408/border.png?ex=6949b15d&is=69485fdd&hm=ffd79f8b10f310c0c9da6d58b7241bf88afc69a16dec9569543f51f29daa4c3e&=&format=webp&quality=lossless&width=40&height=40'); 
-            --border-slice: 10;
-        }
+    --bg: radial-gradient(#18221a, #04100d);
+    --sidebar-bg: #0a0a0b;
+    --card-bg: #0c120f;
+    --parchment: #d8d7ca;
+    --parchment-text: #1a1a1a;
+    --gold: #c2a35d;
+    --accent-filter: sepia(1) saturate(15) hue-rotate(-5deg); /* Gold */
+    --border-path: url('https://media.discordapp.net/attachments/1372657049485185125/1452405324723130408/border.png?ex=6949b15d&is=69485fdd&hm=ffd79f8b10f310c0c9da6d58b7241bf88afc69a16dec9569543f51f29daa4c3e&format=webp&quality=lossless&width=40&height=40'); 
+    --border-slice: 10;
+}
+body.theme-flame {
+    --bg: radial-gradient(#2b1a10, #0f0804);
+    --sidebar-bg: #140d08;
+    --card-bg: #1a120c;
+    --gold: #ffaa44;
+    --accent-filter: saturate(15) hue-rotate(-15deg) brightness(1.1);
+}
+
+body.theme-frost {
+    --bg: radial-gradient(#101b2b, #040910);
+    --sidebar-bg: #080c14;
+    --card-bg: #0c121a;
+    --gold: #55aaff;
+    --accent-filter: saturate(15) hue-rotate(180deg) brightness(1.2); /* Cyan/Blue */
+}
+body.theme-gale {
+    --bg: radial-gradient(#102b18, #041006);
+    --sidebar-bg: #08140c;
+    --card-bg: #0c1a10;
+    --gold: #33cc66;
+    --accent-filter: saturate(10) hue-rotate(80deg);
+}
+
+/* Thundercall (Dark Yellow) */
+body.theme-thunder {
+    --bg: radial-gradient(#2b2810, #100f04);
+    --sidebar-bg: #141308;
+    --card-bg: #1a190c;
+    --gold: #ccaa00;
+    --accent-filter: saturate(20) hue-rotate(10deg);
+}
+
+body.theme-shadow {
+    --bg: radial-gradient(#1a102b, #0a0410);
+    --sidebar-bg: #0d0814;
+    --card-bg: #120c1a;
+    --gold: #aa55ff;
+    --accent-filter: saturate(10) hue-rotate(240deg); /* Purple */
+}
+/* Ironsing (Gray/Metal) */
+body.theme-iron {
+    --bg: radial-gradient(#252525, #0a0a0a);
+    --sidebar-bg: #121212;
+    --card-bg: #1a1a1a;
+    --gold: #9999aa;
+    --accent-filter: grayscale(1) brightness(1.5);
+}
+
+/* Bloodrend (Brick Red) */
+body.theme-blood {
+    --bg: radial-gradient(#2b0a0a, #100404);
+    --sidebar-bg: #140808;
+    --card-bg: #1a0c0c;
+    --gold: #b22222;
+    --accent-filter: saturate(15) hue-rotate(-45deg) brightness(0.8);
+}
+
+/* Earthbend (Brown) */
+body.theme-earth {
+    --bg: radial-gradient(#2b1d10, #100a04);
+    --sidebar-bg: #141008;
+    --card-bg: #1a140c;
+    --gold: #8b5a2b;
+    --accent-filter: saturate(5) hue-rotate(-20deg) brightness(0.7);
+}
+
 
         * { box-sizing: border-box; }
         body { 
@@ -64,7 +131,7 @@
             border: 10px solid transparent; border-image: var(--border-path) 10 round;
             background-clip: padding-box; image-rendering: pixelated; transition: 0.1s;
         }
-        .tab-btn.active { filter: sepia(1) saturate(15) hue-rotate(-5deg); }
+       .tab-btn.active { filter: var(--accent-filter); }
 
         /* Search Bar */
         .search-bar-container { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 4px; margin-bottom: 20px; border: 1px solid #333; }
@@ -156,7 +223,7 @@
 .card.locked:hover {
     transform: none;
 }
-        .card.selected { filter: sepia(1) saturate(5) hue-rotate(10deg); }
+        .card.selected { filter: var(--accent-filter) brightness(1.1); }
         .card.locked {
     opacity: 0.6; /* Increased visibility */
     filter: grayscale(0.7) contrast(0.8);
@@ -288,6 +355,20 @@ body.sidebar-open-right .overlay {
 </div>
 
 <div id="sidebar-left">
+    <div style="width: 100%; margin-bottom: 20px;">
+    <label style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;">Appearance</label>
+    <select id="theme-select" onchange="changeTheme(this.value)" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; font-family: 'Lora';">
+    <option value="default">Classic</option>
+    <option value="theme-flame">Flame</option>
+    <option value="theme-frost">Frost</option>
+    <option value="theme-gale">Gale</option>
+    <option value="theme-thunder">Thunder</option>
+    <option value="theme-shadow">Shadow</option>
+    <option value="theme-iron">Iron</option>
+    <option value="theme-blood">Blood</option>
+    <option value="theme-earth">Earth</option>
+</select>
+</div>
     <div class="investment-header">
         <h2>Investment</h2>
         <span class="pts-display">
@@ -614,6 +695,7 @@ function init() {
         } catch (e) { console.error("URL Load Error", e); }
     }
     updateUI();
+    loadSavedTheme();
 }
 
 // --- 4. LOGIC ---
@@ -851,12 +933,40 @@ function renderGuide() {
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
             <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
             
-            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"tung tung tung sahur. - vergil"</p>
+            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"with this builder, all the opps are odin din din din done!"</p>
         </div>
     `;
 }
 
 // --- 5. UI UTILITIES ---
+function changeTheme(themeName) {
+    // List of all possible theme classes to clean up
+    const themes = [
+        'theme-flame', 'theme-frost', 'theme-gale', 
+        'theme-thunder', 'theme-shadow', 'theme-iron', 
+        'theme-blood', 'theme-earth'
+    ];
+    
+    // Remove any existing theme class
+    document.body.classList.remove(...themes);
+    
+    // Add the new one if it's not default
+    if (themeName !== 'default') {
+        document.body.classList.add(themeName);
+    }
+    
+    localStorage.setItem('user-theme', themeName);
+}
+
+// Add this to your existing 'init' function or at the bottom of the script
+function loadSavedTheme() {
+    const saved = localStorage.getItem('user-theme');
+    if (saved) {
+        document.getElementById('theme-select').value = saved;
+        changeTheme(saved);
+    }
+}
+// Call loadSavedTheme() inside your init() function
 function switchTab(t) { 
     currentTab = t; 
     // Added 'guide' to the array below
