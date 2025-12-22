@@ -620,6 +620,8 @@ let collapsedCats = new Set();
 let currentTab = 'talents';
 
 // Short-link mapping setup
+const JSONBIN_KEY = '$2a$10$sLrFF.ABoJcUYrK2Ps8lxusDVHHm.E00yjgfvttWumaj34EYr61qy'; // Replace with your key
+const JSONBIN_BIN_ID = '';
 const talentList = Object.values(gameData.talents).flat();
 const mantraList = Object.values(gameData.mantras).flat();
 const talentMap = talentList.map(t => t.name);
@@ -667,37 +669,55 @@ function init() {
 
     // Parse URL
     const params = new URLSearchParams(window.location.search);
-    if (params.has('b')) {
-        try {
-            const code = params.get('b');
-            const sections = code.split('_');
-            if (sections[0]) {
-                const statsArr = sections[0].split('.');
-                allStatKeys.forEach((key, i) => {
-                    let val = parseInt(statsArr[i]) || 0;
-                    userStats[key] = val;
-                    let inputEl = document.getElementById('in-' + key);
-                    if (inputEl) inputEl.value = val;
-                });
-            }
-            if (sections[1]) {
-                sections[1].split('-').forEach(b36 => {
-                    let name = talentMap[parseInt(b36, 36)];
-                    if (name) selectedTalents.add(name);
-                });
-            }
-            if (sections[2]) {
-                sections[2].split('-').forEach(b36 => {
-                    let name = mantraMap[parseInt(b36, 36)];
-                    if (name) selectedMantras.add(name);
-                });
-            }
-        } catch (e) { console.error("URL Load Error", e); }
+    
+    // 1. Load Themes (from previous step)
+    loadSavedTheme();
+
+    // 2. Load Build (Short or Long)
+    if (params.has('id')) {
+        const binId = params.get('id');
+        fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
+            headers: { 'X-Master-Key': JSONBIN_KEY }
+        })
+        .then(res => res.json())
+        .then(data => {
+            loadBuildFromString(data.record.build);
+        })
+        .catch(err => console.error("Error loading short build:", err));
+    } 
+    else if (params.has('b')) {
+        loadBuildFromString(params.get('b'));
     }
     updateUI();
     loadSavedTheme();
 }
-
+function loadBuildFromString(code) {
+    try {
+        const sections = code.split('_');
+        if (sections[0]) {
+            const statsArr = sections[0].split('.');
+            allStatKeys.forEach((key, i) => {
+                let val = parseInt(statsArr[i]) || 0;
+                userStats[key] = val;
+                let inputEl = document.getElementById('in-' + key);
+                if (inputEl) inputEl.value = val;
+            });
+        }
+        if (sections[1]) {
+            sections[1].split('-').forEach(b36 => {
+                let name = talentMap[parseInt(b36, 36)];
+                if (name) selectedTalents.add(name);
+            });
+        }
+        if (sections[2]) {
+            sections[2].split('-').forEach(b36 => {
+                let name = mantraMap[parseInt(b36, 36)];
+                if (name) selectedMantras.add(name);
+            });
+        }
+        updateUI();
+    } catch (e) { console.error("Load Error", e); }
+}
 // --- 4. LOGIC ---
 function setStat(name, val) {
     let num = parseInt(val);
@@ -933,7 +953,7 @@ function renderGuide() {
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
             <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
             
-            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"with this builder, all the opps are odin din din din done!"</p>
+            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"tung tung tung sahur. - vergil"</p>
         </div>
     `;
 }
@@ -988,12 +1008,44 @@ function toggleSidebar(s) { document.body.classList.toggle('sidebar-open-'+s); }
 function closeSidebars() { document.body.classList.remove('sidebar-open-left', 'sidebar-open-right'); }
 function clearBuild() { if(confirm("Clear build?")) window.location.href = window.location.pathname; }
 
-function saveBuild() {
+async function saveBuild() {
+    const btn = document.querySelector('.action-btn[onclick="saveBuild()"]');
+    btn.innerText = "GENERATING...";
+    
+    // 1. Create the long data string (same as before)
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
     const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
-    const url = window.location.origin + window.location.pathname + '?b=' + `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}`;
-    navigator.clipboard.writeText(url).then(() => alert("Short link copied!"));
+    const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}`;
+
+    try {
+        // 2. Upload to JSONBin
+        const response = await fetch('https://api.jsonbin.io/v3/b', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Master-Key': JSONBIN_KEY,
+                'X-Bin-Private': false
+            },
+            body: JSON.stringify({ build: fullData })
+        });
+
+        const result = await response.json();
+        const shortId = result.metadata.id; // This is your 8-10 char ID
+
+        // 3. Create and copy the short URL
+        const url = window.location.origin + window.location.pathname + '?id=' + shortId;
+        navigator.clipboard.writeText(url).then(() => {
+            alert("Short Build Link Copied!");
+            btn.innerText = "SHARE BUILD LINK";
+        });
+    } catch (e) {
+        console.error(e);
+        alert("Failed to generate short link. Using long link instead.");
+        // Fallback to long link if API fails
+        const url = window.location.origin + window.location.pathname + '?b=' + fullData;
+        navigator.clipboard.writeText(url);
+    }
 }
 
 window.onload = init;
