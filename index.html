@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deepwoken modded builder by taxes/faithandpray</title>
+    <title>Deepwoken Modded builder by taxes/faithandpray</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -290,7 +290,11 @@ body.sidebar-open-right .overlay {
 <div id="sidebar-left">
     <div class="investment-header">
         <h2>Investment</h2>
-        <span class="pts-display"><span id="used-pts">0</span> / <span id="max-pts">410</span></span>
+        <span class="pts-display">
+            <div style="font-size: 0.9rem; margin-top: 5px; color: var(--gold);">
+    Talents: <span id="talent-count">0</span> / 80
+</div>
+<span id="used-pts">0</span> / <span id="max-pts">410</span></span>
         <div id="splash-text"></div>
     </div>
     
@@ -309,6 +313,7 @@ body.sidebar-open-right .overlay {
         <div class="tab-btn active" id="tab-talents" onclick="switchTab('talents')">Talents</div>
         <div class="tab-btn" id="tab-mantras" onclick="switchTab('mantras')">Mantras</div>
         <div class="tab-btn" id="tab-calc" onclick="switchTab('calc')">Dmg & Pen</div>
+        <div class="tab-btn" id="tab-guide" onclick="switchTab('guide')">Guide</div>
     </div>
 
     <div id="search-bar" class="search-bar-container">
@@ -328,6 +333,7 @@ body.sidebar-open-right .overlay {
 
 <script>
 // --- 1. THE COMPLETE GAME DATA ---
+
 const gameData = {
     attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
     attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
@@ -538,6 +544,13 @@ const mantraList = Object.values(gameData.mantras).flat();
 const talentMap = talentList.map(t => t.name);
 const mantraMap = mantraList.map(m => m.name);
 const allStatKeys = [...gameData.attributes, ...gameData.attunements];
+const statShorthand = {
+    "str": "Strength", "fort": "Fortitude", "agi": "Agility", "int": "Intelligence", 
+    "will": "Willpower", "cha": "Charisma", "pre": "Precision", "light": "Light Weapon", 
+    "med": "Medium Weapon", "heavy": "Heavy Weapon", "flame": "Flamecharm", 
+    "frost": "Frostdraw", "thunder": "Thundercall", "shadow": "Shadowcast", 
+    "gale": "Galebreathe", "iron": "Ironsing", "blood": "Bloodrend", "earth": "Earthbend"
+};
 
 const mutualExclusions = [
     ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
@@ -629,17 +642,23 @@ function updateUI() {
 
     const maxPtsEl = document.getElementById('max-pts');
     const usedPtsEl = document.getElementById('used-pts');
+    const talentCountEl = document.getElementById('talent-count');
+
     if(maxPtsEl) maxPtsEl.innerText = max;
     if(usedPtsEl) {
         usedPtsEl.innerText = used;
         usedPtsEl.style.color = used > max ? "#ff4444" : "#fff";
+    }
+    if(talentCountEl) {
+        talentCountEl.innerText = selectedTalents.size;
+        talentCountEl.style.color = selectedTalents.size >= 80 ? "#ff4444" : "var(--gold)";
     }
 
     const list = document.getElementById('selection-list');
     if(list) {
         list.innerHTML = "";
         if(selectedTalents.size > 0) {
-            list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold;">Talents</div>`;
+            list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold;">Talents (${selectedTalents.size})</div>`;
             selectedTalents.forEach(t => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem;">• ${t}</div>`);
         }
         if(selectedMantras.size > 0) {
@@ -679,12 +698,18 @@ function checkReqs(reqObj) {
 }
 
 function toggleItem(name, met) {
-    if (!met) return; // Still locked? Do nothing.
+    if (!met) return; 
 
     const set = currentTab === 'talents' ? selectedTalents : selectedMantras;
 
     if (!set.has(name)) {
-        // Mutual Exclusion Check
+        // Talent Cap Check
+        if (currentTab === 'talents' && selectedTalents.size >= 80) {
+            alert("You have reached the maximum of 80 talents!");
+            return;
+        }
+
+        // Mutual Exclusion Check... (keep your existing exclusion logic here)
         for (const group of mutualExclusions) {
             if (group.includes(name)) {
                 for (const other of group) {
@@ -700,18 +725,28 @@ function toggleItem(name, met) {
         set.delete(name);
     }
 
-    updateUI(); // Forces the sidebar and card colors to refresh
+    updateUI();
 }
 
 function renderItems() {
     const container = document.getElementById('item-container');
     if (!container) return;
-    if (currentTab === 'calc') { renderCalculator(); return; }
+    if (currentTab === 'calc') { renderCalculator(); return; } 
+    if (currentTab === 'guide') { renderGuide(); return; }
 
-    const search = document.getElementById('search-input').value.toLowerCase();
+    let search = document.getElementById('search-input').value.toLowerCase().trim();
     const showMet = document.getElementById('filter-reqs').checked;
     const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
     const selectedSet = currentTab === 'talents' ? selectedTalents : selectedMantras;
+
+    // Advanced Stat Filter Parser
+    let filterStat = null, filterOp = null, filterVal = null;
+    const match = search.match(/^([a-z]+)\s*([>=<])\s*(\d+)$/);
+    if (match) {
+        filterStat = statShorthand[match[1]] || null;
+        filterOp = match[2];
+        filterVal = parseInt(match[3]);
+    }
 
     container.innerHTML = "";
     for (let cat in dataSet) {
@@ -722,13 +757,23 @@ function renderItems() {
         dataSet[cat].forEach((item, idx) => {
             let met = checkReqs(item.req);
             if (showMet && !met) return;
-            if (item.name.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search)) {
+
+            let matchesSearch = false;
+            if (filterStat) {
+                // Check if the talent has the requested stat in its requirements
+                let reqVal = item.req[filterStat] || 0;
+                if (filterOp === '>') matchesSearch = reqVal > filterVal;
+                else if (filterOp === '<') matchesSearch = reqVal < filterVal;
+                else if (filterOp === '=') matchesSearch = reqVal === filterVal;
+            } else {
+                matchesSearch = item.name.toLowerCase().includes(search) || item.desc.toLowerCase().includes(search);
+            }
+
+            if (matchesSearch) {
+                // ... (keep the rest of your card rendering logic here)
                 hasItems = true;
                 let safeId = cat.replace(/\s/g, '') + idx;
-                
-                // Escape apostrophes so names like "Heretic's" don't break the click function
                 let escapedName = item.name.replace(/'/g, "\\'");
-                
                 let reqFormatted = Object.entries(item.req).map(([k, v]) => {
                     let label = k;
                     if (k === "OR_Weapon" || k === "Weapon") label = "Any Weapon";
@@ -782,9 +827,50 @@ function renderCalculator() {
     </div></div>`;
     container.innerHTML = html;
 }
+function renderGuide() {
+    const container = document.getElementById('item-container');
+    container.innerHTML = `
+        <div class="calc-wrapper" style="max-width: 800px; line-height: 1.6;">
+            <h1 style="text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px;">BUILDER HANDBOOK</h1>
+            
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000;">1. Advanced Stat Searching</h3>
+            <p>You can search for talents based on their requirements using shorthand commands. Type these into the search bar:</p>
+            <ul style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 5px; list-style: none;">
+                <li><code>fort=40</code> - Shows talents requiring exactly 40 Fortitude (like Exoskeleton).</li>
+                <li><code>str>50</code> - Shows all Strength talents requiring more than 50.</li>
+                <li><code>agi<25</code> - Shows low-requirement Agility talents.</li>
+            </ul>
+            <p><strong>Shorthands:</strong> str, fort, agi, int, will, cha, pre, light, med, heavy, flame, frost, thunder, shadow, gale, iron, blood, earth.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">2. Talent Limits</h3>
+            <p>The builder tracks your investment. You are limited to <strong>80 Talents</strong> total. If you reach the cap, the builder will prevent you from selecting more until you deselect one.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">3. Sharing Your Build</h3>
+            <p>Once your stats, talents, and mantras are selected, click the <strong>"SHARE BUILD LINK"</strong> button in the left sidebar. This copies a unique URL to your clipboard that you can send to others; it will load your exact build instantly.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
+            <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
+            
+            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"tung tung tung sahur. - vergil"</p>
+        </div>
+    `;
+}
 
 // --- 5. UI UTILITIES ---
-function switchTab(t) { currentTab = t; ['talents','mantras','calc'].forEach(id => { let el = document.getElementById('tab-'+id); if(el) el.classList.toggle('active', id===t); }); let searchBar = document.getElementById('search-bar'); if(searchBar) searchBar.style.display = t==='calc'?'none':'block'; updateUI(); }
+function switchTab(t) { 
+    currentTab = t; 
+    // Added 'guide' to the array below
+    ['talents','mantras','calc','guide'].forEach(id => { 
+        let el = document.getElementById('tab-'+id); 
+        if(el) el.classList.toggle('active', id===t); 
+    }); 
+    
+    let searchBar = document.getElementById('search-bar'); 
+    // Hide search bar if on Calc or Guide tabs
+    if(searchBar) searchBar.style.display = (t==='calc' || t==='guide') ? 'none' : 'block'; 
+    
+    updateUI(); 
+}
 function toggleBuff(id) { activeBuffs.has(id) ? activeBuffs.delete(id) : activeBuffs.add(id); renderCalculator(); }
 function toggleCategory(cat) { collapsedCats.has(cat) ? collapsedCats.delete(cat) : collapsedCats.add(cat); renderItems(); }
 function toggleGif(id, e) { e.stopPropagation(); const el = document.getElementById('gif-'+id); if(el) el.style.display = el.style.display === 'block' ? 'none' : 'block'; }
