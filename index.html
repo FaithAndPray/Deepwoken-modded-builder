@@ -91,18 +91,98 @@ body.theme-earth {
             margin: 0; display: flex; height: 100vh; overflow: hidden; 
         }
 
+        
         /* Sidebar Left - Centered Content */
-        #sidebar-left { 
+#sidebar-left { 
     width: 320px; 
     min-width: 320px; 
     background: var(--sidebar-bg); 
     border-right: 2px solid #2f2f35; 
     padding: 20px; 
-    overflow-y: auto; /* Fixed: Now scrollable */
+    overflow-y: auto;
     display: flex; 
     flex-direction: column; 
     align-items: center;
     height: 100vh;
+}
+
+/* Traits Layout - 2x2 Grid */
+.traits-medallion-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
+}
+
+.trait-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.medallion {
+    width: 70px;
+    height: 70px;
+    background: url('https://media.discordapp.net/attachments/1375448864928038978/1453153519623475384/image-removebg-preview.png?ex=694c6a2d&is=694b18ad&hm=57153f799ee240a6a1e9f7028c9d83ae99cec58c82ebd05aa5eaf745959985c5&=&format=webp&quality=lossless&width=625&height=625') no-repeat center;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    image-rendering: pixelated;
+    position: relative;
+}
+
+
+.medallion input {
+    background: transparent !important;
+    border: none !important;
+    color: #fff !important;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: 1.8rem; 
+    font-weight: bold;
+    font-family: 'Lora', serif;
+    outline: none;
+    cursor: pointer;
+    text-shadow: 2px 2px 0px #000, -1px -1px 0px #000; 
+    z-index: 2;
+}
+
+/* Hide number arrows */
+.medallion input::-webkit-outer-spin-button,
+.medallion input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.medallion input[type=number] { -moz-appearance: textfield; }
+
+.trait-label {
+    font-size: 1rem;
+    color: #fff;
+    margin-top: 2px;
+    font-family: 'Lora', serif;
+    text-shadow: 1px 1px 2px #000;
+}
+
+#trait-sum-display {
+    font-size: 0.8rem;
+    color: var(--gold);
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Oath Selector Style */
+#oath-select {
+    width: 100%;
+    background: #000;
+    color: var(--gold);
+    border: 1px solid #444;
+    padding: 10px;
+    font-family: 'Lora';
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
 }
 
         
@@ -344,6 +424,8 @@ body.sidebar-open-right .overlay {
 
     /* Shrink search bar for mobile */
     .search-bar-container { padding: 10px; margin-bottom: 10px; }
+
+ 
     </style>
 </head>
 <body>
@@ -356,38 +438,91 @@ body.sidebar-open-right .overlay {
 </div>
 
 <div id="sidebar-left">
-    <div style="width: 100%; margin-bottom: 20px;">
+   <div style="width: 100%; margin-bottom: 20px;">
     <label style="font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px;">Appearance</label>
     <select id="theme-select" onchange="changeTheme(this.value)" style="width: 100%; background: #000; color: #fff; border: 1px solid #444; padding: 5px; font-family: 'Lora';">
-    <option value="default">Classic</option>
-    <option value="theme-flame">Flame</option>
-    <option value="theme-frost">Frost</option>
-    <option value="theme-gale">Gale</option>
-    <option value="theme-thunder">Thunder</option>
-    <option value="theme-shadow">Shadow</option>
-    <option value="theme-iron">Iron</option>
-    <option value="theme-blood">Blood</option>
-    <option value="theme-earth">Earth</option>
-</select>
+        <option value="default">Classic</option>
+        <option value="theme-flame">Flame</option>
+        <option value="theme-frost">Frost</option>
+        <option value="theme-gale">Gale</option>
+        <option value="theme-thunder">Thunder</option>
+        <option value="theme-shadow">Shadow</option>
+        <option value="theme-iron">Iron</option>
+        <option value="theme-blood">Blood</option>
+        <option value="theme-earth">Earth</option>
+    </select>
 </div>
-    <div class="investment-header">
-        <h2>Investment</h2>
-        <span class="pts-display">
-            <div style="font-size: 0.9rem; margin-top: 5px; color: var(--gold);">
-    Talents: <span id="talent-count">0</span> / 80
-</div>
-<span id="used-pts">0</span> / <span id="max-pts">410</span></span>
-        <div id="splash-text"></div>
+
+<!-- Traits Section -->
+<div class="traits-medallion-container">
+    <!-- Top Row -->
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Songchant" value="0" oninput="setTrait('Songchant', this.value)"></div>
+        <div class="trait-label">Songchant</div>
+    </div>
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Erudition" value="0" oninput="setTrait('Erudition', this.value)"></div>
+        <div class="trait-label">Erudition</div>
     </div>
     
-    <div id="core-inputs" style="width: 100%;"></div>
-    <hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
-    <div id="att-inputs" style="width: 100%;"></div>
-
-    <div style="width: 100%; margin-top: auto;">
-        <button class="action-btn" onclick="saveBuild()" style="background: var(--gold); color: #000; border:none;">SHARE BUILD LINK</button>
-        <button class="action-btn" style="color:#ff4444;" onclick="clearBuild()">CLEAR BUILD</button>
+    <!-- Bottom Row -->
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Vitality" value="0" oninput="setTrait('Vitality', this.value)"></div>
+        <div class="trait-label">Vitality</div>
     </div>
+    <div class="trait-item">
+        <div class="medallion"><input type="number" id="trait-Proficiency" value="0" oninput="setTrait('Proficiency', this.value)"></div>
+        <div class="trait-label">Proficiency</div>
+    </div>
+</div>
+<div id="trait-sum-display">Points: <span id="trait-sum">0</span> / 12</div>
+
+<div class="investment-header">
+    <h2>Investment</h2>
+    <span class="pts-display">
+        <div style="font-size: 0.9rem; margin-top: 5px; color: var(--gold);">
+            Talents: <span id="talent-count">0</span> / 80
+        </div>
+        <span id="used-pts">0</span> / <span id="max-pts">410</span>
+    </span>
+    <div id="splash-text"></div>
+</div>
+
+<select id="oath-select" onchange="setOath(this.value)">
+    <option value="">SELECT OATH</option>
+    <option value="Saintsworn">Saintsworn</option>
+    <option value="Blightsurger">Blightsurger</option>
+    <option value="Linkstrider">Linkstrider</option>
+    <option value="Fadetrimmer">Fadetrimmer</option>
+    <option value="Dawnwalker">Dawnwalker</option>
+    <option value="Contractor">Contractor</option>
+    <option value="Soulbreaker">Soulbreaker</option>
+    <option value="Silentheart">Silentheart</option>
+    <option value="Warmaster">Warmaster</option>
+    <option value="Starkindred">Starkindred</option>
+    <option value="BladeHarper">BladeHarper</option>
+    <option value="Tetherlance">Tetherlance</option>
+    <option value="Blindseer">Blindseer</option>
+    <option value="Chainwarden">Chainwarden</option>
+    <option value="Ironfist">Ironfist</option>
+    <option value="Arcwarder">Arcwarder</option>
+    <option value="Jetstriker">Jetstriker</option>
+    <option value="Aetherkeeper">Aetherkeeper</option>
+    <option value="Kingslayer">Kingslayer</option>
+    <option value="Timeripper">Timeripper</option>
+    <option value="Fearfighter">Fearfighter</option>
+    <option value="oathless">oathless</option>
+</select>
+
+<hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
+<div id="core-inputs" style="width: 100%;"></div>
+<hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
+<div id="att-inputs" style="width: 100%;"></div>
+
+<div style="width: 100%; margin-top: auto;">
+    <button class="action-btn" onclick="saveBuild()" style="background: var(--gold); color: #000; border:none;">SHARE BUILD LINK</button>
+    <button class="action-btn" style="color:#ff4444;" onclick="clearBuild()">CLEAR BUILD</button>
+</div>
 </div>
 
 <div id="main-area">
@@ -629,11 +764,14 @@ const calcData = {
 
 // --- 2. GLOBAL STATE & MAPS ---
 let userStats = {};
+let userTraits = { "Vitality": 0, "Erudition": 0, "Proficiency": 0, "Songchant": 0 };
+let selectedOath = "";
 let selectedTalents = new Set();
 let selectedMantras = new Set();
 let activeBuffs = new Set();
 let collapsedCats = new Set();
 let currentTab = 'talents';
+
 
 // Short-link mapping setup
 const JSONBIN_KEY = '$2a$10$sLrFF.ABoJcUYrK2Ps8lxusDVHHm.E00yjgfvttWumaj34EYr61qy'; // Replace with your key
@@ -986,31 +1124,70 @@ function init() {
 function loadBuildFromString(code) {
     try {
         const sections = code.split('_');
+        // Stats
         if (sections[0]) {
             const statsArr = sections[0].split('.');
             allStatKeys.forEach((key, i) => {
                 let val = parseInt(statsArr[i]) || 0;
                 userStats[key] = val;
-                let inputEl = document.getElementById('in-' + key);
-                if (inputEl) inputEl.value = val;
+                if (document.getElementById('in-' + key)) document.getElementById('in-' + key).value = val;
             });
         }
+        // Talents
         if (sections[1]) {
             sections[1].split('-').forEach(b36 => {
                 let name = talentMap[parseInt(b36, 36)];
                 if (name) selectedTalents.add(name);
             });
         }
+        // Mantras
         if (sections[2]) {
             sections[2].split('-').forEach(b36 => {
                 let name = mantraMap[parseInt(b36, 36)];
                 if (name) selectedMantras.add(name);
             });
         }
+        // Traits
+        if (sections[3]) {
+            const tVals = sections[3].split('.');
+            const tKeys = Object.keys(userTraits);
+            tVals.forEach((v, i) => {
+                let n = parseInt(v) || 0;
+                userTraits[tKeys[i]] = n;
+                document.getElementById('trait-' + tKeys[i]).value = n;
+            });
+            let total = Object.values(userTraits).reduce((a, b) => a + b, 0);
+            document.getElementById('trait-sum').innerText = total;
+        }
+        // Oath
+        if (sections[4]) {
+            selectedOath = sections[4];
+            document.getElementById('oath-select').value = selectedOath;
+        }
         updateUI();
     } catch (e) { console.error("Load Error", e); }
 }
 // --- 4. LOGIC ---
+function setTrait(trait, val) {
+    let n = parseInt(val) || 0;
+    let sumOthers = Object.keys(userTraits).reduce((acc, key) => {
+        return key === trait ? acc : acc + userTraits[key];
+    }, 0);
+
+    if (n < 0) n = 0;
+    if (n > 6) n = 6;
+    if (sumOthers + n > 12) n = 12 - sumOthers;
+
+    userTraits[trait] = n;
+    document.getElementById('trait-' + trait).value = n;
+    document.getElementById('trait-sum').innerText = sumOthers + n;
+    updateUI();
+}
+
+function setOath(val) {
+    selectedOath = val;
+    updateUI();
+}
 function setStat(name, val) {
     let num = parseInt(val);
     if (isNaN(num)) num = 0;
@@ -1034,23 +1211,19 @@ function updateUI() {
     let used = 0; 
     Object.values(userStats).forEach(v => used += v);
 
-    const maxPtsEl = document.getElementById('max-pts');
+    document.getElementById('max-pts').innerText = max;
     const usedPtsEl = document.getElementById('used-pts');
-    const talentCountEl = document.getElementById('talent-count');
+    usedPtsEl.innerText = used;
+    usedPtsEl.style.color = used > max ? "#ff4444" : "#fff";
 
-    if(maxPtsEl) maxPtsEl.innerText = max;
-    if(usedPtsEl) {
-        usedPtsEl.innerText = used;
-        usedPtsEl.style.color = used > max ? "#ff4444" : "#fff";
-    }
-    if(talentCountEl) {
-        talentCountEl.innerText = selectedTalents.size;
-        talentCountEl.style.color = selectedTalents.size >= 80 ? "#ff4444" : "var(--gold)";
-    }
+    document.getElementById('talent-count').innerText = selectedTalents.size;
 
     const list = document.getElementById('selection-list');
     if(list) {
         list.innerHTML = "";
+        if(selectedOath) {
+            list.innerHTML += `<div style="padding:10px; border-bottom:2px solid #000; font-weight:bold; color:var(--gold); font-size: 1.2rem; text-align:center;">${selectedOath.toUpperCase()}</div>`;
+        }
         if(selectedTalents.size > 0) {
             list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold;">Talents (${selectedTalents.size})</div>`;
             selectedTalents.forEach(t => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem;">• ${t}</div>`);
@@ -1062,7 +1235,6 @@ function updateUI() {
     }
     renderItems();
 }
-
 function checkReqs(reqObj) {
     if (!reqObj || Object.keys(reqObj).length === 0) return true;
 
@@ -1305,10 +1477,11 @@ async function saveBuild() {
     btn.innerText = "GENERATING...";
     
     // 1. Create the long data string (same as before)
+    const traitsPart = Object.values(userTraits).join('.');
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
     const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
-    const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}`;
+    const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath}`;
 
     try {
         // 2. Upload to JSONBin
@@ -1344,4 +1517,3 @@ window.onload = init;
 </script>
 </body>
 </html>
-
