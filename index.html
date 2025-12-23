@@ -225,7 +225,7 @@ body.theme-earth {
 }
         .card.selected { filter: var(--accent-filter) brightness(1.1); }
         .card.locked {
-    opacity: 0.6; /* Increased visibility */
+    opacity: 0.6; 
     filter: grayscale(0.7) contrast(0.8);
     cursor: not-allowed;
     border-image-source: var(--border-path); /* Keeps the border visible */
@@ -427,7 +427,7 @@ const gameData = {
         "Intelligence": [{ "name": "Ether Absorption", "desc": "Receive Ether back when inflicted with damage from Mantras.", "req": { "Intelligence": 15 } },{ "name": "Perfect Flash", "desc": "Over 95% health causes mantras to do +25% damage.", "req": { "Intelligence": 25 } },{ "name": "Eureka", "desc": "Gain Inspiration stacks on mantra land/parry. 3 stacks grant +10% Mantra Damage.", "req": { "Intelligence": 30 } },{ "name": "True Ether Bullets", "desc": "Ether Bullets apply elemental damage of highest investment.", "req": { "Intelligence": 30, "Weapon": 20 } },{ "name": "Overflowing Dam", "desc": "Full Ether for 2s grants an aura for 10% more damage.", "req": { "Intelligence": 40 } },{ "name": "Foolish Outburst", "desc": "Blocking or parrying a vent absorbs the Tempo cost of the vent.", "req": { "Intelligence": 50 } },{ "name": "Keen Recovery", "desc": "Basic attack after feinting a mantra restores the feinted mantra's ether cost.", "req": { "Intelligence": 55 } },{ "name": "Prime Ether Bullets", "desc": "Bullets take one less hit to proc elements and have intelligence scaling.", "req": { "Intelligence": 60, "Light": 90 } },{ "name": "Twelve Steps Ahead", "desc": "Landing Prediction halves cooldown; whiffing doubles it.", "req": { "Intelligence": 80 } },{ "name": "Ether Overdrive", "desc": "Gain 5% extra PEN and remove the cap on your PEN.", "req": { "Intelligence": 90 } },{ "name": "Absolute Pitch", "desc": "You can cast ritual mantra’s instantly.", "req": { "Intelligence": 100 } }],
         "Willpower": [{ "name": "Disbelief", "desc": "Resistant to Illusion magic, charms, and tricks.", "req": { "Willpower": 25 } },{ "name": "Magical Resolve", "desc": "Being hit increases ether regen.", "req": { "Willpower": 40 } },{ "name": "Ardour Scream", "desc": "Amplify shout to make victims take 25% more DMG and Posture for 10s.", "req": { "Willpower": 40 } },{ "name": "Underdog", "desc": "Deal more damage to those with higher HP, scales with WILL.", "req": { "Willpower": 40 } },{ "name": "Heretic's Sutra", "desc": "A chant that steers you into the state of Insanity for 20 seconds.", "req": { "Willpower": 80 }},{ "name": "Piercing Will", "desc": "When sanity is below 35%, gain up to +15% PEN.", "req": { "Willpower": 80 } },{ "name": "Psychic", "desc": "Opponents with <50% sanity cannot proc Deep Gems against you briefly.", "req": { "Willpower": 80 } },{ "name": "Shared Misery", "desc": "Attacking while losing sanity causes enemies to lose sanity.", "req": { "Willpower": 90 } },{ "name": "Beleaguered But Unbowed", "desc": "Damage reduction when surrounded by 2 or more opponents.", "req": { "Willpower": 90 } },{ "name": "Sin Stacker", "desc": "All The Dead Gods' duration is based on enemy antiheal stacks.", "req": { "Willpower": 90 } },{ "name": "Indomitable Spirit", "desc": "Sanity attacks are redirected to nearby opponents.", "req": { "Willpower": 100 } }],
         "Charisma": [{ "name": "Charismatic Cast", "desc": "Landing mantras charms enemies, reducing damage done to you.", "req": { "Charisma": 25 } },{ "name": "Tough Love", "desc": "Deal 10% more damage to charmed enemies.", "req": { "Charisma": 25 } },{ "name": "Give and Take", "desc": "Deal and receive less DMG from comrades.", "req": { "Charisma": 35 } },{ "name": "Golden Tongue", "desc": "Typing or gestures give random buffs to you and allies.", "req": { "Charisma": 40 } },{ "name": "Lasting Charisma", "desc": "Enemies charmed by mantras stay charmed longer.", "req": { "Charisma": 55 } },{ "name": "Chaotic Charm", "desc": "At low health, naturally apply charm to reduce incoming damage.", "req": { "Charisma": 55 } },{ "name": "Dazing Finisher", "desc": "Flourishing charmed enemies dazes them instead of knockback.", "req": { "Charisma": 55 } },{ "name": "Manipulator", "desc": "Deal 20% more critical damage to charmed enemies; removes charm.", "req": { "Charisma": 60 } },{ "name": "Narcissist", "desc": "Charming an already charmed opponent Overcharms you briefly.", "req": { "Charisma": 60 } },{ "name": "Unnecessary Theatrics", "desc": "Deliver a one-liner on heavy attacks that charms opponents briefly.", "req": { "Charisma": 75 } },{ "name": "Cornered Fool", "desc": "Blockbreaking a charmed opponent procs Taunt.", "req": { "Charisma": 85 } },{ "name": "Cult of Personality", "desc": "Gain +3% PEN for each person Charmed, capping at 15%.", "req": { "Charisma": 90 } },{ "name": "Off Your Game", "desc": "Slow Taunted enemies when you hit them.", "req": { "Charisma": 90 } }],
-        "Multi-Stats": [{ "name": "Parasol's Brain", "desc": "You feel as if your brain were expanding. (IT BUFFS YOUR GEM, HERE IS THE LIST OF BUFFS)  / Aegis Gem: Duration increased from 8s to 15s / Blessed Gem: Cooldown reduction increased, from divided by 2 to divided by 3 / Bloodless Gem: Damage reduced by 50%, healing increased to 50% / Insignia Gem: Decreases Insignia Cooldown from 10 to 7 seconds / Might Gem: Posture damage buff increased from +20% to +35%. Wayward Gem: Cooldown is decreased from 8s to 3s / Wind Gem: Speed boost increased from 5 to 9 / Wrath Gem: Critical damage buff increased from 20% to 30% / Fraud Gem: Damages sanity from maximum sanity divided by 15 to divided by 5 / Erosion Gem: Armor drain increased from damage divided by 2 to damage divided by 1.5 / Sealing Gem: Increases Anti-Heal duration from 10 to 15 seconds.", "req": {"Precision": 100 , "Willpower": 80 , "Charisma": 50} } , {"name": "Professional's Standard", "desc": "Charmed opponents take +10% pen","req": { "Precision": 50, "Charisma": 25 } },{ "name": "Sturdy Control", "desc": "Gain 2.5% pen for every M1/Crit after being hit, cap 15%.", "req": { "Precision": 50, "Fortitude": 40 } },{ "name": "Master of His Craft", "desc": "Parrying a vent grants +20% PEN for 5 seconds.", "req": { "Precision": 10, "Intelligence": 10 } },{ "name": "Concussion", "desc": "Flourishing enemies into walls dazes them longer and alters vision.", "req": { "Strength": 20, "Fortitude": 15 } },{ "name": "Matador", "desc": "Deal +20% more damage to human enemies with hyperarmor.", "req": { "Strength": 20, "Agility": 5 } },{ "name": "Lightspeed Reflexes", "desc": "Feinting gives a very brief auto-parry window.", "req": { "Agility": 20, "Intelligence": 20 } },{ "name": "Grasp on Reality", "desc": "Reduced damage from insanity; Shared Misery is less effective.", "req": { "Fortitude": 25, "Willpower": 5 } },{ "name": "Strong Stern", "desc": "The duration you are dazed from wall bangs is cut in half.", "req": { "Strength": 15, "Fortitude": 25 } },{ "name": "Endurance Runner", "desc": "Keep moving even when things look dire.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Conditioned Runner", "desc": "Regen faster while running, slower while not.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Spine Cutter", "desc": "Hit enemy in back after roll cancel for raw weapon damage follow-up.", "req": { "Strength": 20, "Agility": 25 } },{ "name": "Knight's Rally", "desc": "When using a shield, ready block more quickly after a hit.", "req": { "Fortitude": 30, "Willpower": 10 } },{ "name": "Breaking Stereotype", "desc": "Guard breaking an opponent with your critical applies knockdown.", "req": { "Precision": 50, "Strength": 50 } },{ "name": "All The Dead Gods", "desc": "Your Attacks now Apply Anti-Heal. [+5 hp]", "req": { "Intelligence": 40, "Willpower": 65 } },{ "name": "Stress Resistant", "desc": "While in Combat, Insanity only affects every 2nd time.", "req": { "Precision": 25, "Willpower": 40 } },{ "name": "Unfazed", "desc": "More resilient to insanity side effects. No shivering, less panic.", "req": { "Willpower": 50, "Fortitude": 50 } },{ "name": "Steady Nerves", "desc": "Successful dodges restore posture.", "req": { "Strength": 15, "Agility": 45 } },{ "name": "Tooth and Claw", "desc": "Precision & Strength mantras now have 20% PEN.", "req": { "Strength": 50, "Precision": 50 } },{ "name": "Behind You", "desc": "Basic attack behind enemy after mantra feint deals ether-scaling damage.", "req": { "Intelligence": 70, "Agility": 40 } },{ "name": "One of a Kind", "desc": "Crits/Flourishes extend Charm duration and ignore Disbelief.", "req": { "Charisma": 80, "Willpower": 80 } },{ "name": "Dancing With The Dead", "desc": "For every nearby enemy gain 2.5% PEN.", "req": { "Precision": 80, "Intelligence": 20 } },{ "name": "Bad Guy Coming Through", "desc": "Block-breaking an opponent applies 50% damage as Insanity.", "req": { "Strength": 100, "Willpower": 50 } },{ "name": "All Above, Gods Below", "desc": "Stun and steal any healing opponent would receive.", "req": { "Willpower": 100, "Intelligence": 100 } },{ "name": "Crisis Point", "desc": "At 30% Health, disable all anti-heals for 20s.", "req": { "Fortitude": 50, "Willpower": 100 } },{ "name": "Brick Wall", "desc": "Immune to knockdown until knocked unconscious.", "req": { "Fortitude": 100, "Willpower": 100 } },{ "name": "On Your Toes", "desc": "Gain brief auto-parry frames while equipping weapon.", "req": { "Agility": 40, "Willpower": 40 } }],
+        "Multi-Stats": [{ "name": "Parasol's Brain", "desc": "You feel as if your brain were expanding. (IT BUFFS YOUR GEM, HERE IS THE LIST OF BUFFS)  / Aegis Gem: Duration increased from 8s to 15s / Blessed Gem: Cooldown reduction increased, from divided by 2 to divided by 3 / Bloodless Gem: Damage reduced by 50%, healing increased to 50% / Insignia Gem: Decreases Insignia Cooldown from 10 to 7 seconds / Might Gem: Posture damage buff increased from +20% to +35%. Wayward Gem: Cooldown is decreased from 8s to 3s / Wind Gem: Speed boost increased from 5 to 9 / Wrath Gem: Critical damage buff increased from 20% to 30% / Fraud Gem: Damages sanity from maximum sanity divided by 15 to divided by 5 / Erosion Gem: Armor drain increased from damage divided by 2 to damage divided by 1.5 / Sealing Gem: Increases Anti-Heal duration from 10 to 15 seconds.", "req": {"Precision": 100 , "Willpower": 80 , "Charisma": 50} }, { "name": "Professional's Standard", "desc": "Charmed opponents take +10% pen","req": { "Precision": 50, "Charisma": 25 } },{ "name": "Sturdy Control", "desc": "Gain 2.5% pen for every M1/Crit after being hit, cap 15%.", "req": { "Precision": 50, "Fortitude": 40 } },{ "name": "Master of His Craft", "desc": "Parrying a vent grants +20% PEN for 5 seconds.", "req": { "Precision": 10, "Intelligence": 10 } },{ "name": "Concussion", "desc": "Flourishing enemies into walls dazes them longer and alters vision.", "req": { "Strength": 20, "Fortitude": 15 } },{ "name": "Matador", "desc": "Deal +20% more damage to human enemies with hyperarmor.", "req": { "Strength": 20, "Agility": 5 } },{ "name": "Lightspeed Reflexes", "desc": "Feinting gives a very brief auto-parry window.", "req": { "Agility": 20, "Intelligence": 20 } },{ "name": "Grasp on Reality", "desc": "Reduced damage from insanity; Shared Misery is less effective.", "req": { "Fortitude": 25, "Willpower": 5 } },{ "name": "Strong Stern", "desc": "The duration you are dazed from wall bangs is cut in half.", "req": { "Strength": 15, "Fortitude": 25 } },{ "name": "Endurance Runner", "desc": "Keep moving even when things look dire.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Conditioned Runner", "desc": "Regen faster while running, slower while not.", "req": { "Fortitude": 25, "Agility": 25 } },{ "name": "Spine Cutter", "desc": "Hit enemy in back after roll cancel for raw weapon damage follow-up.", "req": { "Strength": 20, "Agility": 25 } },{ "name": "Knight's Rally", "desc": "When using a shield, ready block more quickly after a hit.", "req": { "Fortitude": 30, "Willpower": 10 } },{ "name": "Breaking Stereotype", "desc": "Guard breaking an opponent with your critical applies knockdown.", "req": { "Precision": 50, "Strength": 50 } },{ "name": "All The Dead Gods", "desc": "Your Attacks now Apply Anti-Heal. [+5 hp]", "req": { "Intelligence": 40, "Willpower": 65 } },{ "name": "Stress Resistant", "desc": "While in Combat, Insanity only affects every 2nd time.", "req": { "Precision": 25, "Willpower": 40 } },{ "name": "Unfazed", "desc": "More resilient to insanity side effects. No shivering, less panic.", "req": { "Willpower": 50, "Fortitude": 50 } },{ "name": "Steady Nerves", "desc": "Successful dodges restore posture.", "req": { "Strength": 15, "Agility": 45 } },{ "name": "Tooth and Claw", "desc": "Precision & Strength mantras now have 20% PEN.", "req": { "Strength": 50, "Precision": 50 } },{ "name": "Behind You", "desc": "Basic attack behind enemy after mantra feint deals ether-scaling damage.", "req": { "Intelligence": 70, "Agility": 40 } },{ "name": "One of a Kind", "desc": "Crits/Flourishes extend Charm duration and ignore Disbelief.", "req": { "Charisma": 80, "Willpower": 80 } },{ "name": "Dancing With The Dead", "desc": "For every nearby enemy gain 2.5% PEN.", "req": { "Precision": 80, "Intelligence": 20 } },{ "name": "Bad Guy Coming Through", "desc": "Block-breaking an opponent applies 50% damage as Insanity.", "req": { "Strength": 100, "Willpower": 50 } },{ "name": "All Above, Gods Below", "desc": "Stun and steal any healing opponent would receive.", "req": { "Willpower": 100, "Intelligence": 100 } },{ "name": "Crisis Point", "desc": "At 30% Health, disable all anti-heals for 20s.", "req": { "Fortitude": 50, "Willpower": 100 } },{ "name": "Brick Wall", "desc": "Immune to knockdown until knocked unconscious.", "req": { "Fortitude": 100, "Willpower": 100 } },{ "name": "On Your Toes", "desc": "Gain brief auto-parry frames while equipping weapon.", "req": { "Agility": 40, "Willpower": 40 } }],
         "Weapon Talents": [
             { "name": "Flash Pressure", "desc": "Breeze Blitz extender.", "req": { "Light Weapon": 40 } },
             { "name": "Knife's Journey", "desc": "Cancelling enemy mantra windup with M1 deals 15% more damage.", "req": { "Light Weapon": 30 } },
@@ -657,7 +657,281 @@ const mutualExclusions = [
 
 // --- 3. INITIALIZATION ---
 function init() {
-    const splash = ["hold it, this guy is cooking", "time for a shower twin", "DNI deepwoken classic", "Yzord NPC gives spec enchants and weps. however, you need to be whitelisted", "?timeout @nebula 27d ramadan", "FUCK MY LIFE NIGGA IM JUST A RETARD INCEL WHORE", "fart fart fart fart fart", "ping geo for prime kai theme", "bugs? dm or ping @faithandpray", "take a break","im a fat greasy pig", "TEST EVERYTHING FOR ME PLEASE IM BEGGING YOU"];
+    const splash = [
+  "hold it, this guy is cooking",
+  "time for a shower twin",
+  "DNI deepwoken classic",
+  "Yzord NPC gives spec enchants and weps. however, you need to be whitelisted",
+  "?timeout @nebula 27d ramadan",
+  "FUCK MY LIFE NIGGA IM JUST A RETARD INCEL WHORE",
+  "fart fart fart fart fart",
+  "ping geo for prime kai theme",
+  "bugs? dm or ping @faithandpray",
+  "take a break",
+  "im a fat greasy pig",
+  "TEST EVERYTHING FOR ME PLEASE IM BEGGING YOU",
+  "ping @lz4decompress in general chat he loves it",
+  "never ask a man his salary, a woman her weight or mon his build",
+  "I USE GALE IM A CUCKY DRONE AND I LOVE THE IDF",
+  "why don’t fish play basketball? they’re afraid of the net.",
+  "what do you call a fish that practices medicine? a sturgeon.",
+  "why did the fish blush? because it saw the ocean’s bottom.",
+  "how do fish get to school? on the octobus.",
+  "what’s a fish’s favorite instrument? the bass guitar.",
+  "why don’t fish like computers? they’re scared of the net.",
+  "what did the fish say when it hit a concrete wall? dam!",
+  "why was the fish bad at tennis? he kept getting caught in the net.",
+  "what do you call a fish wearing a bowtie? sofishticated.",
+  "why did the fish get kicked out of school? he was caught with seaweed.",
+  "what’s a fish’s favorite movie? the codfather.",
+  "how do shellfish get to the hospital? in a clambulance.",
+  "why don’t fish do well on tests? they’re always swimming below sea level.",
+  "what do fish take to stay healthy? vitamin sea.",
+  "why was the fish arrested? for fin-slapping someone.",
+  "what’s a fish’s favorite country? finland.",
+  "why are fish so smart? because they swim in schools.",
+  "what did the fish say when it swam into a wall? dam!",
+  "how do fish stay in touch? they drop each other a line.",
+  "why don’t fish use social media? they don’t want to get caught in the net.",
+  "what do you call a lazy crayfish? a slobster.",
+  "why did the fish start a band? he had the scales.",
+  "what’s a fish’s favorite karaoke song? “don’t stop beleiving” by journey… but mostly the bass line.",
+  "why was the fish always calm? he just went with the flow.",
+  "what do you call a fish magician? a magic carp.",
+  "why don’t fish play soccer? they’re afraid of the net.",
+  "what did the sardine say to the submarine? you’re krilling me!",
+  "why did the vegan go fishing? just for the halibut.",
+  "what’s the richest fish in the sea? a goldfish.",
+  "how do fish pay for things? with sand dollars.",
+  "why was the fish so good at basketball? he was a great shooter… until he got caught in the net.",
+  "what do you call a fish with no eyes? fsh.",
+  "why did the fish cross the road? to get to the other tide.",
+  "what’s a fish’s favorite tv show? tuna half men.",
+  "why don’t fish drive? they’d get caught in the carpool lane.",
+  "what do you call a dangerous fish that drinks too much? a beeracuda.",
+  "why was the octopus laughing? because the sea weed.",
+  "what did one fish say to the other during a race? keep your fins crossed!",
+  "why don’t fish like fast food? they can’t catch it.",
+  "what’s a shark’s favorite game? swallow the leader.",
+  "why did the fish go to hollywood? he wanted to be a starfish.",
+  "what do fish use to text? shell phones.",
+  "why are fish so bad at lying? you can see right through them.",
+  "what’s a fish’s favorite pickup line? hey girl, are you a net? because i’m caught up in you.",
+  "why did the fish join the circus? he wanted to be a clownfish.",
+  "what do you call a fish that destroys cities? cod-zilla.",
+  "why don’t fish ever get lost? they follow the current events.",
+  "what’s a fish’s favorite type of music? something with a good beat… per minute.",
+  "why did the fisherman go broke? he lost his net income.",
+  "what did the fish say when it got complimented? aw, shucks… thanks for the flounder!",
+  "where do fish keep their money? in the riverbank.",
+  "why are fish so easy to weigh? they have their own scales.",
+  "what do you call a fish with no eyes? fsh.",
+  "how do you make an octopus laugh? with ten-tickles.",
+  "what kind of music do fish listen to? something with a good tuna.",
+  "why did the fish get bad grades? it was below sea level.",
+  "what’s a fish’s favorite game show? name that tuna!",
+  "why don’t fish pass exams? they work below c-level.",
+  "what do you call a fish that knows addition? a calculator.",
+  "why did the whale cross the road? to get to the other tide.",
+  "what do you call a fancy fish? so-fish-ticated.",
+  "where do fish sleep? on a waterbed.",
+  "what’s a shark’s favorite bible story? jonah, because he only had one worm.",
+  "why do fish live in saltwater? pepper makes them sneeze.",
+  "what do you call a fish with two knees? a two-knee fish.",
+  "how does a fish go into business? they start on a small scale.",
+  "what’s the difference between a piano and a fish? you can tune a piano, but you can’t tuna fish.",
+  "why was the fish always broke? its net income was low.",
+  "what do you call a fish that delivers presents? santa claws.",
+  "why did the fish go to the bank? to get some fin-ancing.",
+  "what’s a fish’s favorite religious poem? cod is love, cod is life.",
+  "how do fish greet each other? they wave fins.",
+  "what do you call a fish who’s always lying? a catfish.",
+  "why don’t fish like stairs? they’re afraid of the net step.",
+  "what did the shark say after eating a clownfish? that tasted a bit funny.",
+  "where do fish go to borrow money? the prawn broker.",
+  "what’s a fish’s favorite vegetable? a sea-n.",
+  "why was the sand wet? the sea weed.",
+  "what do you call a fish in a spaceship? an astronaut-fish.",
+  "how do fish celebrate halloween? trick or trout!",
+  "what’s a fish’s favorite beatles song? let it be-atle.",
+  "why did the fish write a book? it had a great tale.",
+  "what do you call a cold fish? a chili dogfish.",
+  "why don’t fish play cards? too many cheetahs (creatures).",
+  "what did the fish say to the clam? pearl harbor your feelings.",
+  "how do you know if a fish is lying? you see right through it.",
+  "what’s a fish’s favorite crime show? law and odor.",
+  "why did the fish go to art school? to improve its draw-fish.",
+  "what do you call a fish army? a school of hard knocks.",
+  "why was the eel always calm? it went with the flow.",
+  "what’s a fish’s favorite candy? swedish fish, duh.",
+  "how do fish end arguments? they just swim away.",
+  "what do you call a psychic fish? a mind-fish.",
+  "why did the fish quit the band? it couldn’t find its sole.",
+  "what’s the loch ness monster’s favorite food? fish and ships.",
+  "why don’t fish ever share? they’re shellfish.",
+  "what do you call a fish that’s good at basketball? a slam-dunkfish.",
+  "how do fish watch movies? on the big stream.",
+  "what’s a fish’s favorite dance? the trout-dle.",
+  "why did the fish go broke? it blew all its sand dollars at the casino.",
+  "press f2, data Yabbqr firstname Fishboy,",
+  "press f2, data Yabbqr lastname The Truest Fish",
+  "hey, add the mlm flag as a leaderboard colour -fishboy",
+  "you think this funny i will report no joke",
+  "those who 🤣🤣🤣👀👀",
+  "whats wrong with you? are you disrespecting the great fish lineage?",
+  "promoted by Fishy Business [TRADEMARKED]",
+  "hi coded",
+  "added new sancho move",
+  "LIVE LAUGH LOVE FISH",
+  "fish are friends not food",
+  "quote me on that",
+  "fishy business is the best business",
+  "real fish eat real fish",
+  "stay fishy my friends -fishboy",
+  "all hail fishboy the truest fish",
+  "fishy business is here to stay",
+  "did a friced really fry this friced? -vergil",
+  "theyre watching us",
+  "stay safe out there",
+  "i can feel them watching me",
+  "the fish are coming",
+  "trust no one",
+  "the fish are real",
+  "beware the fish",
+  "i can hear them whispering",
+  "they're everywhere",
+  "embrace the fish",
+  "follow the fish",
+  "the fish will set you free",
+  "don't fight the fish",
+  "the fish know all",
+  "the fish are wise",
+  "listen to the fish",
+  "the fish will guide you",
+  "the fish are watching",
+  "the fish are waiting",
+  "the fish are hungry",
+  "the fish are coming for you",
+  "the fish will find you",
+  "the fish will protect you",
+  "the fish will save you",
+  "the fish will love you",
+  "the fish will embrace you",
+  "the fish will free you",
+  "the fish will enlighten you",
+  "the fish will awaken you",
+  "the fish will transform you",
+  "the fish will heal you",
+  "the fish will empower you",
+  "the fish will inspire you",
+  "the fish will uplift you",
+  "the fish will enlighten your path",
+  "the fish will light your way",
+  "the fish will show you the truth",
+  "the fish will reveal all",
+  "the fish will change everything",
+  "the only oath i swear is the fish oath",
+  "fish are the true rulers of the world",
+  "fish will inherit the earth",
+  "fish are the ultimate beings",
+  "fish are the future",
+  "fish are the past, present, and future",
+  "fish are the answer to everything",
+  "fish are the meaning of life",
+  "fish are the key to happiness",
+  "fish are the source of all knowledge",
+  "the fish are stronger than you think",
+  "the fish are more powerful than you know",
+  "the fish are the ultimate force",
+  "the fish are the true masters",
+  "the fish are the supreme beings",
+  "the fish are the ultimate rulers",
+  "the fish are the true gods",
+  "shaboingboing - vergil",
+  "fishy business is the way to go - fishboy",
+  "fishboy is love fishboy is life",
+  "the snow will shatter - fishboy",
+  "embrace the tide - fishboy",
+  "let the waves guide you - fishboy",
+  "swim with the current - fishboy",
+  "everything fishboy says is true -naturallycoded",
+  "everything fishboy does is for the greater good -naturallycoded",
+  "fishboy knows best -naturallycoded",
+  "follow fishboy's wisdom -naturallycoded",
+  "trust in fishboy's vision -naturallycoded",
+  "fishboy is the light in the darkness -naturallycoded",
+  "fishboy will lead us to greatness -naturallycoded",
+  "fishboy is the savior we need -naturallycoded",
+  "the fish will rise again - fishboy",
+  "fishboy forever - fishboy",
+  "fishboy never lies - fishboy",
+  "everything will be alright with fishboy - fishboy",
+  "xoxo fishboy - fishboy",
+  "if you know then you know if you dont then you dont-naturallycoded",
+  "errorHandler: exception found - errors.shop.naturallycoded.buyMessage.PleaseHELP ME NOW SlenderMan is Coming for me HeFortnite Battlepass new -naturallycoded",
+   "naturallycoded is fishboy in disguise - vergil",
+   "#revengeseekerz",
+   "the fish will rise - fishboy",
+   "car seat headrest - fishboy",
+   "swagderp",
+   "theyre coming for us",
+   "stay vigilant",
+   "report traitors to fishboy",
+   "trust no one but fishboy",
+   "prod.greentop",
+   "DontGet2Close",
+   "AfflictedDay1(trustt)",
+   "the art of losing",
+   "stay woke",
+   "Oh, Love Liar",
+   "check out fyoum btw - naturallycoded",
+   "the world is yours",
+   "WhyUMakinSongs.NobodyWants2Hear",
+   "keep swimming",
+   "if u wanna be good at deepwoken modded. press the f key -naturallycoded",
+   "lynch the nonbelievers - fishboy",
+   "LynU.",
+   "Lyn.",
+   "Make sure your internet isnt busted, and try again in 5 minutes.",
+   "1 in 400,000,000.",
+   "tough luck huh? -fishboy",  
+   "everything happens for a reason -fishboy",
+   "nonbelievers will be punished -fishboy",
+   "the fish will have their revenge -fishboy",
+   "fishboy is watching you -fishboy",
+    "the fish will find you -fishboy",
+    "embrace the fish -fishboy",
+    "the fish will set you free -fishboy",
+    "follow the fish -fishboy",
+    "trust in fishboy -fishboy",
+    "the fish will guide you -fishboy",
+    "believers are the chosen ones -fishboy",
+    "the fish will protect you -fishboy",
+    "the prophets of fishboy shall lead us -fishboy",
+    "added new fishboy quote -naturallycoded",
+    "naturallycoded x fishboy forever - vergil",
+    "naturallycoded x fishboy gay marriage confirmed - vergil",
+    "fishboy is my spirit animal - vergil",
+    "gay fish unite - vergil",
+    "report nonbelievers to fishboy - vergil",
+    "down with the nonbelievers - vergil",
+    "fishboy for president - vergil",
+    "convert or be cast into the sea - vergil",
+    "yeah they have to be gay dude - me",
+    "geometry dash is.. something man -fishboy",
+    "never ask a fish its weight -fishboy",
+    "fishboy is love fishboy is life -naturallycoded",
+    "live laugh love tiramisu - katie",
+    "ooo you want to make a gale build.... - katie",
+    "i dont really like friced, but i love fishboy - mustard",
+    "mustard x rendbreaker - fishboy",
+    "fishboy is my homeboy - mustard",
+    "mustard is my homeboy - fishboy",
+    "mustard is the first supporter of the fishes grace - fishboy",
+    "fishboy is pretty cool - mustard",
+    "mustard x iron requiem - fishboy",
+    "mustard will forever be in the fishes grace - fishboy"
+];
     const splashEl = document.getElementById('splash-text');
     if(splashEl) splashEl.innerText = splash[Math.floor(Math.random() * splash.length)];
 
@@ -820,7 +1094,7 @@ function toggleItem(name, met) {
             return;
         }
 
-        // Mutual Exclusion Check... (keep your existing exclusion logic here)
+        // Mutual Exclusion Check
         for (const group of mutualExclusions) {
             if (group.includes(name)) {
                 for (const other of group) {
@@ -881,7 +1155,7 @@ function renderItems() {
             }
 
             if (matchesSearch) {
-                // ... (keep the rest of your card rendering logic here)
+                
                 hasItems = true;
                 let safeId = cat.replace(/\s/g, '') + idx;
                 let escapedName = item.name.replace(/'/g, "\\'");
@@ -987,7 +1261,7 @@ function changeTheme(themeName) {
     localStorage.setItem('user-theme', themeName);
 }
 
-// Add this to your existing 'init' function or at the bottom of the script
+
 function loadSavedTheme() {
     const saved = localStorage.getItem('user-theme');
     if (saved) {
@@ -998,7 +1272,7 @@ function loadSavedTheme() {
 // Call loadSavedTheme() inside your init() function
 function switchTab(t) { 
     currentTab = t; 
-    // Added 'guide' to the array below
+    
     ['talents','mantras','calc','guide'].forEach(id => { 
         let el = document.getElementById('tab-'+id); 
         if(el) el.classList.toggle('active', id===t); 
@@ -1040,7 +1314,7 @@ async function saveBuild() {
         });
 
         const result = await response.json();
-        const shortId = result.metadata.id; // This is your 8-10 char ID
+        const shortId = result.metadata.id; 
 
         // 3. Create and copy the short URL
         const url = window.location.origin + window.location.pathname + '?id=' + shortId;
@@ -1061,6 +1335,3 @@ window.onload = init;
 </script>
 </body>
 </html>
-
-
-
