@@ -1729,8 +1729,34 @@ function renderGuide() {
 
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
             <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
-            
-            <p style="text-align: center; font-style: italic; margin-top: 30px; opacity: 0.7;">"tung tung tung sahur. - vergil"</p>
+            <div style="border-top: 2px solid #000; margin-top: 40px; padding-top: 20px; background: rgba(0,0,0,0.03); border-radius: 5px; padding: 20px;">
+                <h2 style="text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 2px;">Credits</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;">
+                    <div>
+                        <strong>web dev:</strong><br>
+                        taxes (@faithandpray)
+                    </div>
+                    <div>
+                        <strong>non-chest Weapon lister + splash text:</strong><br>
+                        DayB/Lav (@lz4decompress)
+                    </div>
+                    <div>
+                        <strong>Chest Weapon lister:</strong><br>
+                        cid (@ohnycidlverhand)
+                    </div>
+                    <div>
+                        <strong>limited weapon lister:</strong><br>
+                        Vergil (@pixelv4)
+                    </div>
+                    <div>
+                        <strong>Mantra gif supplys:</strong><br>
+                        DWM devs + wiki team
+                    </div>
+                </div>
+                <p style="text-align: center; font-style: italic; margin-top: 20px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px;">
+                    "ping for any broken stuff"
+                </p>
+            </div>
         </div>
     `;
 }
@@ -1750,12 +1776,11 @@ function renderWeapons() {
     const container = document.getElementById('item-container');
     if (!gameData.enchants || !gameData.weapons) return;
 
-    
+    // 1. Create Layout Shell
     if (!document.getElementById('weapon-tab-layout')) {
         container.innerHTML = `
             <div id="weapon-tab-layout" class="calc-wrapper" style="max-width: 900px; background: #e8e7df; color: #1a1a1a;">
                 <h2 style="text-align:center; color: #000; margin-bottom: 20px;">Weapon Selection</h2>
-                
                 <div style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.1);">
                     <input type="text" id="weapon-search" placeholder="Search weapons..." oninput="renderWeapons()" 
                            style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #999; font-family: 'Lora';">
@@ -1768,26 +1793,22 @@ function renderWeapons() {
                         </label>
                     </div>
                 </div>
-
                 <div class="stat-row" style="margin-bottom: 20px;">
                     <label style="color: #000; font-weight: bold;">Select Enchant:</label>
                     <select id="enchant-select" onchange="selectEnchant(this.value)" style="width: 200px; background:#fff; color:#000; border: 1px solid #999; padding:5px; font-family:'Lora';">
                         ${gameData.enchants.map(e => `<option value="${e}" ${selectedEnchant === e ? 'selected' : ''}>${e}</option>`).join('')}
                     </select>
                 </div>
-
-                <!-- This is where the weapons will actually go -->
                 <div id="weapon-grid-results" class="grid"></div>
             </div>`;
     }
 
-    
- let search = document.getElementById('weapon-search').value.toLowerCase();
+    let search = document.getElementById('weapon-search').value.toLowerCase();
     let showMet = document.getElementById('weapon-filter-reqs').checked;
     let showBestOnly = document.getElementById('weapon-filter-best').checked;
     let grid = document.getElementById('weapon-grid-results');
 
-   
+    // 2. Identify champions (including ties)
     let champions = new Set();
     for (let statKey in userStats) {
         if (userStats[statKey] > 0) {
@@ -1811,10 +1832,9 @@ function renderWeapons() {
         }
     }
 
-
-    
+    // 3. Render Cards
     let cardsHtml = "";
-    gameData.weapons.forEach(w => {
+    gameData.weapons.forEach((w, idx) => { // Added idx here
         const { currentDmg, scalingText } = getWeaponStats(w);
         let isChampion = champions.has(w.name);
         
@@ -1827,9 +1847,10 @@ function renderWeapons() {
         }
         if (showMet && !meetsReq) return;
 
+        
         cardsHtml += `
             <div class="weapon-card ${!meetsReq ? 'locked' : ''} ${selectedWeapon && selectedWeapon.name === w.name ? 'selected' : ''} ${isChampion ? 'best-match' : ''}" 
-                 onclick='selectWeapon(${JSON.stringify(w)})'>
+                 onclick="selectWeaponByIndex(${idx})">
                 ${isChampion ? '<div class="best-tag">Top Tier for Build</div>' : ''}
                 <h3>${w.name}</h3>
                 <p style="font-size: 0.8rem; margin: 5px 0;">Scaling: ${scalingText.join(', ')}</p>
@@ -1839,7 +1860,6 @@ function renderWeapons() {
             </div>`;
     });
 
-    
     grid.innerHTML = cardsHtml;
 }
 
@@ -1847,6 +1867,13 @@ function renderWeapons() {
 function selectWeapon(w) {
     selectedWeapon = w;
     updateUI();
+}
+function selectWeaponByIndex(index) {
+    const weapon = gameData.weapons[index];
+    if (weapon) {
+        selectedWeapon = weapon;
+        updateUI();
+    }
 }
 
 function selectEnchant(e) {
@@ -1948,5 +1975,3 @@ window.onload = init;
 </script>
 </body>
 </html>
-
-
