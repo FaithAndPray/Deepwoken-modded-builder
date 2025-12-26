@@ -466,6 +466,24 @@ body.sidebar-open-right .overlay {
     display: inline-block;
     margin-bottom: 5px;
 }
+.auto-stat-btn {
+    background: #1a1a1c;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    font-family: 'Lora';
+    margin-top: 8px;
+    text-transform: uppercase;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.auto-stat-btn:hover {
+    background: var(--gold);
+    color: #000;
+}
  
     </style>
 </head>
@@ -562,6 +580,7 @@ body.sidebar-open-right .overlay {
 
 <div style="width: 100%; margin-top: auto;">
     <button class="action-btn" onclick="saveBuild()" style="background: var(--gold); color: #000; border:none;">SHARE BUILD LINK</button>
+    <button class="action-btn" onclick="exportBuildText()" style="background: #2f2f35; color: #fff; border:none; margin-top: 5px;">COPY BUILD TEXT</button>
     <button class="action-btn" style="color:#ff4444;" onclick="clearBuild()">CLEAR BUILD</button>
 </div>
 </div>
@@ -1367,14 +1386,26 @@ function init() {
     if(att) att.innerHTML = "";
 
     gameData.attributes.forEach(a => {
-    userStats[a] = 0;
-    core.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" oninput="setStat('${a}', this.value)"></div>`;
-});
+        userStats[a] = 0;
+        core.innerHTML += `
+            <div class="stat-row">
+                <label onclick="scrollToCategory('${a}')" style="cursor:pointer; transition: color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#fff'">
+                    ${a}
+                </label>
+                <input type="number" id="in-${a}" value="0" min="0" max="100" oninput="setStat('${a}', this.value)">
+            </div>`;
+    });
 
     gameData.attunements.forEach(a => {
-    userStats[a] = 0;
-    att.innerHTML += `<div class="stat-row"><label>${a}</label><input type="number" id="in-${a}" value="0" min="0" max="100" oninput="setStat('${a}', this.value)"></div>`;
-});
+        userStats[a] = 0;
+        att.innerHTML += `
+            <div class="stat-row">
+                <label onclick="scrollToCategory('${a}')" style="cursor:pointer; transition: color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#fff'">
+                    ${a}
+                </label>
+                <input type="number" id="in-${a}" value="0" min="0" max="100" oninput="setStat('${a}', this.value)">
+            </div>`;
+    });
 
     // Parse URL
     const params = new URLSearchParams(window.location.search);
@@ -1462,6 +1493,56 @@ function loadBuildFromString(code) {
         updateUI();
     } catch (e) { console.error("Load Error", e); }
 }
+function exportBuildText() {
+    const s = userStats;
+    const t = userTraits;
+    
+    // Mapping for Attunements shorthands
+    const attMap = {
+        "Flamecharm": "FLM", "Frostdraw": "ICE", "Thundercall": "LTN",
+        "Shadowcast": "SHD", "Galebreathe": "WND", "Ironsing": "IRN",
+        "Bloodrend": "BLD", "Earthbend": "ERT"
+    };
+
+    let text = `===== LVL 80 Heliodar, Castaway, ${selectedOath || "No Oath"} =====\n`;
+    
+    // Attributes Section
+    text += `== ATTRIBUTES ==\n`;
+    text += `${s["Strength"] || 0} STR; ${s["Precision"] || 0} PRC; ${s["Fortitude"] || 0} FTD; `;
+    text += `${s["Agility"] || 0} AGL; ${s["Intelligence"] || 0} INT; ${s["Willpower"] || 0} WLL; ${s["Charisma"] || 0} CHA\n`;
+    text += `=====\n`;
+    
+    // Weapon Stats
+    text += `${s["Heavy Weapon"] || 0} HVY; ${s["Medium Weapon"] || 0} MED; ${s["Light Weapon"] || 0} LHT\n`;
+    
+    // Attunements
+    text += `== ATTUNEMENTS ==\n`;
+    let activeAtts = [];
+    gameData.attunements.forEach(a => {
+        if (s[a] > 0) activeAtts.push(`${s[a]} ${attMap[a]}`);
+    });
+    text += activeAtts.join('; ') + `\n`;
+
+    // Mantras
+    text += `== MANTRAS ==\n`;
+    selectedMantras.forEach(m => text += `${m}\n`);
+
+    // Talents
+    text += `\n== TALENTS ==\n`;
+    selectedTalents.forEach(talent => text += `${talent}\n`);
+
+    // Traits
+    text += `\n== Traits ==\n`;
+    text += `${t.Vitality} Vitality\n`;
+    text += `${t.Erudition} Erudition\n`;
+    text += `${t.Proficiency} Proficiency\n`;
+    text += `${t.Songchant} Songchant`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Build Text Copied! You can now paste it into Discord or a notepad.");
+    });
+}
 // --- 4. LOGIC ---
 function setTrait(trait, val) {
     let n = parseInt(val) || 0;
@@ -1473,10 +1554,11 @@ function setTrait(trait, val) {
     if (n > 6) n = 6;
     if (sumOthers + n > 12) n = 12 - sumOthers;
 
-    userTraits[trait] = n;
+    userTraits[trait] = n; // Update the global trait value
     document.getElementById('trait-' + trait).value = n;
     document.getElementById('trait-sum').innerText = sumOthers + n;
-    updateUI();
+    
+    updateUI(); // This forces the weapon damage to recalculate
 }
 
 function setOath(val) {
@@ -1522,14 +1604,18 @@ function updateUI() {
         }
 
         // 2. WEAPON & ENCHANT 
-        if(selectedWeapon) {
-            const { currentDmg } = getWeaponStats(selectedWeapon);
+       if(selectedWeapon) {
+            const { normalDmg, buffedDmg, mult } = getWeaponStats(selectedWeapon);
+            let dmgDisplay = mult > 1 
+                ? `<span style="text-decoration: line-through; color: #666; font-size: 0.9rem;">${normalDmg}</span> <span style="color: #8b0000;">${buffedDmg} DMG</span>`
+                : `<span style="color: #8b0000;">${normalDmg} DMG</span>`;
+
             list.innerHTML += `
                 <div style="padding:15px; border-top:1px solid rgba(0,0,0,0.1); border-bottom:1px solid rgba(0,0,0,0.1); background: rgba(0,0,0,0.03); margin-bottom:10px;">
                     <div style="font-weight:bold; color:var(--gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;">EQUIPPED WEAPON</div>
                     <div style="font-size:1.1rem; font-weight:bold; color:#000;">${selectedWeapon.name}</div>
                     <div style="font-size:0.85rem; color:#555; font-style:italic;">Enchant: ${selectedEnchant || 'None'}</div>
-                    <div style="font-size:1.3rem; font-weight:bold; color:#8b0000; margin-top:5px;">${currentDmg} DMG</div>
+                    <div style="font-size:1.3rem; font-weight:bold; margin-top:5px;">${dmgDisplay}</div>
                 </div>`;
         }
 
@@ -1631,7 +1717,7 @@ function renderItems() {
     for (let cat in dataSet) {
         const isCollapsed = collapsedCats.has(cat);
         let hasItems = false;
-        let catHtml = `<div class="category-block ${isCollapsed ? 'collapsed' : ''}"><div class="category-title" onclick="toggleCategory('${cat}')">${cat}</div><div class="grid">`;
+        let catHtml = `<div id="scroll-cat-${cat.replace(/\s/g, '')}" class="category-block ${isCollapsed ? 'collapsed' : ''}"><div class="category-title" onclick="toggleCategory('${cat}')">${cat}</div><div class="grid">`;
         
         dataSet[cat].forEach((item, idx) => {
             let met = checkReqs(item.req);
@@ -1661,16 +1747,43 @@ function renderItems() {
                 }).join(", ");
 
                 catHtml += `
-                    <div class="card ${met ? '' : 'locked'} ${selectedSet.has(item.name) ? 'selected' : ''}" 
-                         onclick="toggleItem('${escapedName}', ${met})">
-                        <h3>${item.name}</h3><p>${item.desc}</p><hr>
-                        <span class="req-text"><span style="color:#fff">Req:</span> ${reqFormatted || 'None'}</span>
-                        ${item.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Preview</button><div class="gif-container" id="gif-${safeId}"><img src="${item.gif}" loading="lazy"></div>` : ''}
-                    </div>`;
+    <div class="card ${met ? '' : 'locked'} ${selectedSet.has(item.name) ? 'selected' : ''}" 
+         onclick="toggleItem('${escapedName}', ${met})">
+        <h3>${item.name}</h3><p>${item.desc}</p><hr>
+        <span class="req-text"><span style="color:#fff">Req:</span> ${reqFormatted || 'None'}</span>
+        
+        <!-- AUTO INVEST BUTTON -->
+        ${!met && Object.keys(item.req).length > 0 ? 
+            `<button class="auto-stat-btn" onclick="autoInvest('${escapedName}', '${cat}', event)">Auto-Invest Stats</button>` 
+            : ''}
+
+        ${item.gif ? `<button class="toggle-gif-btn" onclick="toggleGif('${safeId}', event)">Preview</button><div class="gif-container" id="gif-${safeId}"><img src="${item.gif}" loading="lazy"></div>` : ''}
+    </div>`;
             }
         });
         if (hasItems) container.innerHTML += catHtml + `</div></div>`;
     }
+}
+function scrollToCategory(catName) {
+    if (currentTab !== 'talents' && currentTab !== 'mantras') {
+        switchTab('talents');
+    }
+
+    setTimeout(() => {
+        const safeId = 'scroll-cat-' + catName.replace(/\s/g, '');
+        const element = document.getElementById(safeId);
+        const container = document.getElementById('item-container');
+
+        if (element && container) {
+            // Expand the category if it was collapsed
+            if (collapsedCats.has(catName)) {
+                toggleCategory(catName);
+            }
+            
+            // Smooth scroll to the category
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 50);
 }
 function renderCalculator() {
     const container = document.getElementById('item-container');
@@ -1761,26 +1874,161 @@ function renderGuide() {
     `;
 }
     function getWeaponStats(w) {
-    let totalScalingValue = 0;
+    let baseDmg = w.base;
+    let sSum = 0;
     let scalingText = [];
-    for (let stat in w.scaling) {
-        let userStatVal = userStats[stat] || 0;
-        totalScalingValue += (w.scaling[stat] * (userStatVal / 100));
-        scalingText.push(`${stat}: ${w.scaling[stat]}`);
+
+    // Dictionary to map weapon list shorthands to actual build stats
+    const statMap = {
+        "hvy": "Heavy Weapon", "med": "Medium Weapon", "light": "Light Weapon",
+        "str": "Strength", "fort": "Fortitude", "agi": "Agility", 
+        "int": "Intelligence", "will": "Willpower", "cha": "Charisma", "charisma": "Charisma",
+        "pre": "Precision", "prec": "Precision", "precision": "Precision",
+        "flame": "Flamecharm", "frost": "Frostdraw", "thunder": "Thundercall",
+        "shadow": "Shadowcast", "gale": "Galebreathe", "iron": "Ironsing",
+        "blood": "Bloodrend", "earth": "Earthbend"
+    };
+
+    // Calculate S (Attribute Level x Attribute Scaling)
+    for (let rawKey in w.scaling) {
+        let cleanKey = rawKey.toLowerCase().trim();
+        let statName = statMap[cleanKey] || rawKey; // Use map, or fallback to raw key
+
+        // Get your current level for this stat
+        let level = userStats[statName] || 0;
+        let scale = w.scaling[rawKey];
+        
+        sSum += (level * scale);
+        scalingText.push(`${statName}: ${scale}`);
     }
-    let currentDmg = (w.base * (1 + (0.10425 * totalScalingValue))).toFixed(2);
-    return { currentDmg, scalingText };
+
+    // Proficiency Multiplier (1 + (Proficiency * 0.065))
+    let profLevel = userTraits.Proficiency || 0;
+    let profMult = 1 + (profLevel * 0.065);
+
+    // THE FORMULA: Damage = Base + 0.75 * ( (Base * Sum(S) * ProfMult) / 1000 )
+    // Note: If Sum(S) is 0 (no stats invested), Proficiency will not increase damage.
+    let scaledPart = (baseDmg * sSum * profMult) / 1000;
+    let normalDmg = parseFloat((baseDmg + (0.75 * scaledPart)).toFixed(2));
+
+    // External Buffs (Flame Within, Taunt, etc.)
+    let externalMult = getCurrentDmgMultiplier();
+    let buffedDmg = parseFloat((normalDmg * externalMult).toFixed(2));
+
+    return { normalDmg, buffedDmg, mult: externalMult, scalingText };
+}
+function autoInvest(name, cat, event) {
+    event.stopPropagation(); // Prevents the talent from being selected yet
+
+    const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
+    const item = dataSet[cat].find(i => i.name === name);
+    if (!item || !item.req) return;
+
+    let statsToUpdate = {};
+    let totalPointsNeeded = 0;
+
+    // Calculate how many points we need
+    for (let reqKey in item.req) {
+        let targetVal = item.req[reqKey];
+        let actualStatKey = reqKey;
+
+        // Handle Special Case: "Weapon" or "OR_Weapon"
+        if (reqKey === "Weapon" || reqKey === "OR_Weapon") {
+            // Find which weapon stat the user has invested in most
+            actualStatKey = ["Light Weapon", "Medium Weapon", "Heavy Weapon"].reduce((a, b) => 
+                (userStats[a] || 0) >= (userStats[b] || 0) ? a : b
+            );
+        } 
+        // Handle Special Case: "Elemental" or "OR_Attunement"
+        else if (reqKey === "Elemental" || reqKey === "OR_Attunement") {
+            actualStatKey = gameData.attunements.reduce((a, b) => 
+                (userStats[a] || 0) >= (userStats[b] || 0) ? a : b
+            );
+        }
+        // Handle specific shorthands
+        else if (reqKey === "Light") actualStatKey = "Light Weapon";
+        else if (reqKey === "Medium") actualStatKey = "Medium Weapon";
+        else if (reqKey === "Heavy") actualStatKey = "Heavy Weapon";
+
+        if ((userStats[actualStatKey] || 0) < targetVal) {
+            statsToUpdate[actualStatKey] = targetVal;
+            totalPointsNeeded += (targetVal - (userStats[actualStatKey] || 0));
+        }
+    }
+
+    // Check against max investment cap
+    let currentAttCount = 0; 
+    gameData.attunements.forEach(a => { if (userStats[a] > 0) currentAttCount++; });
+    let maxPts = currentAttCount === 0 ? 410 : 420 + Math.max(0, (currentAttCount - 1) * 5);
+    
+    let currentUsed = 0; 
+    Object.values(userStats).forEach(v => currentUsed += v);
+
+    if (currentUsed + totalPointsNeeded > maxPts) {
+        alert(`Cannot auto-invest. You need ${totalPointsNeeded} points, but you only have ${maxPts - currentUsed} points left in your cap.`);
+        return;
+    }
+
+    // Apply the stats
+    for (let statKey in statsToUpdate) {
+        userStats[statKey] = statsToUpdate[statKey];
+        // Update the visual input boxes on the left
+        const inputEl = document.getElementById('in-' + statKey);
+        if (inputEl) inputEl.value = statsToUpdate[statKey];
+    }
+
+    // Refresh everything
+    updateUI();
+}
+function getCurrentDmgMultiplier() {
+    let wPct = 0;
+    if (!calcData || !calcData.dmg) return 1;
+    activeBuffs.forEach(key => {
+        if (key[0] === 'd') {
+            let idx = parseInt(key.slice(1));
+            let b = calcData.dmg[idx];
+            if (b && (b.cat.includes('UB') || b.cat.includes('WB'))) wPct += b.v;
+        }
+    });
+    let multiplier = 1 + (wPct / 100);
+    if (multiplier > 1.25) multiplier = 1.25 + (multiplier - 1.25) / 2;
+    return Math.min(1.5, multiplier);
 }
 
+function getWeaponStats(w) {
+    let totalScalingValue = 0;
+    let scalingText = [];
+    for (let rawStat in w.scaling) {
+        let stat = rawStat.charAt(0).toUpperCase() + rawStat.slice(1);
+        if (stat === "Light" || stat === "Medium" || stat === "Heavy") stat += " Weapon";
+        
+        let userStatVal = userStats[stat] || 0;
+        totalScalingValue += (w.scaling[rawStat] * (userStatVal / 100));
+        scalingText.push(`${stat}: ${w.scaling[rawStat]}`);
+    }
+    let normalDmg = parseFloat((w.base * (1 + (0.10425 * totalScalingValue))).toFixed(2));
+    let mult = getCurrentDmgMultiplier();
+    let buffedDmg = parseFloat((normalDmg * mult).toFixed(2));
+    return { normalDmg, buffedDmg, mult, scalingText };
+}
+
+function selectWeaponByIndex(index) {
+    const weapon = gameData.weapons[index];
+    if (weapon) {
+        selectedWeapon = weapon;
+        updateUI();
+    }
+}
 function renderWeapons() {
     const container = document.getElementById('item-container');
     if (!gameData.enchants || !gameData.weapons) return;
 
-    // 1. Create Layout Shell
+    // 1. Create the Shell ONLY if it doesn't exist
     if (!document.getElementById('weapon-tab-layout')) {
         container.innerHTML = `
-            <div id="weapon-tab-layout" class="calc-wrapper" style="max-width: 900px; background: #e8e7df; color: #1a1a1a;">
+            <div id="weapon-tab-layout" class="calc-wrapper" style="max-width: 900px; background: #e8e7df; color: #1a1a1a; margin: 0 auto;">
                 <h2 style="text-align:center; color: #000; margin-bottom: 20px;">Weapon Selection</h2>
+                
                 <div style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.1);">
                     <input type="text" id="weapon-search" placeholder="Search weapons..." oninput="renderWeapons()" 
                            style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #999; font-family: 'Lora';">
@@ -1793,73 +2041,92 @@ function renderWeapons() {
                         </label>
                     </div>
                 </div>
-                <div class="stat-row" style="margin-bottom: 20px;">
+
+                <div class="stat-row" style="margin-bottom: 20px; justify-content: space-between;">
                     <label style="color: #000; font-weight: bold;">Select Enchant:</label>
                     <select id="enchant-select" onchange="selectEnchant(this.value)" style="width: 200px; background:#fff; color:#000; border: 1px solid #999; padding:5px; font-family:'Lora';">
                         ${gameData.enchants.map(e => `<option value="${e}" ${selectedEnchant === e ? 'selected' : ''}>${e}</option>`).join('')}
                     </select>
                 </div>
+
                 <div id="weapon-grid-results" class="grid"></div>
             </div>`;
     }
 
+    // 2. Read Inputs
     let search = document.getElementById('weapon-search').value.toLowerCase();
     let showMet = document.getElementById('weapon-filter-reqs').checked;
     let showBestOnly = document.getElementById('weapon-filter-best').checked;
     let grid = document.getElementById('weapon-grid-results');
 
-    // 2. Identify champions (including ties)
+    // 3. Find Champions
     let champions = new Set();
-    for (let statKey in userStats) {
-        if (userStats[statKey] > 0) {
-            let topDmg = -1;
-            gameData.weapons.forEach(w => {
-                if (w.scaling[statKey]) {
-                    let { currentDmg } = getWeaponStats(w);
-                    let dmgNum = parseFloat(currentDmg);
-                    if (dmgNum > topDmg) topDmg = dmgNum;
-                }
-            });
-            if (topDmg > 0) {
+    let anyInvestment = false;
+    for (let s in userStats) if(userStats[s] > 0) anyInvestment = true;
+
+    if (anyInvestment) {
+        allStatKeys.forEach(statKey => {
+            if ((userStats[statKey] || 0) > 0) {
+                let topDmg = -1;
                 gameData.weapons.forEach(w => {
-                    if (w.scaling[statKey]) {
-                        let { currentDmg } = getWeaponStats(w);
-                        let dmgNum = parseFloat(currentDmg);
-                        if (Math.abs(dmgNum - topDmg) < 0.01) champions.add(w.name);
+                    // Check if weapon scales with this stat (handle case variations)
+                    let scaleVal = w.scaling[statKey] || w.scaling[statKey.toLowerCase()] || w.scaling[statKey.replace(" Weapon", "")];
+                    if (scaleVal) {
+                        let { normalDmg } = getWeaponStats(w);
+                        if (normalDmg > topDmg) topDmg = normalDmg;
                     }
                 });
+                if (topDmg > 0) {
+                    gameData.weapons.forEach(w => {
+                        let scaleVal = w.scaling[statKey] || w.scaling[statKey.toLowerCase()] || w.scaling[statKey.replace(" Weapon", "")];
+                        if (scaleVal) {
+                            let { normalDmg } = getWeaponStats(w);
+                            if (Math.abs(normalDmg - topDmg) < 0.01) champions.add(w.name);
+                        }
+                    });
+                }
             }
-        }
+        });
     }
 
-    // 3. Render Cards
+    // 4. Render Grid
     let cardsHtml = "";
-    gameData.weapons.forEach((w, idx) => { // Added idx here
-        const { currentDmg, scalingText } = getWeaponStats(w);
+    let count = 0;
+
+    gameData.weapons.forEach((w, idx) => {
+        const { normalDmg, buffedDmg, mult, scalingText } = getWeaponStats(w);
         let isChampion = champions.has(w.name);
         
         if (!w.name.toLowerCase().includes(search)) return;
-        if (showBestOnly && !isChampion) return;
+        if (showBestOnly && anyInvestment && !isChampion) return;
         
         let meetsReq = true;
-        for (let statKey in w.scaling) {
-            if ((userStats[statKey] || 0) <= 0) { meetsReq = false; break; }
+        for (let r in w.scaling) {
+            let statName = r.charAt(0).toUpperCase() + r.slice(1);
+            if (statName === "Light" || statName === "Medium" || statName === "Heavy") statName += " Weapon";
+            if ((userStats[statName] || 0) <= 0) { meetsReq = false; break; }
         }
         if (showMet && !meetsReq) return;
 
-        
+        count++;
+        let dmgHtml = mult > 1 
+            ? `<div class="dmg-value" style="font-size: 0.95rem; color: #666 !important; text-decoration: line-through;">${normalDmg} DMG</div>
+               <div class="dmg-value" style="color: #8b0000 !important; font-size: 1.3rem;">${buffedDmg} DMG</div>`
+            : `<div class="dmg-value" style="font-size: 1.3rem;">${normalDmg} DMG</div>`;
+
         cardsHtml += `
             <div class="weapon-card ${!meetsReq ? 'locked' : ''} ${selectedWeapon && selectedWeapon.name === w.name ? 'selected' : ''} ${isChampion ? 'best-match' : ''}" 
                  onclick="selectWeaponByIndex(${idx})">
                 ${isChampion ? '<div class="best-tag">Top Tier for Build</div>' : ''}
-                <h3>${w.name}</h3>
-                <p style="font-size: 0.8rem; margin: 5px 0;">Scaling: ${scalingText.join(', ')}</p>
+                <h3 style="color:#000;">${w.name}</h3>
+                <p style="font-size: 0.75rem; margin: 5px 0; color:#444;">Scaling: ${scalingText.join(', ')}</p>
                 <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
-                <div class="dmg-value">${currentDmg} DMG</div>
-                ${!meetsReq ? '<div style="color: #8b0000; font-size: 0.7rem; font-weight: bold;">⚠️ Missing Stats</div>' : ''}
+                ${dmgHtml}
+                ${!meetsReq ? '<div style="color: #8b0000; font-size: 0.7rem; font-weight: bold; margin-top: 5px;">⚠️ Missing Stats</div>' : ''}
             </div>`;
     });
 
+    if (count === 0) cardsHtml = `<div style="grid-column: 1/-1; text-align:center; padding: 20px; color: #666;">No weapons found. Try investing stats or clearing the search.</div>`;
     grid.innerHTML = cardsHtml;
 }
 
@@ -1911,7 +2178,6 @@ function loadSavedTheme() {
 // Call loadSavedTheme() inside your init() function
 function switchTab(t) { 
     currentTab = t; 
-    
     ['talents','mantras','calc','guide', 'weapons'].forEach(id => { 
         let el = document.getElementById('tab-'+id); 
         if(el) el.classList.toggle('active', id===t); 
@@ -1920,9 +2186,8 @@ function switchTab(t) {
     let searchBar = document.getElementById('search-bar'); 
     if(searchBar) searchBar.style.display = (t==='calc' || t==='guide' || t==='weapons') ? 'none' : 'block'; 
 
-    // IMPORTANT: Clear the container when switching tabs so the layout can re-render
+    // Force clear main container when switching to refresh layouts
     document.getElementById('item-container').innerHTML = "";
-    
     updateUI(); 
 }
 function toggleBuff(id) { activeBuffs.has(id) ? activeBuffs.delete(id) : activeBuffs.add(id); renderCalculator(); }
@@ -1975,3 +2240,5 @@ window.onload = init;
 </script>
 </body>
 </html>
+
+
