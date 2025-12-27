@@ -16,6 +16,7 @@
     --gold: #c2a35d;
     --accent-filter: sepia(1) saturate(15) hue-rotate(-5deg); /* Gold */
     --border-path: url('https://media.discordapp.net/attachments/1375448864928038978/1453927785411383491/border.png?ex=694f3b44&is=694de9c4&hm=315ecb88cd15b1db9fe0cdf2145f7323673b64b0bbe149051d8a8a59b1989823&=&format=webp&quality=lossless&width=40&height=40'); 
+    --thin-border: url('https://media.discordapp.net/attachments/1375448864928038978/1454438392740708423/borderthin.png');
     --border-slice: 10;
 }
 body.theme-flame {
@@ -251,7 +252,7 @@ body.theme-earth {
 
     /* Deepwoken Border for Titles */
     border: 8px solid transparent;
-    border-image: var(--border-path) 10 round;
+    border-image: var(--border-path) var(--thin-border) 10 round;
     background: #050505;
     background-clip: padding-box;
     image-rendering: pixelated;
@@ -1842,6 +1843,52 @@ function renderGuide() {
 
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
             <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
+
+            <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">5. General game info</h3>
+          <div style="margin-bottom: 15px;">
+                <strong>1. Leaderboard Titles</strong> 
+                <p style="margin: 5px 0 0 15px;">You might see people with custom titles or colored names. You can get a custom title by winning events (hosted/bounty). Colored names are P2W (contact devs with payment, ~$20+).</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>2. Lower Specs</strong>
+                <p style="margin: 5px 0 0 15px;">There are two types of Lower specs: <b>Obtainable</b> and <b>Whitelist</b>.</p>
+                <ul style="margin: 5px 0 0 15px; padding-left: 20px;">
+                    <li><strong>Obtainable (Rendbreaker):</strong> Obtained by winning dev events (usually hosted by astulie).</li>
+                    <li><strong>Whitelist (Fish, Death, Mon, Globus):</strong> You must contact the spec owners for a whitelist, then visit the <b>Yzord NPC</b>.</li>
+                </ul>
+                
+                <div style="background: rgba(0,0,0,0.05); padding: 10px; margin: 10px 0 0 15px; border-left: 3px solid #8b0000; font-size: 0.85rem;">
+                    <strong>Enchant Owners:</strong><br>
+                    Fish: @lz4decompress | Mon: @monschta (note: too many people whitelisted already, GL getting whitelisted) | Death: @kyawooo | Globus: @16glo ($20 insta-whitelist)
+                </div>
+
+                <div style="margin: 10px 0 0 15px; font-size: 0.85rem;">
+                    <strong>Enchant Info:</strong>
+                    <ul style="margin-top: 5px; padding-left: 20px;">
+                        <li><strong>Fish:</strong> Anti-heal on M1 + Blue Pool after certin amount of hits (slows). Procs a 3s blue charm (5s CD) giving 33% chance for true DMG.</li>
+                        <li><strong>Mon:</strong> Detonation, Bluster, and Obfuscation combined. Powerful in PVP.</li>
+                        <li><strong>Death:</strong> Landing enough hits will take 5-6.5% of opponent's health on proc and apply slowdown.</li>
+                        <li><strong>Globus:</strong> Black Detonation. Deadass thats it.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>3. Higher Specs</strong>
+                <p style="margin: 5px 0 0 15px;">High tier specs for Contributors or others (Auto-parry bell, Fused Blade, Snowshatters). These are not normally obtainable unless you are known and trusted or a ingame contributor.</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>4. Custom Clothes (CC)</strong>
+                <p style="margin: 5px 0 0 15px;">Buy the CC gamepass OR purchase it from the <b>Blacksmith</b> for 250k notes. (Rejoin to apply, only saves on one slot).</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>5. Ukiels Blessing</strong>
+                <p style="margin: 5px 0 0 15px;">there is a npc where it just gives you aura whenever you use a mantra (yea deadass), it costs 15 knowledge.</p>
+            </div>
+            
             <div style="border-top: 2px solid #000; margin-top: 40px; padding-top: 20px; background: rgba(0,0,0,0.03); border-radius: 5px; padding: 20px;">
                 <h2 style="text-align: center; margin-top: 0; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 2px;">Credits</h2>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;">
@@ -2240,6 +2287,3 @@ window.onload = init;
 </script>
 </body>
 </html>
-
-
-
