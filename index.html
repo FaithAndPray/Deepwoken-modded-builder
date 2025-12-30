@@ -2448,7 +2448,7 @@ async function saveBuild() {
         const url = `https://embedded-link.deepwoken-modded.workers.dev/?id=${shortId}`;
 
         navigator.clipboard.writeText(url).then(() => {
-            alert("Embedded Link Copied! (Discord will show Name, Oath, Notes, and HP)");
+            alert("Embedded Link Copied!");
             btn.innerText = originalText;
         });
     } catch (e) {
@@ -2461,5 +2461,6 @@ window.onload = init;
 </script>
 </body>
 </html>
+
 
 
