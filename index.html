@@ -590,8 +590,8 @@ body.sidebar-open-right .overlay {
     <div class="tab-container">
         <div class="tab-btn active" id="tab-talents" onclick="switchTab('talents')">Talents</div>
         <div class="tab-btn" id="tab-mantras" onclick="switchTab('mantras')">Mantras</div>
-        <div class="tab-btn" id="tab-calc" onclick="switchTab('calc')">Dmg/Pen</div>
         <div class="tab-btn" id="tab-weapons" onclick="switchTab('weapons')">Weapons</div>
+        <div class="tab-btn" id="tab-summary" onclick="switchTab('summary')">Summary</div> 
         <div class="tab-btn" id="tab-guide" onclick="switchTab('guide')">Guide</div>
     </div>
 
@@ -617,7 +617,7 @@ const gameData = {
     attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
     attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
     talents: {
-        "No Stat Reqs": [{ "name": "Return to the Dark Ages", "desc": "10% less Outgoing and Incoming Mantra DMG. [5 hp]", "req": {} },{ "name": "Lightweight", "desc": "Move faster when armor is 0%. [+1 Posture]", "req": {} },{ "name": "The Sounds from Below", "desc": "[+150hp]", "req": {} },{ "name": "Armor Conserver", "desc": "15% less armor drain on hit.", "req": {} },{ "name": "Murmur: Ardour", "desc": "Deal 15% more posture DMG and take 15% less when pressing H.", "req": {} }],
+        "No Stat Reqs": [{ "name": "Return to the Dark Ages", "desc": "10% less Outgoing and Incoming Mantra DMG. [5 hp]", "req": {} },{ "name": "Lightweight", "desc": "Move faster when armor is 0%. [+1 Posture]", "req": {} },{ "name": "The Sounds from Below", "desc": "[+115hp]", "req": {} },{ "name": "Armor Conserver", "desc": "15% less armor drain on hit.", "req": {} },{ "name": "Murmur: Ardour", "desc": "Deal 15% more posture DMG and take 15% less when pressing H.", "req": {} }],
         "Strength": [{ "name": "Duelist’s Dance", "desc": "25% more posture from parrying. [+2 Posture]", "req": { "Strength": 20 } },{ "name": "Harsh Response", "desc": "Enemies receive less posture when parrying you.", "req": { "Strength": 25 } },{ "name": "Bulldozer", "desc": "Enemies you flourish into a wall have a chance of breaking the wall and are guard broken on impact.", "req": { "Strength": 25 } },{ "name": "Lose Your Mind", "desc": "Deal more DMG scaling with insanity up to 10% max. [+5 hp]", "req": { "Strength": 30 } },{ "name": "Unwavering Resolve", "desc": "Getting parried punishes your posture 33% less. [+2 Posture]", "req": { "Strength": 40 } },{ "name": "Shield Breaker", "desc": "Blunt Damage now fully ignores the posture from Shields. [+1 Posture]", "req": { "Strength": 60 } },{ "name": "Piercing Blow", "desc": "Guardbreaks Ignore Armor Resistance.", "req": { "Strength": 80 } },{ "name": "Berserk", "desc": "Succumb to the burning rage within, nullifying your own armor in exchange for nullifying the armor of your foes on your Basic Attacks. Grants your Criticals +10% PEN while active.", "req": { "Strength": 80 } },{ "name": "Million Ton Piercer", "desc": "Gain 5% extra PEN and remove the cap on your PEN. Go beyond your limits.", "req": { "Strength": 90 } },{ "name": "Collapsed Lung", "desc": "Block breaking an opponent closes off their ability to Vent for 8s, duration scales with Strength.", "req": { "Strength": 100 } },{ "name": "Dreambreaker", "desc": "On Flourish, Disables Tempo Drain and gives Tempo gain for 10s, Decrease target tempo gain for 7.5s. (Locks Collapsed Lung)", "req": { "Strength": 100 } }],
         "Precision": [{ "name": "Deflecting Handyman", "desc": "Posture Removal cooldown on parry is decreased by 0.25s. [+1 Posture]", "req": { "Precision": 20 } },{ "name": "Dead Eye", "desc": "Opponents who dodge will take 10% PEN on next attack. (8s CD)", "req": { "Precision": 40 } },{ "name": "Deadly Blow", "desc": "After Dodge, +25% Posture DMG for 3s. (10s CD)", "req": { "Precision": 50 } },{ "name": "Successive Strikes", "desc": "M1 Strings and Criticals build up stacks of increased DMG that last 5s, Dead Eye will not cancel on next hit.", "req": { "Precision": 60 } },{ "name": "Decisive Battle", "desc": "Cancelling an opponents block from behind will increase the damage by 10%", "req": { "Precision": 60 } },{ "name": "Close Quarters", "desc": "The first parry in an aerial state won’t knock you back. (20s CD) [+1 Posture]", "req": { "Precision": 75 } },{ "name": "Fatality", "desc": "Guardbreaking an Opponents Stuns them for longer. [+1 Posture]", "req": { "Precision": 80 } },{ "name": "Pinpoint Accuracy", "desc": "Bullets are now faster.", "req": { "Precision": 80 } },{ "name": "Hidden Blade", "desc": "Spine Cutter now applies anti-heal", "req": { "Precision": 80 } },{ "name": "Upcoming Opportunity", "desc": "Uncap PEN + gain 30% PEN for 3s Upon Parry or Dodge. (5s CD)", "req": { "Precision": 90 } }],
         "Fortitude": [{ "name": "Battle Tendency", "desc": "20% faster posture regen.", "req": { "Fortitude": 15 } },{ "name": "Braced Collapse", "desc": "After being block broken, the next attack to hit you deals reduced damage.", "req": { "Fortitude": 25 } },{ "name": "Exoskeleton", "desc": "Natural Armor resists 10% Physical Damage when active. Replenishes when resting.", "req": { "Fortitude": 40 } },{ "name": "To the Finish", "desc": "You take 10% less damage when below 30% health.", "req": { "Fortitude": 50 } },{ "name": "Turtle Shell", "desc": "If your shield is on your back, take reduced backstab damage and negate Spine Cutter.", "req": { "Fortitude": 50 } },{ "name": "Dancing Guard", "desc": "Parrying an opponent and then parrying another enemy in quick succession applies slow for 7s.", "req": { "Fortitude": 55 } },{ "name": "Knuckle Guard", "desc": "Hitting Dazed enemies grants you 10% posture resistance for 15s.", "req": { "Fortitude": 55, "Strength": 25 } },{ "name": "Down to your Level", "desc": "While you have a speed debuff, your Basic Attacks slow your enemies for 5s.", "req": { "Fortitude": 60 } },{ "name": "Defensive Reprisal", "desc": "Being flourished grants you 10% posture resistance for 20s.", "req": { "Fortitude": 65 } },{ "name": "Reinforced Armor", "desc": "Incoming PEN is reduced by 30%.", "req": { "Fortitude": 90 } },{ "name": "Armorclad", "desc": "Flourishing, or Getting Guardbroken gives you slight dmg resistance for 10s.", "req": { "Fortitude": 100 } }],
@@ -1059,6 +1059,43 @@ const calcData = {
         { n: "Million Ton Piercer", v: 5 },{ n: "Master of His Craft", v:20 }, { n: "Dead Eye", v: 10 }, { n: "Upcoming Opportunity", v: 30 }, { n: "Cheap Shot", v: 10 }, { n: "Ether Overdrive", v: 5 }, { n: "Piercing Will", v: 15 }, { n: "Cult of Personality", v: 15 }, { n: "Sturdy Control", v: 15 }, { n: "Tooth and Claw", v: 20 }, { n: "Dancing With The Dead", v: 2.5 }
     ]
 };
+const hpTalentMap = {
+    "The Sounds from Below": 115, "Return to the Dark Ages": 5, "Underdog": 3,
+    "Piercing Will": 5, "Shared Misery": 5, "All The Dead Gods": 5, "Perfect Flash": 2,
+    "Foolish Outburst": 5, "Ether overdrive": 5, "Brick Wall": 5, "Reinforced Armor": 5,
+    "Exoskeleton": 5, "Tap Dancer": 5, "Lose Your Mind": 5, "Million Ton Piercer": 5
+};
+const effectMap = {
+    // Universal Buffs (Both Weapon & Mantra)
+    "Flame Within": { v: 10, t: 'u' },
+    "Taunt": { v: 15, t: 'u' },
+    "Lose Your Mind": { v: 10, t: 'u' },
+    "Tough Love": { v: 10, t: 'u' },
+    "Ardour Scream": { v: 25, t: 'u' },
+    "Rush Hour": { v: 15, t: 'u' },
+    "Raiton Path: Enlightened": { v: 10, t: 'u' },
+
+    // Weapon Only Buffs
+    "Decisive Battle": { v: 10, t: 'w' },
+    "Knife's Journey": { v: 15, t: 'w' },
+    "Speed Demon": { v: 7.5, t: 'w' },
+    "Overflowing Dam": { v: 10, t: 'w' },
+    "Manipulator": { v: 20, t: 'w' },
+
+    // Mantra Only Buffs
+    "Perfect Flash": { v: 25, t: 'm' },
+    "Eureka": { v: 10, t: 'm' },
+
+    // Penetration
+    "Million Ton Piercer": { v: 5, t: 'p' },
+    "Master of His Craft": { v: 20, t: 'p' },
+    "Upcoming Opportunity": { v: 30, t: 'p' },
+    "Cheap Shot": { v: 10, t: 'p' },
+    "Ether Overdrive": { v: 5, t: 'p' },
+    "Piercing Will": { v: 15, t: 'p' },
+    "Sturdy Control": { v: 15, t: 'p' },
+    "Cult of Personality": { v: 15, t: 'p' }
+};
 
 // --- 2. GLOBAL STATE & MAPS ---
 let userStats = {};
@@ -1071,6 +1108,8 @@ let collapsedCats = new Set();
 let currentTab = 'talents';
 let selectedWeapon = null;
 let selectedEnchant = "no enchant";
+let userNotes = "";
+
 
 
 // Short-link mapping setup
@@ -1493,6 +1532,10 @@ function loadBuildFromString(code) {
         if (sections[7]) {
             activeBuffs = new Set(sections[7].split('.').filter(x => x));
         }
+        // 9. Summary
+        if (sections[8]) {
+            userNotes = atob(sections[8]);
+        }
 
         updateUI();
     } catch (e) { console.error("Load Error", e); }
@@ -1695,12 +1738,78 @@ function toggleItem(name, met) {
 
     updateUI();
 }
+function renderSummaryTab() {
+    const container = document.getElementById('item-container');
+    
+    // HP CALC (Keep your existing logic)
+    let totalHP = 360;
+    let ftdBonus = Math.min(Math.floor((userStats["Fortitude"] || 0) / 5) * 5, 50);
+    let vitBonus = (userTraits["Vitality"] || 0) * 10;
+    let talentHP = 0;
+    selectedTalents.forEach(n => { if(hpTalentMap[n]) talentHP += hpTalentMap[n]; });
+    totalHP += ftdBonus + vitBonus + talentHP;
+
+    // OFFENSE CALC (Keep your existing logic)
+    let weaponPts = 0; let mantraPts = 0; let totalPen = 0;
+    [...selectedTalents, ...selectedMantras].forEach(name => {
+        const effect = effectMap[name];
+        if (effect) {
+            if (effect.t === 'w') weaponPts += effect.v;
+            else if (effect.t === 'm') mantraPts += effect.v;
+            else if (effect.t === 'u') { weaponPts += effect.v; mantraPts += effect.v; }
+            else if (effect.t === 'p') totalPen += effect.v;
+        }
+    });
+
+    container.innerHTML = `
+        <div class="calc-wrapper" style="max-width: 750px;">
+            <div style="margin-bottom: 20px;">
+                <label style="color:#000; font-weight:bold; text-transform:uppercase; font-size:0.8rem;">Build Name</label>
+                <input type="text" id="build-name-input" 
+                    style="width: 100%; padding: 10px; font-family: 'Lora'; font-size: 1.2rem; border: 1px solid #999; background: #fff;" 
+                    placeholder="e.g. 1 cycle godseeker build" 
+                    value="${window.buildName || ''}" 
+                    oninput="window.buildName = this.value">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
+                    <h3 style="margin-top:0; color:#8b0000; text-transform:uppercase; font-size:0.9rem;">Total Health</h3>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: #8b0000;">${totalHP} <span style="font-size: 1rem;">HP</span></div>
+                    <div style="font-size: 0.8rem; color: #666;">Base: 360 | FTD: +${ftdBonus} | VIT: +${vitBonus} | Talents: +${talentHP}</div>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
+                    <h3 style="margin-top:0; color:var(--gold); text-transform:uppercase; font-size:0.9rem;">Offense Stats</h3>
+                    <div class="calc-row"><span>Weapon Mult</span> <b>${(1 + Math.min(0.25, weaponPts/100)).toFixed(2)}x</b></div>
+                    <div class="calc-row"><span>Mantra Mult</span> <b>${(1 + Math.min(0.25, mantraPts/100)).toFixed(2)}x</b></div>
+                    <div class="calc-row"><span>Penetration</span> <b>${totalPen}%</b></div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h3 style="color:#000; text-transform:uppercase; font-size:0.9rem;">Description / Notes</h3>
+                <textarea id="build-notes" 
+                    style="width: 100%; height: 150px; background: #fdfaf0; border: 1px solid #999; font-family: 'Lora'; padding: 15px; font-size: 1rem;" 
+                    placeholder="Write your Fuckass notes here cuh..."
+                    oninput="saveNotes(this.value)">${userNotes}</textarea>
+            </div>
+        </div>
+    `;
+}
+
+// Function to keep notes updated in memory
+function saveNotes(val) {
+    userNotes = val;
+}
 
 function renderItems() {
     const container = document.getElementById('item-container');
     if (!container) return;
     if (currentTab === 'calc') { renderCalculator(); return; } 
     if (currentTab === 'weapons') { renderWeapons(); return; }
+    if (currentTab === 'hp') { renderHPTab(); return; }
+    if (currentTab === 'summary') { renderSummaryTab(); return; }
     if (currentTab === 'guide') { renderGuide(); return; }
 
     let search = document.getElementById('search-input').value.toLowerCase().trim();
@@ -1823,6 +1932,51 @@ function renderCalculator() {
     </div></div>`;
     container.innerHTML = html;
 }
+
+function renderHPTab() {
+    const container = document.getElementById('item-container');
+    
+    // 1. Base HP
+    let totalHP = 360;
+    
+    // 2. Fortitude Scaling (5 HP per 5 FTD, cap at 50 FTD)
+    let ftd = userStats["Fortitude"] || 0;
+    let ftdBonus = Math.min(Math.floor(ftd / 5) * 5, 50);
+    
+    // 3. Vitality Trait (10 HP per 1 Vitality)
+    let vitBonus = (userTraits["Vitality"] || 0) * 10;
+    
+    // 4. Talent HP
+    let talentHP = 0;
+    let talentListHTML = "";
+    
+    selectedTalents.forEach(name => {
+        if (hpTalentMap[name]) {
+            talentHP += hpTalentMap[name];
+            talentListHTML += `<div class="calc-row"><span>${name}</span> <b>+${hpTalentMap[name]} HP</b></div>`;
+        }
+    });
+
+    totalHP += ftdBonus + vitBonus + talentHP;
+
+    container.innerHTML = `
+        <div class="calc-wrapper">
+            <h2 style="text-align:center; color:#000;">HP BREAKDOWN</h2>
+            <div class="calc-row"><span>Base HP</span> <b>360</b></div>
+            <div class="calc-row"><span>Fortitude Bonus (Cap 50)</span> <b>+${ftdBonus}</b></div>
+            <div class="calc-row"><span>Vitality Trait Bonus</span> <b>+${vitBonus}</b></div>
+            <hr style="border:1px dotted #000">
+            <div style="margin: 10px 0; font-weight: bold; color: var(--gold);">Talent Bonuses:</div>
+            ${talentListHTML || '<div style="font-style:italic; color:#666;">No HP talents selected.</div>'}
+            <hr style="border:1px solid #000">
+            <div class="calc-row" style="font-size: 1.5rem;">
+                <span>TOTAL HEALTH</span>
+                <b style="color: #8b0000;">${totalHP} HP</b>
+            </div>
+        </div>
+    `;
+}
+
 function renderGuide() {
     const container = document.getElementById('item-container');
     container.innerHTML = `
@@ -2225,18 +2379,18 @@ function loadSavedTheme() {
         changeTheme(saved);
     }
 }
-// Call loadSavedTheme() inside your init() function
+// Call loadSavedTheme() inside init() function
 function switchTab(t) { 
     currentTab = t; 
-    ['talents','mantras','calc','guide', 'weapons'].forEach(id => { 
+    ['talents','mantras','summary','guide', 'weapons'].forEach(id => { 
         let el = document.getElementById('tab-'+id); 
         if(el) el.classList.toggle('active', id===t); 
     }); 
     
     let searchBar = document.getElementById('search-bar'); 
-    if(searchBar) searchBar.style.display = (t==='calc' || t==='guide' || t==='weapons') ? 'none' : 'block'; 
+    // hides the search bar for Summary, Weapons, and Guide
+    if(searchBar) searchBar.style.display = (t==='summary' || t==='guide' || t==='weapons') ? 'none' : 'block'; 
 
-    // Force clear main container when switching to refresh layouts
     document.getElementById('item-container').innerHTML = "";
     updateUI(); 
 }
@@ -2249,19 +2403,34 @@ function clearBuild() { if(confirm("Clear build?")) window.location.href = windo
 
 async function saveBuild() {
     const btn = document.querySelector('.action-btn[onclick="saveBuild()"]');
+    const originalText = btn.innerText;
     btn.innerText = "GENERATING...";
-    
+
+    // 1. Generate the standard build string (for the builder to load)
     const traitsPart = Object.values(userTraits).join('.');
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
     const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
-    
-    
     const wIdx = selectedWeapon ? weaponMap.indexOf(selectedWeapon.name).toString(36) : "x";
     const eIdx = selectedEnchant ? enchantMap.indexOf(selectedEnchant).toString(36) : "x";
-    const bStr = Array.from(activeBuffs).join('.');
+    
+    const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath || 'No Oath'}_${wIdx}_${eIdx}`;
 
-    const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath}_${wIdx}_${eIdx}_${bStr}`;
+    // 2. Calculate HP for the Embed
+    let totalHP = 360 + Math.min(Math.floor((userStats["Fortitude"] || 0) / 5) * 5, 50) + ((userTraits["Vitality"] || 0) * 10);
+    selectedTalents.forEach(n => { if(hpTalentMap[n]) totalHP += hpTalentMap[n]; });
+
+    // 3. Create the Rich Payload for Discord
+    const payload = {
+        build: fullData,
+        name: window.buildName || "Untitled Build",
+        oath: selectedOath || "No Oath",
+        description: userNotes || "No build description",
+        hp: totalHP,
+        // Send raw stats so the worker can put them in columns
+        stats: userStats,
+        traits: userTraits
+    };
 
     try {
         const response = await fetch('https://api.jsonbin.io/v3/b', {
@@ -2271,19 +2440,21 @@ async function saveBuild() {
                 'X-Master-Key': JSONBIN_KEY,
                 'X-Bin-Private': false
             },
-            body: JSON.stringify({ build: fullData })
+            body: JSON.stringify(payload)
         });
+        
         const result = await response.json();
         const shortId = result.metadata.id; 
         const url = `https://embedded-link.deepwoken-modded.workers.dev/?id=${shortId}`;
 
-navigator.clipboard.writeText(url).then(() => {
-    alert("Embeddable Link Copied!");
-});
+        navigator.clipboard.writeText(url).then(() => {
+            alert("Embedded Link Copied! (Discord will show Name, Oath, Notes, and HP)");
+            btn.innerText = originalText;
+        });
     } catch (e) {
-        const url = window.location.origin + window.location.pathname + '?b=' + fullData;
-        navigator.clipboard.writeText(url);
-        btn.innerText = "SHARE BUILD LINK";
+        console.error(e);
+        alert("Failed to generate link. Copying standard URL instead.");
+        btn.innerText = originalText;
     }
 }
 window.onload = init;
