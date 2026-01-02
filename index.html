@@ -502,7 +502,188 @@ body.sidebar-open-right .overlay {
     cursor: pointer;
 }
 .roulette-btn:hover { background: #ff4444; color: #000; }
+/* --- COMMUNITY & AUTH STYLES --- */
+.user-bar {
+    background: #a8a392; /* Match screenshot grey/beige */
+    border: 1px solid #777;
+    border-radius: 4px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.user-info { display: flex; align-items: center; gap: 15px; }
+.user-pfp { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #c2a35d; object-fit: cover; background: #000; }
+.user-text { display: flex; flex-direction: column; }
+.user-name { font-weight: bold; font-size: 1.2rem; color: #000; }
+.user-status { font-size: 0.8rem; color: #444; }
+
+.auth-btn {
+    background: #8b0000; color: #fff; border: 1px solid #500;
+    padding: 8px 15px; font-family: 'Lora'; font-weight: bold; cursor: pointer;
+    text-transform: uppercase; margin-left: 10px;
+}
+.comm-btn {
+    background: #111; color: var(--gold); border: 1px solid #444;
+    padding: 8px 15px; font-family: 'Lora'; font-weight: bold; cursor: pointer;
+    text-transform: uppercase;
+}
+
+/* Modal Styles */
+.modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); }
+.modal-content { 
+    background: var(--parchment); color: #000; margin: 10% auto; padding: 20px; 
+    border: 10px solid transparent; border-image: var(--border-path) 10 round; 
+    width: 400px; text-align: center; position: relative;
+}
+.modal input, .modal select { 
+    width: 100%; padding: 10px; margin: 5px 0; background: #fff; 
+    color: #000; border: 1px solid #888; font-family: 'Lora'; 
+}
+
+/* Post Styles (Matching Screenshot) */
+.forum-feed { margin-top: 20px; }
+.post-card {
+    background: #e6e4d9; /* Light parchment */
+    border: 1px solid #aaa;
+    margin-bottom: 20px;
+    padding: 15px;
+    position: relative;
+    /* Simulate the pixel border if needed, simplified for clean look */
+    border-left: 4px solid var(--gold); 
+}
+.post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.post-author-info { display: flex; align-items: center; gap: 10px; }
+.post-pfp { width: 35px; height: 35px; border-radius: 50%; border: 1px solid #555; object-fit: cover; }
+.post-author-name { font-weight: bold; color: #000; font-size: 1rem; }
+.admin-badge { color: red; font-weight: bold; font-size: 0.7rem; margin-left: 5px; }
+
+.post-title { font-size: 1.6rem; font-weight: bold; color: #000; margin: 5px 0; font-family: 'Lora'; }
+.post-desc { font-style: italic; color: #444; margin-bottom: 15px; border-left: 2px solid #ccc; padding-left: 10px; }
+
+.tag-container { display: flex; gap: 5px; margin-bottom: 10px; flex-wrap: wrap; }
+.tag-pill { 
+    background: #333; color: var(--gold); padding: 2px 8px; 
+    font-size: 0.7rem; border-radius: 4px; text-transform: uppercase; 
+}
+.tag-pill.filter-active { background: var(--gold); color: #000; border: 1px solid #000; }
+
+.load-build-btn {
+    background: #1a1a1c; color: var(--gold); border: 1px solid var(--gold);
+    padding: 10px 20px; font-weight: bold; cursor: pointer; font-family: 'Lora';
+    text-transform: uppercase; margin-bottom: 15px; width: 100%;
+}
+.load-build-btn:hover { background: var(--gold); color: #000; }
+
+/* Voting */
+.vote-bar { display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.05); padding: 5px 10px; border-radius: 20px; width: fit-content; margin-top: 10px; }
+.vote-arrow { background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #666; font-weight: bold; }
+.vote-arrow.up.active { color: #ff4444; } /* Red for upvote */
+.vote-arrow.down.active { color: #4444ff; }
+.vote-score { font-weight: bold; color: #000; min-width: 20px; text-align: center; }
+
+/* Comments */
+.comments-section { margin-top: 15px; border-top: 1px solid #ccc; padding-top: 10px; display: none; }
+.comment-box { display: flex; gap: 10px; margin-bottom: 10px; }
+.comment-item { background: rgba(255,255,255,0.5); padding: 10px; margin-bottom: 8px; border-radius: 4px; border: 1px solid #ddd; }
+.comment-img-preview { max-height: 150px; max-width: 100%; display: block; margin-top: 5px; border-radius: 4px; cursor: pointer; }
+.comment-deleted { color: #888; font-style: italic; background: #eee; padding: 5px; }
+
+.admin-actions { margin-left: auto; font-size: 0.8rem; }
+.del-btn { color: red; cursor: pointer; font-weight: bold; text-decoration: underline; }
+.reset-btn { color: blue; cursor: pointer; text-decoration: underline; margin-right: 10px; }
+
+/* The Button to open the forums */
+.browse-btn {
+    background: #000; color: var(--gold); border: 1px solid var(--gold);
+    padding: 15px; width: 100%; font-family: 'Lora'; font-weight: bold; font-size: 1.1rem;
+    cursor: pointer; text-transform: uppercase; margin-top: 10px;
+    transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.browse-btn:hover { background: var(--gold); color: #000; }
+
+/* The Container for the Forum View */
+.forum-view-container {
+    display: none; /* Hidden by default */
+    border-top: 2px solid #333;
+    margin-top: 20px;
+    padding-top: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Search Bar */
+.forum-search-bar {
+    width: 100%; padding: 12px; background: #fff; border: 1px solid #888;
+    font-family: 'Lora'; font-size: 1rem; margin-bottom: 10px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>');
+    background-repeat: no-repeat;
+    background-position: 98% center;
+}
+
+/* Post Card Updates */
+.post-card { cursor: pointer; transition: transform 0.1s, border-color 0.2s; }
+.post-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+
+/* Focus View (Single Build Mode) */
+#focus-view {
+    display: none;
+    background: var(--parchment);
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 2500; /* Above everything */
+    overflow-y: auto;
+    padding: 20px;
+}
+.focus-inner {
+    max-width: 800px; margin: 0 auto; background: #e6e4d9; 
+    border: 1px solid #aaa; padding: 20px; 
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    min-height: 100vh;
+}
+.back-btn {
+    background: transparent; border: none; color: #444; 
+    font-weight: bold; cursor: pointer; font-size: 1.1rem; 
+    display: flex; align-items: center; gap: 5px; margin-bottom: 15px;
+}
+.back-btn:hover { color: #000; text-decoration: underline; }
+
+/* Animation */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+/* --- FIX TEXT COLORS IN FOCUS VIEW --- */
+
+/* Force all text inside the Focus/Forum View to be black */
+.focus-inner, 
+.focus-inner h1, 
+.focus-inner h2, 
+.focus-inner h3, 
+.focus-inner span, 
+.focus-inner div {
+    color: #000 !important;
+}
+
+/* Specifically fix the Comment Input boxes */
+.comment-box input {
+    color: #000 !important;       /* Black Text */
+    background: #fff !important;  /* White Background */
+    border: 1px solid #888 !important;
+}
+
+/* Fix Placeholder text color (the 'Write a comment...' text) */
+.comment-box input::placeholder {
+    color: #555 !important;
+}
+
+/* Fix Vote Count Numbers */
+.vote-score {
+    color: #000 !important;
+}
     </style>
+    <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 </head>
 <body>
 
@@ -1250,17 +1431,6 @@ function init() {
   "fishy business is the way to go - fishboy",
   "fishboy is love fishboy is life",
   "the snow will shatter - fishboy",
-  "embrace the tide - fishboy",
-  "let the waves guide you - fishboy",
-  "swim with the current - fishboy",
-  "everything fishboy says is true -naturallycoded",
-  "everything fishboy does is for the greater good -naturallycoded",
-  "fishboy knows best -naturallycoded",
-  "follow fishboy's wisdom -naturallycoded",
-  "trust in fishboy's vision -naturallycoded",
-  "fishboy is the light in the darkness -naturallycoded",
-  "fishboy will lead us to greatness -naturallycoded",
-  "fishboy is the savior we need -naturallycoded",
   "the fish will rise again - fishboy",
   "fishboy forever - fishboy",
   "fishboy never lies - fishboy",
@@ -1270,14 +1440,6 @@ function init() {
   "errorHandler: exception found - errors.shop.naturallycoded.buyMessage.PleaseHELP ME NOW SlenderMan is Coming for me HeFortnite Battlepass new -naturallycoded",
    "naturallycoded is fishboy in disguise - vergil",
    "#revengeseekerz",
-   "the fish will rise - fishboy",
-   "car seat headrest - fishboy",
-   "swagderp",
-   "theyre coming for us",
-   "stay vigilant",
-   "report traitors to fishboy",
-   "trust no one but fishboy",
-   "prod.greentop",
    "DontGet2Close",
    "AfflictedDay1(trustt)",
    "the art of losing",
@@ -1294,28 +1456,13 @@ function init() {
    "Make sure your internet isnt busted, and try again in 5 minutes.",
    "1 in 400,000,000.",
    "tough luck huh? -fishboy",  
-    "added new fishboy quote -naturallycoded",
-    "naturallycoded x fishboy forever - vergil",
-    "naturallycoded x fishboy gay marriage confirmed - vergil",
-    "fishboy is my spirit animal - vergil",
-    "gay fish unite - vergil",
-    "report nonbelievers to fishboy - vergil",
-    "down with the nonbelievers - vergil",
-    "fishboy for president - vergil",
-    "convert or be cast into the sea - vergil",
     "yeah they have to be gay dude - me",
     "geometry dash is.. something man -fishboy",
     "never ask a fish its weight -fishboy",
     "fishboy is love fishboy is life -naturallycoded",
     "live laugh love tiramisu - katie",
     "ooo you want to make a gale build.... - katie",
-    "i dont really like friced, but i love fishboy - mustard",
-    "mustard x rendbreaker - fishboy",
-    "fishboy is my homeboy - mustard",
-    "mustard is my homeboy - fishboy",
-    "mustard is the first supporter of the fishes grace - fishboy",
-    "fishboy is pretty cool - mustard",
-    "mustard x iron requiem - fishboy",
+    "ooo you want to make a gale build.... - Mon",
     "mustard will forever be in the fishes grace - fishboy",
     "This is a joe btw",
     "someone please ping @geomatsuu with gif of a shower",
@@ -1325,7 +1472,18 @@ function init() {
     "My bunny is building a bridge",
     "Play Terraria (fuckass common sense)",
     "Mrs Ukraine is a blud",
-    "Glory to Flamecharm"
+    "Glory to Flamecharm",
+    "deepwokengpt",
+"Dont ask me for access to my enchant -mon",
+"NERF THUNDERCALL 😡😡😡",
+"New years resolution; get a dev spec in DwM",
+"Taxes successfully evaded",
+"Flamecharm? Daring today, aren't we?",
+"Shrine of order? What's that?",
+"Israel gpt, generate me a build...",
+"Who needs an F key when you can run away?",
+"Don't touch the man in the mountains.",
+"please im begging you STOP BREAKING THE FUCKASS FORUM STOPPPPPP"
 
 ];
     const splashEl = document.getElementById('splash-text');
@@ -1646,10 +1804,13 @@ function toggleItem(name, met) {
 
     updateUI();
 }
+// Global variable to store posts for searching
+let cachedPosts = [];
+
 function renderSummaryTab() {
     const container = document.getElementById('item-container');
     
-    // HP CALC (Keep your existing logic)
+    // Stats Calc Logic (Same as before)
     let totalHP = 360;
     let ftdBonus = Math.min(Math.floor((userStats["Fortitude"] || 0) / 5) * 5, 50);
     let vitBonus = (userTraits["Vitality"] || 0) * 10;
@@ -1657,7 +1818,6 @@ function renderSummaryTab() {
     selectedTalents.forEach(n => { if(hpTalentMap[n]) talentHP += hpTalentMap[n]; });
     totalHP += ftdBonus + vitBonus + talentHP;
 
-    // OFFENSE CALC (Keep your existing logic)
     let weaponPts = 0; let mantraPts = 0; let totalPen = 0;
     [...selectedTalents, ...selectedMantras].forEach(name => {
         const effect = effectMap[name];
@@ -1669,38 +1829,138 @@ function renderSummaryTab() {
         }
     });
 
+    // --- RENDER HTML ---
     container.innerHTML = `
-        <div class="calc-wrapper" style="max-width: 750px;">
-            <div style="margin-bottom: 20px;">
-                <label style="color:#000; font-weight:bold; text-transform:uppercase; font-size:0.8rem;">Build Name</label>
-                <input type="text" id="build-name-input" 
-                    style="width: 100%; padding: 10px; font-family: 'Lora'; font-size: 1.2rem; border: 1px solid #999; background: #fff;" 
-                    placeholder="e.g. 1 cycle godseeker build" 
-                    value="${window.buildName || ''}" 
-                    oninput="window.buildName = this.value">
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
-                    <h3 style="margin-top:0; color:#8b0000; text-transform:uppercase; font-size:0.9rem;">Total Health</h3>
-                    <div style="font-size: 2.5rem; font-weight: bold; color: #8b0000;">${totalHP} <span style="font-size: 1rem;">HP</span></div>
-                    <div style="font-size: 0.8rem; color: #666;">Base: 360 | FTD: +${ftdBonus} | VIT: +${vitBonus} | Talents: +${talentHP}</div>
+        <div class="calc-wrapper" style="max-width: 800px;">
+            
+            <!-- 1. BUILDER UI (Visible by default) -->
+            <div id="summary-main-view">
+                <div style="margin-bottom: 20px;">
+                    <label style="font-weight:bold; font-size:0.8rem;">BUILD NAME</label>
+                    <input type="text" id="build-name-input" 
+                        style="width: 100%; padding: 10px; font-family: 'Lora'; font-size: 1.2rem;" 
+                        placeholder="e.g. 1 cycle godseeker build" 
+                        value="${window.buildName || ''}" 
+                        oninput="window.buildName = this.value">
                 </div>
 
-                <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
-                    <h3 style="margin-top:0; color:var(--gold); text-transform:uppercase; font-size:0.9rem;">Offense Stats</h3>
-                    <div class="calc-row"><span>Weapon Mult</span> <b>${(1 + Math.min(0.25, weaponPts/100)).toFixed(2)}x</b></div>
-                    <div class="calc-row"><span>Mantra Mult</span> <b>${(1 + Math.min(0.25, mantraPts/100)).toFixed(2)}x</b></div>
-                    <div class="calc-row"><span>Penetration</span> <b>${totalPen}%</b></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
+                        <h3 style="margin:0; color:#8b0000;">${totalHP} HP</h3>
+                        <div style="font-size: 0.8rem; color: #666;">Base: 360 | FTD: +${ftdBonus} | VIT: +${vitBonus} | Talents: +${talentHP}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
+                         <h3 style="margin:0; color:var(--gold);">OFFENSE</h3>
+                         <div style="font-size:0.8rem;">Wep: ${(1 + Math.min(0.25, weaponPts/100)).toFixed(2)}x | Mantra: ${(1 + Math.min(0.25, mantraPts/100)).toFixed(2)}x | Pen: ${totalPen}%</div>
+                    </div>
                 </div>
+
+                <div style="margin-top: 20px;">
+                    <label style="font-weight:bold;">DESCRIPTION / NOTES</label>
+                    <textarea id="build-notes" 
+                        style="width: 100%; height: 100px; padding: 10px; font-family: 'Lora';" 
+                        placeholder="Write your Fuckass notes here cuh..."
+                        oninput="saveNotes(this.value)">${userNotes}</textarea>
+                </div>
+
+                <hr style="border: 2px solid #000; margin: 30px 0;">
+
+                ${renderUserBar()}
+                
+                <div style="display:flex; gap: 10px; margin-top: 10px;">
+                    ${currentUser ? `<button class="comm-btn" style="flex:1; background:#8b0000; color:#fff;" onclick="openPostModal()">+ Publish Build</button>` : ''}
+                </div>
+
+                <!-- BUTTON TO OPEN FORUM -->
+                <button class="browse-btn" onclick="openForumView()">
+                    <span>Browse Community Builds</span>
+                    <span>▼</span>
+                </button>
             </div>
 
-            <div style="margin-top: 20px;">
-                <h3 style="color:#000; text-transform:uppercase; font-size:0.9rem;">Description / Notes</h3>
-                <textarea id="build-notes" 
-                    style="width: 100%; height: 150px; background: #fdfaf0; border: 1px solid #999; font-family: 'Lora'; padding: 15px; font-size: 1rem;" 
-                    placeholder="Write your Fuckass notes here cuh..."
-                    oninput="saveNotes(this.value)">${userNotes}</textarea>
+            <!-- 2. FORUM UI (Hidden inside this wrapper) -->
+            <div id="forum-view" class="forum-view-container">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h2 style="margin:0;">COMMUNITY BUILDS</h2>
+                    <button onclick="closeForumView()" style="background:transparent; border:none; text-decoration:underline; cursor:pointer;">Close</button>
+                </div>
+
+                <!-- SEARCH BAR -->
+                <input type="text" id="forum-search" class="forum-search-bar" placeholder="Search builds by title, author, or description..." oninput="filterForumFeed()">
+
+                <!-- FILTERS -->
+                <div class="tag-filters" style="margin-bottom: 20px;">
+                    <span style="font-weight:bold; margin-right:5px;">Filter:</span>
+                    <button class="tag-pill ${currentTagFilter === null ? 'filter-active' : ''}" onclick="filterTags(null)">ALL</button>
+                    ${availableTags.map(t => `<button class="tag-pill ${currentTagFilter === t ? 'filter-active' : ''}" onclick="filterTags('${t}')">${t}</button>`).join('')}
+                </div>
+
+                <!-- FEED -->
+                <div id="forum-feed" class="forum-feed">
+                    <div style="text-align:center; padding:20px;">Loading...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. FOCUS VIEW (Full Screen Overlay) -->
+        <div id="focus-view">
+            <div class="focus-inner">
+                <button class="back-btn" onclick="closeFocusView()">← Back to List</button>
+                <div id="focus-content"></div>
+            </div>
+        </div>
+
+        <!-- MODALS (Auth/Post) kept same as before -->
+        <div id="auth-modal" class="modal">
+            <div class="modal-content">
+                <span onclick="closeModal('auth-modal')" style="float:right; cursor:pointer; font-size:1.5rem;">&times;</span>
+                <h2 id="auth-title">Login</h2>
+                <input type="text" id="auth-user" placeholder="Username">
+                <input type="email" id="auth-email" placeholder="Email">
+                <input type="text" id="auth-pfp" placeholder="PFP URL">
+                <input type="password" id="auth-pass" placeholder="Password">
+                <button class="action-btn" onclick="submitAuth()">Submit</button>
+                <div style="margin-top:10px; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="toggleAuthMode()">Switch to Sign Up/Login</div>
+            </div>
+        </div>
+
+        <div id="post-modal" class="modal">
+            <div class="modal-content" style="width: 500px;">
+                <span onclick="closeModal('post-modal')" style="float:right; cursor:pointer;">&times;</span>
+                <h2>Publish Build</h2>
+                <input type="text" id="post-title" placeholder="Build Title" value="${window.buildName || ''}">
+                <textarea id="post-desc" style="width:100%; height:80px; padding:5px; margin-bottom:10px;" placeholder="Description">${userNotes}</textarea>
+                <select id="post-tag">
+                    ${availableTags.map(t => `<option value="${t}">${t}</option>`).join('')}
+                </select>
+                <button class="action-btn" onclick="submitPost()">PUBLISH</button>
+            </div>
+        </div>
+    `;
+}
+
+// Render User Bar Helper
+function renderUserBar() {
+    if (!currentUser) {
+        return `
+            <div class="user-bar" style="justify-content:center;">
+                <div>Join the Community to post & vote!</div>
+                <button class="auth-btn" onclick="openAuthModal()">LOG IN / SIGN UP</button>
+            </div>
+        `;
+    }
+    return `
+        <div class="user-bar">
+            <div class="user-info">
+                <img src="${currentUser.photoURL || 'https://i.imgur.com/6U68bgZ.png'}" class="user-pfp">
+                <div class="user-text">
+                    <span class="user-name">${currentUser.displayName}</span>
+                    <span class="user-status">Logged In ${currentAdmin ? '<b style="color:red">[ADMIN]</b>' : ''}</span>
+                </div>
+            </div>
+            <div>
+                 ${currentAdmin ? `<button class="auth-btn" style="background:#333;" onclick="adminPanel()">ADMIN</button>` : ''}
+                <button class="auth-btn" onclick="logout()">LOG OFF</button>
             </div>
         </div>
     `;
@@ -2365,6 +2625,463 @@ async function saveBuild() {
         btn.innerText = originalText;
     }
 }
+// --- AUTH LOGIC ---
+let isSignUp = false;
+
+function openAuthModal() {
+    document.getElementById('auth-modal').style.display = 'block';
+    document.getElementById('auth-user').style.display = 'none'; // Hide username on login default
+    document.getElementById('auth-pfp').style.display = 'none';
+    document.getElementById('auth-title').innerText = "Login";
+    isSignUp = false;
+}
+
+function toggleAuthMode() {
+    isSignUp = !isSignUp;
+    const title = document.getElementById('auth-title');
+    const userIn = document.getElementById('auth-user');
+    const pfpIn = document.getElementById('auth-pfp');
+    
+    if (isSignUp) {
+        title.innerText = "Sign Up";
+        userIn.style.display = 'block';
+        pfpIn.style.display = 'block';
+    } else {
+        title.innerText = "Login";
+        userIn.style.display = 'none';
+        pfpIn.style.display = 'none';
+    }
+}
+
+async function submitAuth() {
+    const email = document.getElementById('auth-email').value;
+    const pass = document.getElementById('auth-pass').value;
+    const user = document.getElementById('auth-user').value;
+    const pfp = document.getElementById('auth-pfp').value;
+
+    try {
+        if (isSignUp) {
+            if(!user) return alert("Username required");
+            const cred = await auth.createUserWithEmailAndPassword(email, pass);
+            await cred.user.updateProfile({
+                displayName: user,
+                photoURL: pfp || "https://i.imgur.com/6U68bgZ.png"
+            });
+            // Create user doc for admin tracking
+            await db.collection('users').doc(cred.user.uid).set({
+                username: user,
+                isAdmin: false, // Default false
+                email: email
+            });
+            alert("Account Created!");
+        } else {
+            await auth.signInWithEmailAndPassword(email, pass);
+        }
+        closeModal('auth-modal');
+    } catch (e) {
+        alert("Error: " + e.message);
+    }
+}
+
+function logout() { auth.signOut(); }
+
+function forgotPassword() {
+    const email = prompt("Enter your email to reset password:");
+    if(email) auth.sendPasswordResetEmail(email).then(() => alert("Email sent!")).catch(e => alert(e.message));
+}
+
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+// --- FORUM POSTING LOGIC ---
+function openPostModal() {
+    document.getElementById('post-modal').style.display = 'block';
+}
+
+async function submitPost() {
+    if(!currentUser) return;
+    const title = document.getElementById('post-title').value;
+    const desc = document.getElementById('post-desc').value;
+    const tag = document.getElementById('post-tag').value;
+
+    if(!title) return alert("Title required");
+
+    // Generate Build Code
+    const traitsPart = Object.values(userTraits).join('.');
+    const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
+    const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
+    const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
+    const wIdx = selectedWeapon ? weaponMap.indexOf(selectedWeapon.name).toString(36) : "x";
+    const eIdx = selectedEnchant ? enchantMap.indexOf(selectedEnchant).toString(36) : "x";
+    const fullCode = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath || 'No Oath'}_${wIdx}_${eIdx}`;
+
+    try {
+        await db.collection('posts').add({
+            title: title,
+            desc: desc,
+            tag: tag,
+            buildCode: fullCode,
+            authorId: currentUser.uid,
+            authorName: currentUser.displayName,
+            authorPfp: currentUser.photoURL,
+            voteScore: 0,
+            upvotes: [],
+            downvotes: [],
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        closeModal('post-modal');
+        loadForumPosts();
+    } catch (e) {
+        alert("Error posting: " + e.message);
+    }
+}
+
+// --- FEED & RENDERING ---
+function filterTags(tag) {
+    currentTagFilter = tag;
+    renderSummaryTab(); // Re-renders UI to show active pill
+    // loadForumPosts is called by renderSummaryTab
+}
+
+function loadForumPosts() {
+    const feed = document.getElementById('forum-feed');
+    if(!feed) return;
+
+    let query = db.collection('posts').orderBy('voteScore', 'desc').limit(20);
+    if (currentTagFilter) {
+        query = db.collection('posts').where('tag', '==', currentTagFilter).orderBy('voteScore', 'desc').limit(20);
+    }
+
+    query.get().then(snap => {
+        feed.innerHTML = "";
+        if(snap.empty) { feed.innerHTML = "<div style='text-align:center'>No builds found here.</div>"; return; }
+        
+        snap.forEach(doc => {
+            const p = doc.data();
+            const pid = doc.id;
+            
+            // Calculate Vote Status
+            const uid = currentUser ? currentUser.uid : null;
+            const isUp = p.upvotes.includes(uid);
+            const isDown = p.downvotes.includes(uid);
+
+            // Admin Delete
+            const adminDel = currentAdmin ? `<span class="del-btn" onclick="deletePost('${pid}')">[DELETE POST]</span>` : '';
+            const adminBadge = (p.authorId === "ADMIN_UID_HERE" || p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : ''; // simplified check
+
+            feed.innerHTML += `
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-author-info">
+                            <img src="${p.authorPfp}" class="post-pfp">
+                            <div>
+                                <span class="post-author-name">${p.authorName}</span>
+                                ${adminBadge}
+                                <div style="font-size:0.7rem; color:#666;">${p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : ''}</div>
+                            </div>
+                        </div>
+                        <div class="admin-actions">${adminDel}</div>
+                    </div>
+
+                    <div class="post-title">${p.title}</div>
+                    <div class="tag-container"><span class="tag-pill">${p.tag}</span></div>
+                    <div class="post-desc">${p.desc}</div>
+
+                    <button class="load-build-btn" onclick="loadBuildFromString('${p.buildCode}'); alert('Build Loaded! Check Stats/Talents tabs.'); scrollToTop();">LOAD BUILD</button>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div class="vote-bar">
+                            <button class="vote-arrow up ${isUp?'active':''}" onclick="votePost('${pid}', 1)">▲</button>
+                            <span class="vote-score">${p.voteScore}</span>
+                            <button class="vote-arrow down ${isDown?'active':''}" onclick="votePost('${pid}', -1)">▼</button>
+                        </div>
+                        <button class="comm-btn" style="background:transparent; border:none; font-size:0.8rem; text-decoration:underline;" onclick="togglePostComments('${pid}')">
+                            Comments
+                        </button>
+                    </div>
+
+                    <div id="comments-${pid}" class="comments-section">
+                        <!-- Comments load here -->
+                    </div>
+                </div>
+            `;
+        });
+    });
+}
+
+function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+
+// --- VOTING SYSTEM (Optimistic UI) ---
+async function votePost(pid, val) {
+    if(!currentUser) return alert("Login to vote");
+    const uid = currentUser.uid;
+    const postRef = db.collection('posts').doc(pid);
+
+    try {
+        await db.runTransaction(async (t) => {
+            const doc = await t.get(postRef);
+            const data = doc.data();
+            let up = data.upvotes;
+            let down = data.downvotes;
+
+            // Remove existing vote
+            if(up.includes(uid)) up = up.filter(id => id !== uid);
+            if(down.includes(uid)) down = down.filter(id => id !== uid);
+
+            // Add new vote (unless toggling off)
+            // Logic: If I click UP and was already UP, remove it (0). Else add UP.
+            if (val === 1 && !data.upvotes.includes(uid)) up.push(uid);
+            else if (val === -1 && !data.downvotes.includes(uid)) down.push(uid);
+            
+            t.update(postRef, {
+                upvotes: up,
+                downvotes: down,
+                voteScore: up.length - down.length
+            });
+        });
+        loadForumPosts(); // Refresh
+    } catch(e) { console.error(e); }
+}
+
+// --- COMMENTS SYSTEM ---
+function togglePostComments(pid) {
+    const el = document.getElementById(`comments-${pid}`);
+    if(el.innerHTML.trim() === "" || el.style.display === "none") {
+        el.style.display = "block";
+        renderComments(pid);
+    } else {
+        el.style.display = "none";
+    }
+}
+
+function renderComments(pid, targetId = null) {
+    // Determine which container to use
+    const containerId = targetId || `comments-${pid}`;
+    const el = document.getElementById(containerId);
+    
+    // SAFETY CHECK: If the box doesn't exist on screen, stop immediately.
+    if (!el) return;
+
+    // Input Area
+    let html = `
+        <div class="comment-box" style="padding: 10px; background: rgba(0,0,0,0.03); border-radius: 5px;">
+            <input type="text" id="c-text-${containerId}" placeholder="Write a comment..." style="flex:1; padding: 8px; border: 1px solid #ccc; font-family: 'Lora'; color: #000;">
+            <input type="text" id="c-img-${containerId}" placeholder="IMG URL" style="width:80px; padding: 8px; border: 1px solid #ccc; font-family: 'Lora'; margin-left: 5px; color: #000;">
+            <button onclick="postComment('${pid}', '${containerId}')" style="cursor:pointer; padding: 8px 15px; background: #333; color: #fff; border: none; font-weight: bold;">Post</button>
+        </div>
+        <div id="clist-${containerId}" style="margin-top: 10px;">Loading comments...</div>
+    `;
+    el.innerHTML = html;
+
+    db.collection('posts').doc(pid).collection('comments').orderBy('voteScore', 'desc').get().then(snap => {
+        const list = document.getElementById(`clist-${containerId}`);
+        // Double check that the list exists before trying to write to it
+        if(!list) return;
+        
+        list.innerHTML = "";
+        
+        if (snap.empty) {
+            list.innerHTML = "<div style='font-style:italic; color:#666; padding:10px;'>No comments yet.</div>";
+            return;
+        }
+
+        snap.forEach(doc => {
+            const c = doc.data();
+            const cid = doc.id;
+            
+            if (c.isDeleted) {
+                list.innerHTML += `<div class="comment-item comment-deleted" style="color:#888; background:#ddd; padding:5px;">Comment deleted</div>`;
+                return;
+            }
+
+            const uid = currentUser ? currentUser.uid : null;
+            const isUp = c.upvotes && c.upvotes.includes(uid);
+            const isDown = c.downvotes && c.downvotes.includes(uid);
+            
+            // Delete Button Logic
+            let delBtn = "";
+            if (currentUser && (currentAdmin || currentUser.uid === c.authorId)) {
+                delBtn = `<span class="del-btn" style="color:red; cursor:pointer; font-weight:bold;" onclick="deleteComment('${pid}', '${cid}', '${c.authorId}', '${containerId}')">x</span>`;
+            }
+
+            let imgHtml = c.image ? `<img src="${c.image}" class="comment-img-preview" onclick="window.open(this.src)" style="max-width: 150px; display: block; margin-top: 5px; cursor: pointer; border-radius: 4px;">` : '';
+
+            list.innerHTML += `
+                <div class="comment-item" style="background: rgba(255,255,255,0.8); padding: 10px; margin-bottom: 8px; border: 1px solid #ccc; border-radius: 4px; color: #000;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="font-weight:bold; font-size:0.9rem; color: #000;">${c.authorName}</span>
+                        ${delBtn}
+                    </div>
+                    <div style="margin: 5px 0; color: #000;">${c.text}</div>
+                    ${imgHtml}
+                    <div style="display:flex; gap:10px; align-items:center; margin-top:5px;">
+                        <button class="vote-arrow up ${isUp?'active':''}" style="font-size:1rem; background:none; border:none; cursor:pointer; color:${isUp?'red':'#555'};" onclick="voteComment('${pid}', '${cid}', 1, '${containerId}')">▲</button>
+                        <span style="font-size:0.9rem; font-weight:bold; color:#000;">${c.voteScore || 0}</span>
+                        <button class="vote-arrow down ${isDown?'active':''}" style="font-size:1rem; background:none; border:none; cursor:pointer; color:${isDown?'blue':'#555'};" onclick="voteComment('${pid}', '${cid}', -1, '${containerId}')">▼</button>
+                    </div>
+                </div>
+            `;
+        });
+    });
+}
+
+
+async function postComment(pid, containerId = null) {
+    if(!currentUser) return alert("Login to comment");
+    
+    // Use the specific container ID passed from the button, or default to the list view ID
+    const targetDiv = containerId || `comments-${pid}`; 
+    
+    const textEl = document.getElementById(`c-text-${targetDiv}`);
+    const imgEl = document.getElementById(`c-img-${targetDiv}`);
+    
+    if (!textEl) return; 
+
+    const text = textEl.value;
+    const img = imgEl.value;
+    
+    if(!text && !img) return;
+
+    await db.collection('posts').doc(pid).collection('comments').add({
+        text: text,
+        image: img,
+        authorId: currentUser.uid,
+        authorName: currentUser.displayName,
+        voteScore: 0,
+        upvotes: [],
+        downvotes: [],
+        isDeleted: false,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    
+    // Refresh the correct view
+    renderComments(pid, targetDiv);
+}
+
+async function voteComment(pid, cid, val, containerId = null) {
+    if(!currentUser) return alert("Please log in to vote.");
+    
+    const uid = currentUser.uid;
+    const ref = db.collection('posts').doc(pid).collection('comments').doc(cid);
+    
+    try {
+        const doc = await ref.get();
+        
+        // SAFETY CHECK: If document doesn't exist, stop.
+        if (!doc.exists) {
+            console.error("Comment not found in DB");
+            return;
+        }
+
+        let data = doc.data();
+        let up = data.upvotes || [];    // Default to empty array if missing
+        let down = data.downvotes || [];
+
+        // Remove previous vote
+        if(up.includes(uid)) up = up.filter(id => id !== uid);
+        if(down.includes(uid)) down = down.filter(id => id !== uid);
+
+        // Add new vote
+        if (val === 1) up.push(uid);
+        else if (val === -1) down.push(uid);
+
+        await ref.update({ 
+            upvotes: up, 
+            downvotes: down, 
+            voteScore: up.length - down.length 
+        });
+        
+        // Refresh UI
+        renderComments(pid, containerId);
+
+    } catch (e) {
+        console.error("Vote Error:", e);
+    }
+}
+
+// --- ADMIN SYSTEM ---
+async function adminPanel() {
+    if (!currentAdmin) return;
+
+    const choice = prompt("Admin Menu:\n1. Promote User to Admin (by Email)\n2. Reset User Password");
+
+    if (choice === "1") {
+        const targetEmail = prompt("Enter the exact email of the user to promote:");
+        if (!targetEmail) return;
+
+        // Search the 'users' collection for this email
+        const snapshot = await db.collection('users').where('email', '==', targetEmail).get();
+
+        if (snapshot.empty) {
+            alert("User not found! They must sign up on the site first.");
+            return;
+        }
+
+        // Update the user found
+        snapshot.forEach(doc => {
+            doc.ref.update({ isAdmin: true })
+            .then(() => alert(`Success! ${targetEmail} is now an Admin.`))
+            .catch(e => alert(e.message));
+        });
+    } 
+    else if (choice === "2") {
+        const tEmail = prompt("Target Email for Password Reset:");
+        if(tEmail) auth.sendPasswordResetEmail(tEmail)
+            .then(()=>alert("Reset email sent."))
+            .catch(e=>alert(e.message));
+    }
+}
+
+
+
+async function deletePost(pid, authorId) {
+    if (!currentUser) return alert("Please log in.");
+    
+    // Check if user is Admin OR the Author
+    const isAuthor = currentUser.uid === authorId;
+    
+    // WE USE 'currentAdmin' HERE. The error happened because it said 'isAdmin'
+    if (!currentAdmin && !isAuthor) {
+        alert("You do not have permission.");
+        return;
+    }
+
+    if (confirm("Permanently delete this post?")) {
+        try {
+            await db.collection('posts').doc(pid).delete();
+            // Close focus view if open
+            if(typeof closeFocusView === "function") closeFocusView();
+            // Refresh feed
+            loadForumPosts();
+        } catch (e) {
+            console.error(e);
+            alert("Error: " + e.message);
+        }
+    }
+}
+
+async function deleteComment(pid, cid, authorId, containerId = null) {
+    if (!currentUser) return;
+
+    const isAuthor = currentUser.uid === authorId;
+    if (!currentAdmin && !isAuthor) {
+        alert("You do not have permission.");
+        return;
+    }
+
+    if (confirm("Delete this comment?")) {
+        try {
+            await db.collection('posts').doc(pid).collection('comments').doc(cid).update({
+                isDeleted: true,
+                text: "[Deleted]",
+                image: ""
+            });
+            renderComments(pid, containerId);
+        } catch (e) {
+            console.error(e);
+            alert("Error: " + e.message);
+        }
+    }
+}
 window.onload = init;
 
 function buildRoulette() {
@@ -2496,6 +3213,434 @@ function buildRoulette() {
 
     console.log(`Roulette Success: ${cap - remaining} / ${cap} points used.`);
     updateUI();
+}
+// --- FIREBASE CONFIG ---
+const firebaseConfig = {
+    apiKey: "AIzaSyBiKatdnUjpHF-NiWONwo9HdeWhD4mW1mI",
+    authDomain: "dwm-builder.firebaseapp.com",
+    projectId: "dwm-builder",
+    storageBucket: "dwm-builder.firebasestorage.app",
+    messagingSenderId: "365946457642",
+    appId: "1:365946457642:web:178abbbdb0eb1ed8277d53",
+    measurementId: "G-CK717RZMP3"
+};
+
+// Define these GLOBALLY so they don't return 'undefined'
+let db, auth;
+let currentUser = null;
+let currentAdmin = false;
+let currentTagFilter = null; 
+const availableTags = ["#support", "#Nuke", "#all-rounder", "#tank", "#fun", "#meta"];
+
+try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    console.log("Firebase initialized successfully");
+} catch (e) {
+    console.error("Firebase Error: Make sure script tags are in <head>", e);
+}
+
+// Listen for Auth Changes
+if (auth) {
+    auth.onAuthStateChanged(async (user) => {
+        if (user) {
+            currentUser = user;
+            // Check Admin Status from Firestore User Collection
+            const doc = await db.collection('users').doc(user.uid).get();
+            if(doc.exists && doc.data().isAdmin) {
+                currentAdmin = true;
+            } else {
+                currentAdmin = false;
+            }
+        } else {
+            currentUser = null;
+            currentAdmin = false;
+        }
+        // Refresh UI if on summary tab
+        if(currentTab === 'summary') renderSummaryTab();
+    });
+}
+
+// 1. Post Current Build
+async function postCurrentBuild() {
+    if(!window.buildName) { alert("Please name your build first!"); return; }
+    
+    const confirmPost = confirm("Post this build to the public forum?");
+    if(!confirmPost) return;
+
+    // Generate Build Code
+    const traitsPart = Object.values(userTraits).join('.');
+    const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
+    const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
+    const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
+    const wIdx = selectedWeapon ? weaponMap.indexOf(selectedWeapon.name).toString(36) : "x";
+    const eIdx = selectedEnchant ? enchantMap.indexOf(selectedEnchant).toString(36) : "x";
+    const fullCode = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath || 'No Oath'}_${wIdx}_${eIdx}`;
+
+    try {
+        await db.collection("posts").add({
+            title: window.buildName,
+            desc: userNotes || "No description provided.",
+            buildCode: fullCode,
+            votes: 0,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert("Build Posted!");
+        loadForumPosts();
+    } catch(e) {
+        console.error("Error adding post: ", e);
+        alert("Failed to post (Check Firebase Config)");
+    }
+}
+
+// 2. Load Posts (Sorted by Votes)
+function loadForumPosts() {
+    const feed = document.getElementById('forum-feed');
+    if(!feed) return;
+
+    // Use the default db variable
+    let query = db.collection('posts').orderBy('voteScore', 'desc').limit(20);
+
+    // Apply filter if selected
+    if (currentTagFilter) {
+        query = db.collection('posts').where('tag', '==', currentTagFilter).orderBy('voteScore', 'desc').limit(20);
+    }
+
+    feed.innerHTML = "<div style='text-align:center; padding:20px;'>Loading posts...</div>";
+
+    query.get().then(snap => {
+        feed.innerHTML = "";
+        if(snap.empty) { 
+            feed.innerHTML = "<div style='text-align:center; padding:20px; color:#666;'>No builds posted yet. Be the first!</div>"; 
+            return; 
+        }
+        
+        snap.forEach(doc => {
+            const p = doc.data();
+            const pid = doc.id;
+            
+            // Calculate Vote Status
+            const uid = currentUser ? currentUser.uid : null;
+            const isUp = p.upvotes && p.upvotes.includes(uid);
+            const isDown = p.downvotes && p.downvotes.includes(uid);
+
+            // Admin Badge/Delete Logic
+            const adminDel = currentAdmin ? `<span class="del-btn" onclick="deletePost('${pid}')">[DELETE POST]</span>` : '';
+            const adminBadge = (p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : '';
+
+            // Handle timestamp safely
+            let timeString = "Just now";
+            if (p.timestamp) {
+                try { timeString = new Date(p.timestamp.toDate()).toLocaleDateString(); } catch(e) {}
+            }
+
+            feed.innerHTML += `
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-author-info">
+                            <img src="${p.authorPfp || 'https://i.imgur.com/6U68bgZ.png'}" class="post-pfp">
+                            <div>
+                                <span class="post-author-name">${p.authorName || 'Unknown'}</span>
+                                ${adminBadge}
+                                <div style="font-size:0.7rem; color:#666;">${timeString}</div>
+                            </div>
+                        </div>
+                        <div class="admin-actions">${adminDel}</div>
+                    </div>
+
+                    <div class="post-title">${p.title}</div>
+                    <div class="tag-container"><span class="tag-pill">${p.tag || 'General'}</span></div>
+                    <div class="post-desc">${p.desc}</div>
+
+                    <button class="load-build-btn" onclick="loadBuildFromString('${p.buildCode}'); alert('Build Loaded! Check Stats/Talents tabs.'); scrollToTop();">LOAD BUILD</button>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div class="vote-bar">
+                            <button class="vote-arrow up ${isUp?'active':''}" onclick="votePost('${pid}', 1)">▲</button>
+                            <span class="vote-score">${p.voteScore || 0}</span>
+                            <button class="vote-arrow down ${isDown?'active':''}" onclick="votePost('${pid}', -1)">▼</button>
+                        </div>
+                        <button class="comm-btn" style="background:transparent; border:none; font-size:0.8rem; text-decoration:underline;" onclick="togglePostComments('${pid}')">
+                            Comments
+                        </button>
+                    </div>
+
+                    <div id="comments-${pid}" class="comments-section"></div>
+                </div>
+            `;
+        });
+    }).catch(error => {
+        console.error("Error loading posts:", error);
+        // This will verify if it's a permission issue or an indexing issue
+        if (error.message.includes("indexes")) {
+            feed.innerHTML = `<div style="color:red; text-align:center; padding:20px;">
+                <strong>Database Error: Missing Index.</strong><br>
+                Open your browser console (F12) and click the link in the error message to create the index automatically.
+            </div>`;
+        } else if (error.code === "permission-denied") {
+             feed.innerHTML = `<div style="color:red; text-align:center; padding:20px;">
+                <strong>Permission Denied.</strong><br>
+                Go to Firebase Console > Firestore > Rules and set 'allow read, write: if true;'
+            </div>`;
+        } else {
+            feed.innerHTML = `<div style="color:red; text-align:center; padding:20px;">Error: ${error.message}</div>`;
+        }
+    });
+}
+
+// 3. Voting System
+function vote(pid, val) {
+    const votedKey = `voted_${pid}`;
+    if(localStorage.getItem(votedKey)) {
+        alert("You already voted on this!");
+        return;
+    }
+
+    const postRef = db.collection("posts").doc(pid);
+    postRef.update({
+        votes: firebase.firestore.FieldValue.increment(val)
+    }).then(() => {
+        localStorage.setItem(votedKey, "true");
+        loadForumPosts();
+    });
+}
+
+// 4. Comments & Images
+function toggleComments(pid) {
+    const el = document.getElementById(`comments-${pid}`);
+    if(el.style.display === "block") {
+        el.style.display = "none";
+    } else {
+        el.style.display = "block";
+        loadComments(pid);
+    }
+}
+
+function loadComments(pid) {
+    const list = document.getElementById(`comment-list-${pid}`);
+    db.collection("posts").doc(pid).collection("comments").orderBy("timestamp").get().then((snap) => {
+        list.innerHTML = "";
+        snap.forEach(doc => {
+            const c = doc.data();
+            let imgHtml = c.img ? `<img src="${c.img}" class="comment-img" onclick="window.open(this.src)">` : '';
+            list.innerHTML += `
+                <div class="comment">
+                    <div>${c.text} ${isAdmin ? `<span class="admin-del-btn" style="display:inline;" onclick="deleteComment('${pid}', '${doc.id}')">X</span>` : ''}</div>
+                    ${imgHtml}
+                </div>`;
+        });
+    });
+}
+
+function addComment(pid) {
+    const text = document.getElementById(`c-text-${pid}`).value;
+    const img = document.getElementById(`c-img-${pid}`).value;
+    
+    if(!text && !img) return;
+
+    db.collection("posts").doc(pid).collection("comments").add({
+        text: text,
+        img: img,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        document.getElementById(`c-text-${pid}`).value = "";
+        document.getElementById(`c-img-${pid}`).value = "";
+        loadComments(pid);
+    });
+}
+
+// 5. Admin Actions
+function deletePost(pid) {
+    if(!currentAdmin) return;
+    if(confirm("Delete this post?")) {
+        db.collection("posts").doc(pid).delete().then(() => loadForumPosts());
+    }
+}
+
+function deleteComment(pid, cid) {
+    if(!currentAdmin) return;
+    if(confirm("Delete this comment?")) {
+        db.collection("posts").doc(pid).collection("comments").doc(cid).delete().then(() => loadComments(pid));
+    }
+}
+// --- FORUM NAVIGATION LOGIC ---
+
+function openForumView() {
+    document.getElementById('forum-view').style.display = 'block';
+    document.querySelector('.browse-btn').style.display = 'none'; // Hide button
+    loadForumPosts(); // Load posts now
+}
+
+function closeForumView() {
+    document.getElementById('forum-view').style.display = 'none';
+    document.querySelector('.browse-btn').style.display = 'flex'; // Show button
+}
+
+function filterTags(tag) {
+    currentTagFilter = tag;
+    // Update UI pills
+    document.querySelectorAll('.tag-pill').forEach(btn => {
+        btn.classList.remove('filter-active');
+        if(btn.innerText === (tag || "ALL")) btn.classList.add('filter-active');
+    });
+    // Reload from DB
+    loadForumPosts(); 
+}
+
+// --- SEARCH & FEED LOGIC ---
+
+function loadForumPosts() {
+    const feed = document.getElementById('forum-feed');
+    feed.innerHTML = "<div style='text-align:center; padding:20px;'>Fetching builds...</div>";
+
+    let query = db.collection('posts').orderBy('voteScore', 'desc').limit(50);
+    if (currentTagFilter) {
+        query = db.collection('posts').where('tag', '==', currentTagFilter).orderBy('voteScore', 'desc').limit(50);
+    }
+
+    query.get().then(snap => {
+        cachedPosts = [];
+        if(snap.empty) { feed.innerHTML = "No builds found."; return; }
+
+        snap.forEach(doc => {
+            let data = doc.data();
+            data.id = doc.id;
+            cachedPosts.push(data);
+        });
+
+        renderFeed(cachedPosts);
+    });
+}
+
+// Client-Side Search
+function filterForumFeed() {
+    const term = document.getElementById('forum-search').value.toLowerCase();
+    const filtered = cachedPosts.filter(p => {
+        return (p.title && p.title.toLowerCase().includes(term)) || 
+               (p.desc && p.desc.toLowerCase().includes(term)) ||
+               (p.authorName && p.authorName.toLowerCase().includes(term));
+    });
+    renderFeed(filtered);
+}
+
+function renderFeed(posts) {
+    const feed = document.getElementById('forum-feed');
+    feed.innerHTML = "";
+    
+    if(posts.length === 0) {
+        feed.innerHTML = "<div style='padding:20px; text-align:center;'>No results match your search.</div>";
+        return;
+    }
+
+    posts.forEach(p => {
+        const uid = currentUser ? currentUser.uid : null;
+        const isUp = p.upvotes && p.upvotes.includes(uid);
+        const isDown = p.downvotes && p.downvotes.includes(uid);
+        const adminBadge = (p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : '';
+        let timeString = p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : "";
+
+        // --- DELETE BUTTON LOGIC ---
+        let deleteBtn = "";
+        if (currentUser && (currentAdmin || currentUser.uid === p.authorId)) {
+            
+            deleteBtn = `<span class="del-btn" style="color:red; cursor:pointer; font-size:0.8rem; margin-left:10px;" onclick="deletePost('${p.id}', '${p.authorId}'); event.stopPropagation();">[DELETE]</span>`;
+        }
+        // -------------------------------
+
+        feed.innerHTML += `
+            <div class="post-card" onclick="openFocusView('${p.id}')">
+                <div class="post-header">
+                    <div class="post-author-info">
+                        <img src="${p.authorPfp || 'https://i.imgur.com/6U68bgZ.png'}" class="post-pfp">
+                        <div>
+                            <span class="post-author-name">${p.authorName}</span> ${adminBadge}
+                            <div style="font-size:0.7rem; color:#666;">${timeString}</div>
+                        </div>
+                    </div>
+                    <div>${deleteBtn}</div>
+                </div>
+
+                <div class="post-title">${p.title}</div>
+                <div class="tag-container"><span class="tag-pill">${p.tag || 'General'}</span></div>
+                <div class="post-desc" style="max-height: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.desc}</div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                     <span style="font-weight:bold; color: ${p.voteScore > 0 ? '#00aa00' : '#000'}">Votes: ${p.voteScore || 0}</span>
+                     <span style="font-size:0.8rem; text-decoration:underline; color:#666;">Click to view details & comments</span>
+                </div>
+            </div>
+        `;
+    });
+}
+
+// --- FOCUS VIEW LOGIC ---
+
+function openFocusView(pid) {
+    const p = cachedPosts.find(x => x.id === pid);
+    if(!p) return;
+
+    const view = document.getElementById('focus-view');
+    const content = document.getElementById('focus-content');
+    
+    view.style.display = 'block';
+    document.body.style.overflow = 'hidden'; 
+
+    const uid = currentUser ? currentUser.uid : null;
+    const isUp = p.upvotes && p.upvotes.includes(uid);
+    const isDown = p.downvotes && p.downvotes.includes(uid);
+
+    // --- NEW DELETE BUTTON LOGIC ---
+    let deleteBtn = "";
+    if (currentUser && (currentAdmin || currentUser.uid === p.authorId)) {
+        deleteBtn = `<button class="action-btn" style="background:red; width:auto; margin-left:10px;" onclick="deletePost('${pid}', '${p.authorId}')">DELETE POST</button>`;
+    }
+    // -------------------------------
+
+    content.innerHTML = `
+        <div class="post-card" style="cursor: default; border-left: 0; box-shadow: none; background: transparent;">
+            <div class="post-header">
+                <div class="post-author-info">
+                    <img src="${p.authorPfp || 'https://i.imgur.com/6U68bgZ.png'}" class="post-pfp" style="width: 50px; height: 50px;">
+                    <div>
+                        <span class="post-author-name" style="font-size:1.2rem;">${p.authorName}</span>
+                        <div style="font-size:0.8rem; color:#666;">Posted on ${p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : ''}</div>
+                    </div>
+                </div>
+                <div>${deleteBtn}</div>
+            </div>
+
+            <h1 class="post-title" style="font-size: 2rem; border-bottom: 2px solid #ccc; padding-bottom: 10px;">${p.title}</h1>
+            <div class="tag-container" style="margin: 10px 0;"><span class="tag-pill" style="font-size:0.9rem; padding: 5px 10px;">${p.tag || 'General'}</span></div>
+            
+            <div class="post-desc" style="font-size: 1.1rem; line-height: 1.6; white-space: pre-wrap; margin-bottom: 20px; border:none; padding:0;">${p.desc}</div>
+
+            <button class="load-build-btn" onclick="loadBuildFromString('${p.buildCode}'); alert('Build Loaded! Closing forum...'); closeFocusView(); closeForumView(); scrollToTop();">LOAD THIS BUILD INTO CALCULATOR</button>
+
+            <div style="background: rgba(0,0,0,0.05); padding: 10px; border-radius: 8px; display:flex; justify-content:flex-start; align-items:center;">
+                <div class="vote-bar">
+                    <button class="vote-arrow up ${isUp?'active':''}" onclick="votePost('${pid}', 1); refreshFocusVoteUI('${pid}')">▲</button>
+                    <span id="focus-vote-score" class="vote-score">${p.voteScore || 0}</span>
+                    <button class="vote-arrow down ${isDown?'active':''}" onclick="votePost('${pid}', -1); refreshFocusVoteUI('${pid}')">▼</button>
+                </div>
+            </div>
+
+            <h3 style="margin-top: 30px; border-bottom: 1px solid #000;">Comments</h3>
+            <div id="focus-comments-${pid}" class="comments-section" style="display:block; border:none;"></div>
+        </div>
+    `;
+
+    renderComments(pid, `focus-comments-${pid}`);
+}
+
+function closeFocusView() {
+    document.getElementById('focus-view').style.display = 'none';
+    document.body.style.overflow = 'auto'; // Restore scrolling
+    // Refresh the list in case votes changed
+    loadForumPosts();
+}
+
+function refreshFocusVoteUI(pid) {
 }
 </script>
 </body>
