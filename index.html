@@ -817,6 +817,33 @@ body.sidebar-open-right .overlay {
     align-items: center;
     border-bottom: 1px solid #444;
 }
+/* --- PINNED POSTS --- */
+.post-card.pinned-post {
+    border: 2px solid var(--gold);
+    background: rgba(194, 163, 93, 0.05); /* Slight gold tint background */
+}
+
+.pinned-badge {
+    background: var(--gold);
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.pin-btn {
+    color: var(--gold);
+    cursor: pointer;
+    font-size: 0.8rem;
+    margin-left: 10px;
+    font-weight: bold;
+}
+.pin-btn:hover { text-decoration: underline; }
     </style>
     <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -2944,38 +2971,84 @@ function filterTags(tag) {
     // loadForumPosts is called by renderSummaryTab
 }
 
-function loadForumPosts() {
+async function loadForumPosts() {
     const feed = document.getElementById('forum-feed');
     if(!feed) return;
     
     feed.innerHTML = "<div style='text-align:center; padding:20px;'>Fetching builds...</div>";
 
-    let query = db.collection('posts');
+    try {
+        const postsRef = db.collection('posts');
+        
+        // 1. Define Two Queries: One for Pinned, One for High Votes
+        // We do this separately so Pinned posts are ALWAYS found, even if they have 0 votes.
+        let pinnedQuery = postsRef.where('isPinned', '==', true);
+        let voteQuery = postsRef.orderBy('voteScore', 'desc').limit(50);
 
-    if (currentTagFilter) {
-        // FIXED: Uses 'tags' and 'array-contains' for multi-tag support
-        query = query.where('tags', 'array-contains', currentTagFilter);
-    } 
-    
-    // Note: Firestore requires an index for 'tags' + 'voteScore'. 
-    // If you get a console error link, click it to build the index.
-    query = query.orderBy('voteScore', 'desc').limit(50);
+        // 2. Apply Filters (Tags) to both queries if a tag is selected
+        if (currentTagFilter) {
+            // Note: DB needs 'tags' (array) not 'tag' (string)
+            pinnedQuery = pinnedQuery.where('tags', 'array-contains', currentTagFilter);
+            voteQuery = voteQuery.where('tags', 'array-contains', currentTagFilter);
+        }
 
-    query.get().then(snap => {
-        cachedPosts = [];
-        if(snap.empty) { feed.innerHTML = "<div style='text-align:center; padding:20px;'>No builds found.</div>"; return; }
+        // 3. Run queries in parallel
+        const [pinnedSnap, voteSnap] = await Promise.all([
+            pinnedQuery.get(),
+            voteQuery.get()
+        ]);
 
-        snap.forEach(doc => {
+        const tempMap = new Map();
+
+        // 4. Process Pinned Posts
+        pinnedSnap.forEach(doc => {
             let data = doc.data();
             data.id = doc.id;
-            cachedPosts.push(data);
+            tempMap.set(doc.id, data);
         });
 
-        renderFeed(cachedPosts);
-    }).catch(err => {
+        // 5. Process Regular Posts (Avoid duplicates)
+        voteSnap.forEach(doc => {
+            if (!tempMap.has(doc.id)) {
+                let data = doc.data();
+                data.id = doc.id;
+                tempMap.set(doc.id, data);
+            }
+        });
+
+        // Convert Map to Array
+        cachedPosts = Array.from(tempMap.values());
+
+        // 6. CLIENT-SIDE SORTING (The Fix for Pinning)
+        // Forces Pinned items to top, then sorts everything else by votes
+        cachedPosts.sort((a, b) => {
+            const aPin = !!a.isPinned; // Convert to boolean
+            const bPin = !!b.isPinned;
+
+            if (aPin && !bPin) return -1; // A is pinned, B is not -> A comes first
+            if (!aPin && bPin) return 1;  // B is pinned, A is not -> B comes first
+            
+            // If both pinned or both not, sort by votes (Highest first)
+            return (b.voteScore || 0) - (a.voteScore || 0);
+        });
+
+        if(cachedPosts.length === 0) {
+            feed.innerHTML = "<div style='text-align:center; padding:20px;'>No builds found.</div>";
+        } else {
+            renderFeed(cachedPosts);
+        }
+
+    } catch (err) {
         console.error(err);
-        feed.innerHTML = `<div style='color:red; text-align:center'>Error loading feed. (Check console for Index Link)</div>`;
-    });
+        if(err.message.includes("index")) {
+            const url = err.message.match(/https:\/\/[^\s]+/);
+            feed.innerHTML = `<div style='color:red; text-align:center; padding:20px;'>
+                <strong>Missing Index:</strong> <a href="${url}" target="_blank" style="color:#c2a35d; text-decoration:underline;">Click here to fix DB</a>
+            </div>`;
+        } else {
+            feed.innerHTML = `<div style='color:red; text-align:center'>Error: ${err.message}</div>`;
+        }
+    }
 }
 
 function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
@@ -3064,6 +3137,75 @@ async function votePost(pid, val) {
         }
 
     } catch(e) { console.error(e); }
+}
+function renderFeed(posts) {
+    const feed = document.getElementById('forum-feed');
+    feed.innerHTML = "";
+    
+    posts.forEach(p => {
+        const uid = currentUser ? currentUser.uid : null;
+        let timeString = p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : "";
+
+        // Admin Badge Logic
+        let adminBadge = "";
+        if (p.isAdmin) {
+            const glow = p.adminColor || "#ff0000"; 
+            adminBadge = `<span class="admin-badge-glow" style="--glow-color: ${glow}">ADMIN</span>`;
+        }
+
+        // --- PINNING LOGIC ---
+        const isPinned = p.isPinned === true;
+        const pinBadge = isPinned ? `<span class="pinned-badge">📌 PINNED</span>` : "";
+        const cardClass = isPinned ? "post-card pinned-post" : "post-card";
+
+        // Admin Buttons
+        let pinBtn = "";
+        let deleteBtn = "";
+        
+        if (currentAdmin) {
+            deleteBtn = `<span class="del-btn" style="color:red; cursor:pointer; font-size:0.8rem; margin-left:10px;" onclick="deletePost('${p.id}', '${p.authorId}'); event.stopPropagation();">[DELETE]</span>`;
+            const pinText = isPinned ? "UNPIN" : "PIN";
+            pinBtn = `<span class="pin-btn" onclick="togglePinPost('${p.id}', ${isPinned}); event.stopPropagation();">[${pinText}]</span>`;
+        } else if (currentUser && currentUser.uid === p.authorId) {
+            deleteBtn = `<span class="del-btn" style="color:red; cursor:pointer; font-size:0.8rem; margin-left:10px;" onclick="deletePost('${p.id}', '${p.authorId}'); event.stopPropagation();">[DELETE]</span>`;
+        }
+
+        // Tag Logic (Handle Array)
+        let tagHtml = "";
+        if (p.tags && Array.isArray(p.tags)) {
+            tagHtml = p.tags.map(t => `<span class="tag-pill">${t}</span>`).join('');
+        } else {
+            tagHtml = `<span class="tag-pill">${p.tag || 'General'}</span>`; // Fallback
+        }
+
+        feed.innerHTML += `
+            <div class="${cardClass}" onclick="openFocusView('${p.id}')">
+                <div class="post-header">
+                    <div class="post-author-info">
+                        <img src="${p.authorPfp || 'https://i.imgur.com/6U68bgZ.png'}" class="post-pfp">
+                        <div>
+                            <div style="display:flex; align-items:center;">
+                                ${pinBadge}
+                                <span class="post-author-name">${p.authorName}</span> 
+                                ${adminBadge}
+                            </div>
+                            <div style="font-size:0.7rem; color:#666;">${timeString}</div>
+                        </div>
+                    </div>
+                    <div>${pinBtn} ${deleteBtn}</div>
+                </div>
+
+                <div class="post-title">${p.title}</div>
+                <div class="tag-container">${tagHtml}</div>
+                <div class="post-desc" style="max-height: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.desc}</div>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
+                     <span style="font-weight:bold; color: ${p.voteScore > 0 ? '#00aa00' : '#000'}">Votes: ${p.voteScore || 0}</span>
+                     <span style="font-size:0.8rem; text-decoration:underline; color:#666;">${p.commentCount || 0} Comments</span>
+                </div>
+            </div>
+        `;
+    });
 }
 // --- COMMENTS SYSTEM ---
 function togglePostComments(pid) {
@@ -3624,110 +3766,7 @@ async function postCurrentBuild() {
     }
 }
 
-// 2. Load Posts (Sorted by Votes)
-function loadForumPosts() {
-    const feed = document.getElementById('forum-feed');
-    if(!feed) return;
 
-    // Use the default db variable
-    let query = db.collection('posts').orderBy('voteScore', 'desc').limit(20);
-
-    // Apply filter if selected
-    if (currentTagFilter) {
-        query = db.collection('posts').where('tag', '==', currentTagFilter).orderBy('voteScore', 'desc').limit(20);
-    }
-
-    feed.innerHTML = "<div style='text-align:center; padding:20px;'>Loading posts...</div>";
-
-    query.get().then(snap => {
-        feed.innerHTML = "";
-        if(snap.empty) { 
-            feed.innerHTML = "<div style='text-align:center; padding:20px; color:#666;'>No builds posted yet. Be the first!</div>"; 
-            return; 
-        }
-        
-        snap.forEach(doc => {
-            const p = doc.data();
-            const pid = doc.id;
-            
-            // Calculate Vote Status
-            const uid = currentUser ? currentUser.uid : null;
-            const isUp = p.upvotes && p.upvotes.includes(uid);
-            const isDown = p.downvotes && p.downvotes.includes(uid);
-
-            // Admin Badge/Delete Logic
-            const adminDel = currentAdmin ? `<span class="del-btn" onclick="deletePost('${pid}')">[DELETE POST]</span>` : '';
-            const adminBadge = (p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : '';
-            // HANDLE DELETED COMMENTS
-            if (c.isDeleted) {
-                // We display the text stored in DB (which we set to "Message deleted by Admin")
-                // We style it grey and italic
-                list.innerHTML += `
-                    <div style="margin-bottom: 12px; padding: 8px 12px; background: rgba(0,0,0,0.2); border-left: 3px solid #555;">
-                        <span style="color: #888; font-style: italic;">${c.text}</span>
-                    </div>`;
-                return; // Skip the rest of the render for this item
-            }
-
-            // Handle timestamp safely
-            let timeString = "Just now";
-            if (p.timestamp) {
-                try { timeString = new Date(p.timestamp.toDate()).toLocaleDateString(); } catch(e) {}
-            }
-
-            feed.innerHTML += `
-                <div class="post-card">
-                    <div class="post-header">
-                        <div class="post-author-info">
-                            <img src="${p.authorPfp || 'https://i.imgur.com/6U68bgZ.png'}" class="post-pfp">
-                            <div>
-                                <span class="post-author-name">${p.authorName || 'Unknown'}</span>
-                                ${adminBadge}
-                                <div style="font-size:0.7rem; color:#666;">${timeString}</div>
-                            </div>
-                        </div>
-                        <div class="admin-actions">${adminDel}</div>
-                    </div>
-
-                    <div class="post-title">${p.title}</div>
-                    <div class="tag-container"><span class="tag-pill">${p.tag || 'General'}</span></div>
-                    <div class="post-desc">${p.desc}</div>
-
-                    <button class="load-build-btn" onclick="loadBuildFromString('${p.buildCode}'); alert('Build Loaded! Check Stats/Talents tabs.'); scrollToTop();">LOAD BUILD</button>
-
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div class="vote-bar">
-                            <button class="vote-arrow up ${isUp?'active':''}" onclick="votePost('${pid}', 1)">▲</button>
-                            <span class="vote-score">${p.voteScore || 0}</span>
-                            <button class="vote-arrow down ${isDown?'active':''}" onclick="votePost('${pid}', -1)">▼</button>
-                        </div>
-                        <button class="comm-btn" style="background:transparent; border:none; font-size:0.8rem; text-decoration:underline;" onclick="togglePostComments('${pid}')">
-                            Comments
-                        </button>
-                    </div>
-
-                    <div id="comments-${pid}" class="comments-section"></div>
-                </div>
-            `;
-        });
-    }).catch(error => {
-        console.error("Error loading posts:", error);
-        // This will verify if it's a permission issue or an indexing issue
-        if (error.message.includes("indexes")) {
-            feed.innerHTML = `<div style="color:red; text-align:center; padding:20px;">
-                <strong>Database Error: Missing Index.</strong><br>
-                Open your browser console (F12) and click the link in the error message to create the index automatically.
-            </div>`;
-        } else if (error.code === "permission-denied") {
-             feed.innerHTML = `<div style="color:red; text-align:center; padding:20px;">
-                <strong>Permission Denied.</strong><br>
-                Go to Firebase Console > Firestore > Rules and set 'allow read, write: if true;'
-            </div>`;
-        } else {
-            feed.innerHTML = `<div style="color:red; text-align:center; padding:20px;">Error: ${error.message}</div>`;
-        }
-    });
-}
 
 // 3. Voting System
 function vote(pid, val) {
@@ -3819,28 +3858,6 @@ function filterTags(tag) {
 
 // --- SEARCH & FEED LOGIC ---
 
-function loadForumPosts() {
-    const feed = document.getElementById('forum-feed');
-    feed.innerHTML = "<div style='text-align:center; padding:20px;'>Fetching builds...</div>";
-
-    let query = db.collection('posts').orderBy('voteScore', 'desc').limit(50);
-    if (currentTagFilter) {
-        query = db.collection('posts').where('tag', '==', currentTagFilter).orderBy('voteScore', 'desc').limit(50);
-    }
-
-    query.get().then(snap => {
-        cachedPosts = [];
-        if(snap.empty) { feed.innerHTML = "No builds found."; return; }
-
-        snap.forEach(doc => {
-            let data = doc.data();
-            data.id = doc.id;
-            cachedPosts.push(data);
-        });
-
-        renderFeed(cachedPosts);
-    });
-}
 
 // Client-Side Search
 function filterForumFeed() {
@@ -3853,55 +3870,6 @@ function filterForumFeed() {
     renderFeed(filtered);
 }
 
-function renderFeed(posts) {
-    const feed = document.getElementById('forum-feed');
-    feed.innerHTML = "";
-    
-    if(posts.length === 0) {
-        feed.innerHTML = "<div style='padding:20px; text-align:center;'>No results match your search.</div>";
-        return;
-    }
-
-    posts.forEach(p => {
-        const uid = currentUser ? currentUser.uid : null;
-        const isUp = p.upvotes && p.upvotes.includes(uid);
-        const isDown = p.downvotes && p.downvotes.includes(uid);
-        const adminBadge = (p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : '';
-        let timeString = p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : "";
-
-        // --- DELETE BUTTON LOGIC ---
-        let deleteBtn = "";
-        if (currentUser && (currentAdmin || currentUser.uid === p.authorId)) {
-            
-            deleteBtn = `<span class="del-btn" style="color:red; cursor:pointer; font-size:0.8rem; margin-left:10px;" onclick="deletePost('${p.id}', '${p.authorId}'); event.stopPropagation();">[DELETE]</span>`;
-        }
-        // -------------------------------
-
-        feed.innerHTML += `
-            <div class="post-card" onclick="openFocusView('${p.id}')">
-                <div class="post-header">
-                    <div class="post-author-info">
-                        <img src="${p.authorPfp || 'https://i.imgur.com/6U68bgZ.png'}" class="post-pfp">
-                        <div>
-                            <span class="post-author-name">${p.authorName}</span> ${adminBadge}
-                            <div style="font-size:0.7rem; color:#666;">${timeString}</div>
-                        </div>
-                    </div>
-                    <div>${deleteBtn}</div>
-                </div>
-
-                <div class="post-title">${p.title}</div>
-                <div class="tag-container"><span class="tag-pill">${p.tag || 'General'}</span></div>
-                <div class="post-desc" style="max-height: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.desc}</div>
-                
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-                     <span style="font-weight:bold; color: ${p.voteScore > 0 ? '#00aa00' : '#000'}">Votes: ${p.voteScore || 0}</span>
-                     <span style="font-size:0.8rem; text-decoration:underline; color:#666;">Click to view details & comments</span>
-                </div>
-            </div>
-        `;
-    });
-}
 
 // --- FOCUS VIEW LOGIC ---
 
@@ -4210,6 +4178,20 @@ function ensureGlobalModals() {
     const div = document.createElement('div');
     div.innerHTML = modalHTML;
     document.body.appendChild(div);
+}
+async function togglePinPost(pid, currentStatus) {
+    if (!currentAdmin) return;
+
+    try {
+        await db.collection('posts').doc(pid).update({
+            isPinned: !currentStatus // Switch true/false
+        });
+        // Reload to see changes
+        loadForumPosts();
+    } catch (e) {
+        console.error(e);
+        alert("Error pinning post: " + e.message);
+    }
 }
 </script>
 </body>
