@@ -93,7 +93,7 @@ body.theme-earth {
         }
 
         
-        /* Sidebar Left - Centered Content */
+        
 #sidebar-left { 
     width: 320px; 
     min-width: 320px; 
@@ -107,7 +107,7 @@ body.theme-earth {
     height: 100vh;
 }
 
-/* Traits Layout - 2x2 Grid */
+
 .traits-medallion-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -177,7 +177,7 @@ input[type="number"] {
     font-weight: bold;
 }
 
-/* Oath Selector Style */
+
 #oath-select {
     width: 100%;
     background: #000;
@@ -192,7 +192,7 @@ input[type="number"] {
 }
 
         
-        /* Sidebar Right - Parchment */
+        
         #sidebar-right {
             width: 340px; min-width: 340px; background: var(--parchment);
             color: var(--parchment-text); margin: 15px; display: flex; flex-direction: column;
@@ -204,13 +204,13 @@ input[type="number"] {
         #main-area { flex: 1; display: flex; flex-direction: column; padding: 20px; overflow: hidden; }
         #item-container { flex: 1; overflow-y: auto; padding-right: 10px; }
 
-        /* Investment Header */
+        
         .investment-header { text-align: center; margin-bottom: 20px; width: 100%; }
         .investment-header h2 { margin: 0; font-size: 1.8rem; }
         .pts-display { font-size: 2.5rem; font-weight: bold; margin: 5px 0; display: block; }
         #splash-text { color: var(--gold); font-size: 0.8rem; font-style: italic; min-height: 1.2rem; }
 
-        /* Tabs Style */
+        
         .tab-container { display: flex; gap: 15px; margin-bottom: 25px; }
         .tab-btn { 
             background: #000; color: #fff; font-family: 'Lora', serif; font-weight: 700;
@@ -255,7 +255,7 @@ input[type="number"] {
     font-weight: bold;
     letter-spacing: 1px;
 
-    /* Deepwoken Border for Titles */
+    /* Border for Titles */
     border: 8px solid transparent;
     border-image: var(--border-path) var(--thin-border) 10 round;
     background: #050505;
@@ -279,7 +279,7 @@ input[type="number"] {
     background: var(--card-bg); 
     padding: 15px; 
     cursor: pointer;
-    /* Fixed Border Logic */
+    
     border: 10px solid transparent;
     border-image-source: var(--border-path);
     border-image-slice: 10;
@@ -287,26 +287,25 @@ input[type="number"] {
     background-clip: padding-box;
     image-rendering: pixelated;
     
-    /* Animation transition */
+    
     transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.2s, background 0.2s;
 }
 
-/* Re-adding the Hover Animation */
+
 .card:hover:not(.locked) {
-    transform: translateY(-5px); /* Lifts the card up */
-    filter: brightness(1.2);      /* Makes the card look "lit up" */
-    background: #121a16;          /* Slight background shift */
+    transform: translateY(-5px); 
+    filter: brightness(1.2);      
+    background: #121a16;          
     z-index: 10;
 }
 
 .card.selected {
-    /* Stronger gold filter for the selected state */
     filter: sepia(1) saturate(12) hue-rotate(5deg) brightness(1.1);
     background: rgba(194, 163, 93, 0.1);
-    transform: scale(1.02); /* Makes it slightly bigger to show it is selected */
+    transform: scale(1.02); 
 }
 
-/* Ensure locked cards don't animate */
+
 .card.locked:hover {
     transform: none;
 }
@@ -315,26 +314,26 @@ input[type="number"] {
     opacity: 0.6; 
     filter: grayscale(0.7) contrast(0.8);
     cursor: not-allowed;
-    border-image-source: var(--border-path); /* Keeps the border visible */
+    border-image-source: var(--border-path); 
 }
         .card h3 { margin: 0 0 5px 0; font-size: 1.1rem; color: #fff; }
         .card p { margin: 0; font-size: 0.85rem; color: #bbb; }
         .card hr { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0; }
         .req-text { color: var(--gold); font-size: 0.85rem; font-weight: 700; }
 
-        /* Stat Rows */
+        
         .stat-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px; }
         input[type="number"] { background: #000; border: 1px solid #444; color: #fff; padding: 5px; width: 65px; text-align: center; font-family: 'Lora'; font-size: 1rem; }
 
-        /* Calculator wrapper */
+        
         .calc-wrapper { background: var(--parchment); color: var(--parchment-text); padding: 25px; border: 10px solid transparent; border-image: var(--border-path) 10 round; max-width: 600px; margin: 0 auto; }
         .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dotted rgba(0,0,0,0.2); font-weight: bold; }
         .calc-row span { font-weight: normal; color: #666; font-style: italic; }
 
-        /* Buttons */
+        
         .action-btn { background: #1a1a1c; border: 1px solid #444; color: #fff; padding: 12px; cursor: pointer; width: 100%; margin-top: 8px; font-family: 'Lora'; font-weight: bold; }
 
-        /* Mobile */
+        
         #mobile-nav { display: none; padding: 10px; background: #000; border-bottom: 1px solid #333; justify-content: space-between; }
         .overlay { 
     display: none; 
@@ -344,10 +343,10 @@ input[type="number"] {
     width: 100%; 
     height: 100%; 
     background: rgba(0,0,0,0.7); 
-    z-index: 900; /* Ensure this is below the sidebars (1000+) but above the main area */
+    z-index: 900; 
 }
 
-/* Only show overlay when a sidebar is open on mobile */
+
 body.sidebar-open-left .overlay, 
 body.sidebar-open-right .overlay { 
     display: block; 
@@ -356,17 +355,17 @@ body.sidebar-open-right .overlay {
         @media (max-width: 1024px) {
     body {
         flex-direction: column;
-        overflow-y: auto; /* Allow body scrolling */
+        overflow-y: auto; 
         height: auto;
     }
 
-    /* Fix: Give sidebars a solid background so they aren't see-through */
+    
     #sidebar-left, #sidebar-right {
         position: fixed;
         top: 0;
         height: 100%;
         width: 280px;
-        z-index: 2000; /* Put them above everything */
+        z-index: 2000; 
         display: flex; 
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 5px 0 15px rgba(0,0,0,0.5);
@@ -375,28 +374,28 @@ body.sidebar-open-right .overlay {
     #sidebar-left {
         left: 0;
         transform: translateX(-100%);
-        background: #0a0a0b; /* Solid black sidebar */
+        background: #0a0a0b; 
     }
 
     #sidebar-right {
         right: 0;
         transform: translateX(100%);
         margin: 0;
-        background: var(--parchment); /* Solid parchment background */
+        background: var(--parchment); 
     }
 
-    /* Correct open logic */
+    
     body.sidebar-open-left #sidebar-left { transform: translateX(0); }
     body.sidebar-open-right #sidebar-right { transform: translateX(0); }
 
-    /* Main area layout fix */
+   
     #main-area {
         padding: 10px;
         overflow: visible;
         width: 100%;
     }
 
-    /* Prevent overlap: Tabs shouldn't be huge on mobile */
+    
     .tab-container {
         flex-wrap: wrap;
         gap: 5px;
@@ -406,10 +405,10 @@ body.sidebar-open-right .overlay {
     .tab-btn {
         font-size: 0.75rem;
         padding: 8px 12px;
-        border-width: 6px; /* Slightly thinner border for mobile */
+        border-width: 6px; 
     }
 
-    /* Nav bar stays at the top */
+    
     #mobile-nav {
         display: flex;
         position: sticky;
@@ -432,10 +431,10 @@ body.sidebar-open-right .overlay {
     .search-bar-container { padding: 10px; margin-bottom: 10px; }
 
 .weapon-card {
-    background: rgba(255, 255, 255, 0.15) !important; /* Semi-transparent light overlay */
+    background: rgba(255, 255, 255, 0.15) !important; 
     border: 10px solid transparent;
     border-image: var(--border-path) 10 round;
-    color: #1a1a1a !important; /* Dark text for parchment */
+    color: #1a1a1a !important; 
     padding: 15px;
     image-rendering: pixelated;
     transition: transform 0.2s;
@@ -502,9 +501,9 @@ body.sidebar-open-right .overlay {
     cursor: pointer;
 }
 .roulette-btn:hover { background: #ff4444; color: #000; }
-/* --- COMMUNITY & AUTH STYLES --- */
+
 .user-bar {
-    background: #a8a392; /* Match screenshot grey/beige */
+    background: #a8a392;
     border: 1px solid #777;
     border-radius: 4px;
     padding: 10px 20px;
@@ -543,7 +542,7 @@ body.sidebar-open-right .overlay {
     color: #000; border: 1px solid #888; font-family: 'Lora'; 
 }
 
-/* Post Styles (Matching Screenshot) */
+/* Post Styles */
 .forum-feed { margin-top: 20px; }
 .post-card {
     background: #e6e4d9; /* Light parchment */
@@ -551,7 +550,6 @@ body.sidebar-open-right .overlay {
     margin-bottom: 20px;
     padding: 15px;
     position: relative;
-    /* Simulate the pixel border if needed, simplified for clean look */
     border-left: 4px solid var(--gold); 
 }
 .post-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
@@ -606,7 +604,7 @@ body.sidebar-open-right .overlay {
 
 /* The Container for the Forum View */
 .forum-view-container {
-    display: none; /* Hidden by default */
+    display: none; 
     border-top: 2px solid #333;
     margin-top: 20px;
     padding-top: 20px;
@@ -626,8 +624,7 @@ body.sidebar-open-right .overlay {
 .post-card { cursor: pointer; transition: transform 0.1s, border-color 0.2s; }
 .post-card:hover { border-color: var(--gold); transform: translateY(-2px); }
 
-/* Focus View (Single Build Mode) */
-/* Focus View - Dark Discord Vibe */
+
 #focus-view {
     display: none;
     background: rgba(0, 0, 0, 0.85); /* Dimmed backdrop */
@@ -645,7 +642,7 @@ body.sidebar-open-right .overlay {
     background: var(--sidebar-bg); /* Matches Theme */
     border: 1px solid #333; 
     border-radius: 8px;
-    padding: 0; /* Reset padding for header/body split */
+    padding: 0; 
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     min-height: auto;
     color: #fff !important; /* Force white text for dark mode */
@@ -653,7 +650,7 @@ body.sidebar-open-right .overlay {
     flex-direction: column;
 }
 
-/* Force text colors in focus view to adapt to dark mode */
+
 .focus-inner h1, .focus-inner h2, .focus-inner h3, .focus-inner span, .focus-inner div, .focus-inner p {
     color: #eee !important;
 }
@@ -672,7 +669,7 @@ body.sidebar-open-right .overlay {
     padding: 20px;
 }
 
-/* Updated Comment Section to look like Chat */
+
 .comment-item {
     background: rgba(255,255,255,0.05) !important; /* Glassy dark */
     border: none !important;
@@ -719,11 +716,11 @@ body.sidebar-open-right .overlay {
     opacity: 1;
 }
 
-/* Media Library Button */
+
 .media-btn {
     background: #444; color: #fff; border: 1px solid #666; cursor: pointer; padding: 0 10px; font-size: 1.2rem;
 }
-/* --- ADMIN GLOW (Dynamic) --- */
+
 @keyframes adminPulse {
     0% { 
         text-shadow: 0 0 5px var(--glow-color), 0 0 10px #fff; 
@@ -749,7 +746,6 @@ body.sidebar-open-right .overlay {
     margin-left: 8px;
     display: inline-block;
     vertical-align: middle;
-    /* Default to red if not set */
     --glow-color: #ff0000; 
     color: var(--glow-color);
     animation: adminPulse 2s infinite alternate;
@@ -764,7 +760,7 @@ body.sidebar-open-right .overlay {
 }
 .media-thumb { width: 50px; height: 50px; object-fit: cover; border: 1px solid #555; cursor: pointer; background: #000; }
 
-/* --- DISCORD STYLE REPLY --- */
+
 .reply-spine {
     position: absolute;
     top: -15px;
@@ -778,12 +774,12 @@ body.sidebar-open-right .overlay {
 }
 .reply-context {
     font-size: 0.75rem;
-    color: #b9bbbe; /* Discord-like grey */
+    color: #b9bbbe; 
     margin-bottom: 4px;
     display: flex;
     align-items: center;
     position: relative;
-    margin-left: 35px; /* Alignment fix */
+    margin-left: 35px; 
     cursor: pointer;
     opacity: 0.8;
     transition: opacity 0.2s;
@@ -793,7 +789,7 @@ body.sidebar-open-right .overlay {
     text-decoration: underline;
 }
 .reply-preview-text {
-    color: #72767d; /* Darker grey for the preview text */
+    color: #72767d; 
     margin-left: 5px;
     white-space: nowrap;
     overflow: hidden;
@@ -811,7 +807,7 @@ body.sidebar-open-right .overlay {
     animation: highlightFlash 1.5s ease-out;
 }
 .reply-input-bar {
-    display: none; /* Hidden by default */
+    display: none; 
     background: #2b2d31;
     color: #ccc;
     font-size: 0.8rem;
@@ -920,7 +916,7 @@ body.sidebar-open-right .overlay {
 
 <div style="width: 100%; margin-top: auto;">
     <button class="action-btn" onclick="saveBuild()" style="background: var(--gold); color: #000; border:none;">SHARE BUILD LINK</button>
-    <button class="action-btn" onclick="exportBuildText()" style="background: #2f2f35; color: #fff; border:none; margin-top: 5px;">COPY BUILD TEXT</button>
+    <button class="action-btn" onclick="exportBuildToDWM()" style="background: #2f2f35; color: #fff; border:none; margin-top: 5px;">EXPORT BUILD TO DWM</button>
     <button class="action-btn" style="color:#ff4444;" onclick="clearBuild()">CLEAR BUILD</button>
     <button class="roulette-btn" onclick="buildRoulette()">Evil ass button</button>
 </div>
@@ -1532,6 +1528,49 @@ const mutualExclusions = [
 ];
 
 // --- 3. INITIALIZATION ---
+function exportBuildToDWM() {
+    // Construct the object mapping the internal names to the DWM names
+    const dwmStats = {
+        "TotalStrength": userStats["Strength"] || 0,
+        "TotalAgility": userStats["Agility"] || 0,
+        "TotalCharisma": userStats["Charisma"] || 0,
+        "TotalWillpower": userStats["Willpower"] || 0,
+        "TotalFortitude": userStats["Fortitude"] || 0,
+        "TotalIntelligence": userStats["Intelligence"] || 0,
+        "TotalPrecision": userStats["Precision"] || 0,
+
+        "TotalWeaponHeavy": userStats["Heavy Weapon"] || 0,
+        "TotalWeaponLight": userStats["Light Weapon"] || 0,
+        "TotalWeaponMedium": userStats["Medium Weapon"] || 0,
+
+        "TotalElementBlood": userStats["Bloodrend"] || 0,
+        "TotalElementEarth": userStats["Earthbend"] || 0,
+        "TotalElementFire": userStats["Flamecharm"] || 0,
+        "TotalElementIce": userStats["Frostdraw"] || 0,
+        "TotalElementIron": userStats["Ironsing"] || 0,
+        "TotalElementLightning": userStats["Thundercall"] || 0,
+        "TotalElementShadow": userStats["Shadowcast"] || 0,
+        "TotalElementWind": userStats["Galebreathe"] || 0,
+
+        "TraitHealth": userTraits["Vitality"] || 0,
+        "TraitWeaponDamage": userTraits["Proficiency"] || 0,
+        "TraitMantraDamage": userTraits["Songchant"] || 0,
+        "TraitEther": userTraits["Erudition"] || 0
+    };
+
+    // Convert to formatted JSON string (2-space indentation)
+    const jsonOutput = JSON.stringify(dwmStats, null, 2);
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(jsonOutput).then(() => {
+        alert("Build exported to DWM format and copied to clipboard!");
+    }).catch(err => {
+        console.error("Failed to copy text: ", err);
+        // Fallback alert if clipboard fails
+        alert("Failed to copy. Check console for the JSON.");
+        console.log(jsonOutput);
+    });
+}
 function validateBuild() {
     // 1. Check Weapon
     if (!selectedWeapon) return "You must equip a weapon.";
@@ -2300,12 +2339,12 @@ function renderGuide() {
                 <p style="margin: 5px 0 0 15px;">There are two types of Lower specs: <b>Obtainable</b> and <b>Whitelist</b>.</p>
                 <ul style="margin: 5px 0 0 15px; padding-left: 20px;">
                     <li><strong>Obtainable (Rendbreaker):</strong> Obtained by winning dev events (usually hosted by astulie).</li>
-                    <li><strong>Whitelist (Fish, Death, Mon, Globus):</strong> You must contact the spec owners for a whitelist, then visit the <b>Yzord NPC</b>.</li>
+                    <li><strong>Whitelist (Fish, Death, Mon, Globus):</strong> You must contact the spec owners for a whitelist (note: all whitelisted ppl might be removed, no confirmation yet), then visit the <b>Yzord NPC</b>.</li>
                 </ul>
                 
                 <div style="background: rgba(0,0,0,0.05); padding: 10px; margin: 10px 0 0 15px; border-left: 3px solid #8b0000; font-size: 0.85rem;">
                     <strong>Enchant Owners:</strong><br>
-                    Fish: @lz4decompress | Mon: @monschta (note: too many people whitelisted already, GL getting whitelisted) | Death: @kyawooo | Globus: @16glo ($20 insta-whitelist)
+                    Fish: @lz4decompress | Mon: @monschta (note: too many people whitelisted already, GL getting whitelisted) | Death: @kyawooo | Globus: @16glo (not allowed to share his enchant)
                 </div>
 
                 <div style="margin: 10px 0 0 15px; font-size: 0.85rem;">
