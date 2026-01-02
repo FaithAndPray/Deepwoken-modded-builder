@@ -723,24 +723,36 @@ body.sidebar-open-right .overlay {
 .media-btn {
     background: #444; color: #fff; border: 1px solid #666; cursor: pointer; padding: 0 10px; font-size: 1.2rem;
 }
-/* --- ADMIN GLOW --- */
+/* --- ADMIN GLOW (Dynamic) --- */
 @keyframes adminPulse {
-    0% { text-shadow: 0 0 5px #ff0000, 0 0 10px #0000ff; color: #fff; }
-    50% { text-shadow: 0 0 10px #ff0000, 0 0 20px #0000ff; color: #ffcccc; }
-    100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #0000ff; color: #fff; }
+    0% { 
+        text-shadow: 0 0 5px var(--glow-color), 0 0 10px #fff; 
+        color: #fff; 
+    }
+    50% { 
+        text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); 
+        color: #fff; 
+    }
+    100% { 
+        text-shadow: 0 0 5px var(--glow-color), 0 0 10px #fff; 
+        color: #fff; 
+    }
 }
 
 .admin-badge-glow {
-    background: #111;
-    border: 1px solid #fff;
+    background: #000;
+    border: 1px solid var(--glow-color);
     border-radius: 4px;
     padding: 2px 6px;
     font-size: 0.7rem;
     font-weight: bold;
     margin-left: 8px;
-    animation: adminPulse 2s infinite alternate;
     display: inline-block;
     vertical-align: middle;
+    /* Default to red if not set */
+    --glow-color: #ff0000; 
+    color: var(--glow-color);
+    animation: adminPulse 2s infinite alternate;
 }
 
 /* --- MEDIA LIB --- */
@@ -919,7 +931,8 @@ body.sidebar-open-right .overlay {
         <div class="tab-btn active" id="tab-talents" onclick="switchTab('talents')">Talents</div>
         <div class="tab-btn" id="tab-mantras" onclick="switchTab('mantras')">Mantras</div>
         <div class="tab-btn" id="tab-weapons" onclick="switchTab('weapons')">Weapons</div>
-        <div class="tab-btn" id="tab-summary" onclick="switchTab('summary')">Summary</div> 
+        <div class="tab-btn" id="tab-summary" onclick="switchTab('summary')">Summary</div>
+        <div class="tab-btn" id="tab-community" onclick="switchTab('community')">Community</div>
         <div class="tab-btn" id="tab-guide" onclick="switchTab('guide')">Guide</div>
     </div>
 
@@ -937,7 +950,52 @@ body.sidebar-open-right .overlay {
     <div style="padding: 15px; text-align: center; font-weight: bold; border-bottom: 2px solid #000; font-size: 1.1rem; text-transform: uppercase;">Build Overview</div>
     <div id="selection-list" style="overflow-y: auto; flex: 1;"></div>
 </div>
+<div id="focus-view" style="display: none;">
+    <div class="focus-inner">
+        <div id="focus-content"></div>
+    </div>
+<!-- ================================================= -->
+<!-- PERMANENT MODALS (Paste at bottom of <body> tag) -->
+<!-- ================================================= -->
 
+<!-- 1. AUTH MODAL -->
+<div id="auth-modal" class="modal" style="display:none; position:fixed; z-index:4000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);">
+    <div class="modal-content" style="background: var(--sidebar-bg); color: #fff; border: 1px solid #444; margin: 10% auto; padding: 20px; width: 400px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position:relative;">
+        <span onclick="document.getElementById('auth-modal').style.display='none'" style="float:right; cursor:pointer; font-size:1.5rem; color:#fff;">&times;</span>
+        <h2 id="auth-title" style="margin-top:0; text-align:center; font-family:'Lora';">Login</h2>
+        
+        <input type="text" id="auth-user" placeholder="Username" style="display:none; width:100%; padding:12px; margin:5px 0; background:#0a0a0b; color:#fff; border:1px solid #333; font-family:'Lora';">
+        <input type="email" id="auth-email" placeholder="Email" style="width:100%; padding:12px; margin:5px 0; background:#0a0a0b; color:#fff; border:1px solid #333; font-family:'Lora';">
+        <input type="text" id="auth-pfp" placeholder="PFP URL (Optional)" style="display:none; width:100%; padding:12px; margin:5px 0; background:#0a0a0b; color:#fff; border:1px solid #333; font-family:'Lora';">
+        <input type="password" id="auth-pass" placeholder="Password" style="width:100%; padding:12px; margin:5px 0; background:#0a0a0b; color:#fff; border:1px solid #333; font-family:'Lora';">
+        
+        <button class="action-btn" onclick="submitAuth()" style="margin-top:15px; background:var(--gold); color:#000; border:none; font-weight:bold; width:100%; padding:10px;">SUBMIT</button>
+        <div style="margin-top:15px; font-size:0.8rem; cursor:pointer; text-decoration:underline; color:#aaa; text-align:center;" onclick="toggleAuthMode()">Switch to Sign Up / Login</div>
+    </div>
+</div>
+
+<!-- 2. POST MODAL -->
+<div id="post-modal" class="modal" style="display:none; position:fixed; z-index:4000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8);">
+    <div class="modal-content" style="background: var(--sidebar-bg); color: #fff; border: 1px solid #444; margin: 5% auto; padding: 20px; width: 500px;">
+        <span onclick="document.getElementById('post-modal').style.display='none'" style="float:right; cursor:pointer; color:#fff;">&times;</span>
+        <h2 style="margin-top:0;">Publish Build</h2>
+        
+        <input type="text" id="post-title" placeholder="Build Title" style="width:100%; padding:10px; margin-bottom:10px; background:#000; color:#fff; border:1px solid #333;">
+        <textarea id="post-desc" style="width:100%; height:80px; padding:10px; margin-bottom:10px; background:#000; color:#fff; border:1px solid #333; font-family:'Lora';" placeholder="Description"></textarea>
+        
+        <div style="margin-bottom:10px;">
+            <label style="color:#aaa; font-size:0.9rem;">Select Tags:</label><br>
+            <!-- Tags Container -->
+            <div id="post-tag-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:5px; color:#ddd;">
+                <!-- Will be filled by JS -->
+            </div>
+        </div>
+
+        <button class="action-btn" onclick="submitPost()">PUBLISH</button>
+    </div>
+</div>
+</div>
+</div>
 <script>
 // --- 1. THE COMPLETE GAME DATA ---
 
@@ -1440,6 +1498,7 @@ let currentTab = 'talents';
 let selectedWeapon = null;
 let selectedEnchant = "no enchant";
 let userNotes = "";
+let currentAdminColor = "#ff0000"; // Default Red
 
 
 
@@ -1493,6 +1552,7 @@ function validateBuild() {
     return null; // Valid
 }
 function init() {
+ensureGlobalModals();
     const splash = [
   "hold it, this guy is cooking",
   "time for a shower twin",
@@ -1931,7 +1991,7 @@ let cachedPosts = [];
 function renderSummaryTab() {
     const container = document.getElementById('item-container');
     
-    // Stats Calc Logic (Same as before)
+    // Stats Calculation
     let totalHP = 360;
     let ftdBonus = Math.min(Math.floor((userStats["Fortitude"] || 0) / 5) * 5, 50);
     let vitBonus = (userTraits["Vitality"] || 0) * 10;
@@ -1953,113 +2013,42 @@ function renderSummaryTab() {
     // --- RENDER HTML ---
     container.innerHTML = `
         <div class="calc-wrapper" style="max-width: 800px;">
+            <div style="margin-bottom: 20px;">
+                <label style="font-weight:bold; font-size:0.8rem;">BUILD NAME</label>
+                <input type="text" id="build-name-input" 
+                    style="width: 100%; padding: 10px; font-family: 'Lora'; font-size: 1.2rem;" 
+                    placeholder="e.g. 1 cycle godseeker build" 
+                    value="${window.buildName || ''}" 
+                    oninput="window.buildName = this.value">
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
+                    <h3 style="margin:0; color:#8b0000;">${totalHP} HP</h3>
+                    <div style="font-size: 0.8rem; color: #666;">Base: 360 | FTD: +${ftdBonus} | VIT: +${vitBonus} | Talents: +${talentHP}</div>
+                </div>
+                <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
+                     <h3 style="margin:0; color:var(--gold);">OFFENSE</h3>
+                     <div style="font-size:0.8rem;">Wep: ${(1 + Math.min(0.25, weaponPts/100)).toFixed(2)}x | Mantra: ${(1 + Math.min(0.25, mantraPts/100)).toFixed(2)}x | Pen: ${totalPen}%</div>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <label style="font-weight:bold;">DESCRIPTION / NOTES</label>
+                <textarea id="build-notes" 
+                    style="width: 100%; height: 100px; padding: 10px; font-family: 'Lora';" 
+                    placeholder="Write your notes here..."
+                    oninput="saveNotes(this.value)">${userNotes}</textarea>
+            </div>
+
+            <hr style="border: 2px solid #000; margin: 30px 0;">
+
+            <!-- REMOVED USER BAR FROM HERE -->
             
-            <!-- 1. BUILDER UI (Visible by default) -->
-            <div id="summary-main-view">
-                <div style="margin-bottom: 20px;">
-                    <label style="font-weight:bold; font-size:0.8rem;">BUILD NAME</label>
-                    <input type="text" id="build-name-input" 
-                        style="width: 100%; padding: 10px; font-family: 'Lora'; font-size: 1.2rem;" 
-                        placeholder="e.g. 1 cycle godseeker build" 
-                        value="${window.buildName || ''}" 
-                        oninput="window.buildName = this.value">
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
-                        <h3 style="margin:0; color:#8b0000;">${totalHP} HP</h3>
-                        <div style="font-size: 0.8rem; color: #666;">Base: 360 | FTD: +${ftdBonus} | VIT: +${vitBonus} | Talents: +${talentHP}</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.05); padding: 15px; border: 1px solid rgba(0,0,0,0.1);">
-                         <h3 style="margin:0; color:var(--gold);">OFFENSE</h3>
-                         <div style="font-size:0.8rem;">Wep: ${(1 + Math.min(0.25, weaponPts/100)).toFixed(2)}x | Mantra: ${(1 + Math.min(0.25, mantraPts/100)).toFixed(2)}x | Pen: ${totalPen}%</div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 20px;">
-                    <label style="font-weight:bold;">DESCRIPTION / NOTES</label>
-                    <textarea id="build-notes" 
-                        style="width: 100%; height: 100px; padding: 10px; font-family: 'Lora';" 
-                        placeholder="Write your Fuckass notes here cuh..."
-                        oninput="saveNotes(this.value)">${userNotes}</textarea>
-                </div>
-
-                <hr style="border: 2px solid #000; margin: 30px 0;">
-
-                ${renderUserBar()}
-                
-                <div style="display:flex; gap: 10px; margin-top: 10px;">
-                    ${currentUser ? `<button class="comm-btn" style="flex:1; background:#8b0000; color:#fff;" onclick="openPostModal()">+ Publish Build</button>` : ''}
-                </div>
-
-                <!-- BUTTON TO OPEN FORUM -->
-                <button class="browse-btn" onclick="openForumView()">
-                    <span>Browse Community Builds</span>
-                    <span>▼</span>
-                </button>
-            </div>
-
-            <!-- 2. FORUM UI (Hidden inside this wrapper) -->
-            <div id="forum-view" class="forum-view-container">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                    <h2 style="margin:0;">COMMUNITY BUILDS</h2>
-                    <button onclick="closeForumView()" style="background:transparent; border:none; text-decoration:underline; cursor:pointer;">Close</button>
-                </div>
-
-                <!-- SEARCH BAR -->
-                <input type="text" id="forum-search" class="forum-search-bar" placeholder="Search builds by title, author, or description..." oninput="filterForumFeed()">
-
-                <!-- FILTERS -->
-                <div class="tag-filters" style="margin-bottom: 20px;">
-                    <span style="font-weight:bold; margin-right:5px;">Filter:</span>
-                    <button class="tag-pill ${currentTagFilter === null ? 'filter-active' : ''}" onclick="filterTags(null)">ALL</button>
-                    ${availableTags.map(t => `<button class="tag-pill ${currentTagFilter === t ? 'filter-active' : ''}" onclick="filterTags('${t}')">${t}</button>`).join('')}
-                </div>
-
-                <!-- FEED -->
-                <div id="forum-feed" class="forum-feed">
-                    <div style="text-align:center; padding:20px;">Loading...</div>
-                </div>
+            <div style="text-align:center; font-style:italic; color:#666; margin-top:20px;">
+                To view or post builds, go to the <b>COMMUNITY</b> tab.
             </div>
         </div>
-
-        <!-- 3. FOCUS VIEW (Full Screen Overlay) -->
-        <div id="focus-view">
-            <div class="focus-inner">
-                <div id="focus-content"></div>
-            </div>
-        </div>
-
-        <!-- MODALS (Auth/Post) kept same as before -->
-        <div id="auth-modal" class="modal">
-            <div class="modal-content">
-                <span onclick="closeModal('auth-modal')" style="float:right; cursor:pointer; font-size:1.5rem;">&times;</span>
-                <h2 id="auth-title">Login</h2>
-                <input type="text" id="auth-user" placeholder="Username">
-                <input type="email" id="auth-email" placeholder="Email">
-                <input type="text" id="auth-pfp" placeholder="PFP URL">
-                <input type="password" id="auth-pass" placeholder="Password">
-                <button class="action-btn" onclick="submitAuth()">Submit</button>
-                <div style="margin-top:10px; font-size:0.8rem; cursor:pointer; text-decoration:underline;" onclick="toggleAuthMode()">Switch to Sign Up/Login</div>
-            </div>
-        </div>
-
-        <!-- Inside renderSummaryTab string -->
-<div id="post-modal" class="modal">
-    <div class="modal-content" style="width: 500px; background: var(--sidebar-bg); color:#fff;">
-        <span onclick="closeModal('post-modal')" style="float:right; cursor:pointer;">&times;</span>
-        <h2>Publish Build</h2>
-        <input type="text" id="post-title" placeholder="Build Title" value="${window.buildName || ''}" style="background:#000; color:#fff;">
-        <textarea id="post-desc" style="width:100%; height:80px; padding:5px; margin-bottom:10px; background:#000; color:#fff;" placeholder="Description">${userNotes}</textarea>
-        
-        <div style="margin-bottom:10px;">
-            <label>Select Tags:</label><br>
-            <div id="post-tag-container" style="display:flex; flex-wrap:wrap; gap:5px; margin-top:5px;"></div>
-        </div>
-
-        <button class="action-btn" onclick="submitPost()">PUBLISH</button>
-    </div>
-</div>
     `;
 }
 
@@ -2067,12 +2056,19 @@ function renderSummaryTab() {
 function renderUserBar() {
     if (!currentUser) {
         return `
-            <div class="user-bar" style="justify-content:center;">
-                <div>Join the Community to post & vote!</div>
+            <div class="user-bar" style="justify-content:center; text-align:center;">
+                <div style="margin-bottom:5px;">Join the Community to post & vote!</div>
                 <button class="auth-btn" onclick="openAuthModal()">LOG IN / SIGN UP</button>
             </div>
         `;
     }
+    
+    // Admin Button Logic
+    let adminBtn = "";
+    if (currentAdmin) {
+        adminBtn = `<button class="auth-btn" style="background:#333; border:1px solid #555; margin-right:10px;" onclick="adminPanel()">ADMIN</button>`;
+    }
+
     return `
         <div class="user-bar">
             <div class="user-info">
@@ -2083,7 +2079,7 @@ function renderUserBar() {
                 </div>
             </div>
             <div>
-                 ${currentAdmin ? `<button class="auth-btn" style="background:#333;" onclick="adminPanel()">ADMIN</button>` : ''}
+                ${adminBtn}
                 <button class="auth-btn" onclick="logout()">LOG OFF</button>
             </div>
         </div>
@@ -2674,17 +2670,29 @@ function loadSavedTheme() {
 // Call loadSavedTheme() inside init() function
 function switchTab(t) { 
     currentTab = t; 
-    ['talents','mantras','summary','guide', 'weapons'].forEach(id => { 
+    // Update active class on buttons
+    ['talents','mantras','summary','guide', 'weapons', 'community'].forEach(id => { 
         let el = document.getElementById('tab-'+id); 
         if(el) el.classList.toggle('active', id===t); 
     }); 
     
     let searchBar = document.getElementById('search-bar'); 
-    // hides the search bar for Summary, Weapons, and Guide
-    if(searchBar) searchBar.style.display = (t==='summary' || t==='guide' || t==='weapons') ? 'none' : 'block'; 
+    
+    // Hide the main item search bar for these tabs
+    if(searchBar) {
+        // We hide the main search for Summary, Guide, Weapons, AND Community
+        searchBar.style.display = (t==='summary' || t==='guide' || t==='weapons' || t==='community') ? 'none' : 'block'; 
+    }
 
     document.getElementById('item-container').innerHTML = "";
-    updateUI(); 
+
+    // Route to the correct renderer
+    if (t === 'talents' || t === 'mantras') renderItems();
+    else if (t === 'weapons') renderWeapons();
+    else if (t === 'summary') renderSummaryTab();
+    else if (t === 'community') renderCommunityTab();
+    else if (t === 'guide') renderGuide();
+     // NEW FUNCTION CALL
 }
 function toggleBuff(id) { activeBuffs.has(id) ? activeBuffs.delete(id) : activeBuffs.add(id); renderCalculator(); }
 function toggleCategory(cat) { collapsedCats.has(cat) ? collapsedCats.delete(cat) : collapsedCats.add(cat); renderItems(); }
@@ -2753,11 +2761,19 @@ async function saveBuild() {
 let isSignUp = false;
 
 function openAuthModal() {
-    document.getElementById('auth-modal').style.display = 'block';
-    document.getElementById('auth-user').style.display = 'none'; // Hide username on login default
-    document.getElementById('auth-pfp').style.display = 'none';
-    document.getElementById('auth-title').innerText = "Login";
-    isSignUp = false;
+    const modal = document.getElementById('auth-modal');
+    if(modal) {
+        modal.style.display = 'block';
+        // Reset to Login View
+        document.getElementById('auth-user').style.display = 'none';
+        document.getElementById('auth-pfp').style.display = 'none';
+        document.getElementById('auth-title').innerText = "Login";
+        isSignUp = false;
+    } else {
+        // If somehow it's missing, re-inject it
+        ensureGlobalModals();
+        document.getElementById('auth-modal').style.display = 'block';
+    }
 }
 
 function toggleAuthMode() {
@@ -2819,18 +2835,21 @@ function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 // --- FORUM POSTING LOGIC ---
 function openPostModal() {
     const error = validateBuild();
-    if(error) { alert(error); return; } // BLOCK JOKE BUILDS
+    if(error) { alert(error); return; }
 
-    document.getElementById('post-modal').style.display = 'block';
-    
-    // Multi-Tag HTML generation
-    const tagContainer = document.getElementById('post-tag-container'); // You need to add this div in HTML below
-    if(tagContainer) {
-        tagContainer.innerHTML = availableTags.map(t => 
-            `<label style="margin-right:10px; cursor:pointer;">
-                <input type="checkbox" name="post_tags" value="${t}"> ${t}
-             </label>`
-        ).join('');
+    const modal = document.getElementById('post-modal');
+    if(modal) {
+        modal.style.display = 'block';
+        
+        // Inject Tags dynamically
+        const tagContainer = document.getElementById('post-tag-container');
+        if(tagContainer) {
+            tagContainer.innerHTML = availableTags.map(t => 
+                `<label style="margin-right:10px; cursor:pointer;">
+                    <input type="checkbox" name="post_tags" value="${t}"> ${t}
+                 </label>`
+            ).join('');
+        }
     }
 }
 
@@ -2870,7 +2889,8 @@ async function submitPost() {
             upvotes: [],
             downvotes: [],
             commentCount: 0,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            adminColor: currentAdminColor
         });
         closeModal('post-modal');
         loadForumPosts();
@@ -2888,66 +2908,34 @@ function filterTags(tag) {
 function loadForumPosts() {
     const feed = document.getElementById('forum-feed');
     if(!feed) return;
+    
+    feed.innerHTML = "<div style='text-align:center; padding:20px;'>Fetching builds...</div>";
 
-    let query = db.collection('posts').orderBy('voteScore', 'desc').limit(20);
+    let query = db.collection('posts');
+
     if (currentTagFilter) {
-        query = db.collection('posts').where('tag', '==', currentTagFilter).orderBy('voteScore', 'desc').limit(20);
-    }
+        // FIXED: Uses 'tags' and 'array-contains' for multi-tag support
+        query = query.where('tags', 'array-contains', currentTagFilter);
+    } 
+    
+    // Note: Firestore requires an index for 'tags' + 'voteScore'. 
+    // If you get a console error link, click it to build the index.
+    query = query.orderBy('voteScore', 'desc').limit(50);
 
     query.get().then(snap => {
-        feed.innerHTML = "";
-        if(snap.empty) { feed.innerHTML = "<div style='text-align:center'>No builds found here.</div>"; return; }
-        
+        cachedPosts = [];
+        if(snap.empty) { feed.innerHTML = "<div style='text-align:center; padding:20px;'>No builds found.</div>"; return; }
+
         snap.forEach(doc => {
-            const p = doc.data();
-            const pid = doc.id;
-            
-            // Calculate Vote Status
-            const uid = currentUser ? currentUser.uid : null;
-            const isUp = p.upvotes.includes(uid);
-            const isDown = p.downvotes.includes(uid);
-
-            // Admin Delete
-            const adminDel = currentAdmin ? `<span class="del-btn" onclick="deletePost('${pid}')">[DELETE POST]</span>` : '';
-            const adminBadge = (p.authorId === "ADMIN_UID_HERE" || p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : ''; // simplified check
-
-            feed.innerHTML += `
-                <div class="post-card">
-                    <div class="post-header">
-                        <div class="post-author-info">
-                            <img src="${p.authorPfp}" class="post-pfp">
-                            <div>
-                                <span class="post-author-name">${p.authorName}</span>
-                                ${adminBadge}
-                                <div style="font-size:0.7rem; color:#666;">${p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : ''}</div>
-                            </div>
-                        </div>
-                        <div class="admin-actions">${adminDel}</div>
-                    </div>
-
-                    <div class="post-title">${p.title}</div>
-                    <div class="tag-container"><span class="tag-pill">${p.tag}</span></div>
-                    <div class="post-desc">${p.desc}</div>
-
-                    <button class="load-build-btn" onclick="loadBuildFromString('${p.buildCode}'); alert('Build Loaded! Check Stats/Talents tabs.'); scrollToTop();">LOAD BUILD</button>
-
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <div class="vote-bar">
-                            <button class="vote-arrow up ${isUp?'active':''}" onclick="votePost('${pid}', 1)">▲</button>
-                            <span class="vote-score">${p.voteScore}</span>
-                            <button class="vote-arrow down ${isDown?'active':''}" onclick="votePost('${pid}', -1)">▼</button>
-                        </div>
-                        <button class="comm-btn" style="background:transparent; border:none; font-size:0.8rem; text-decoration:underline;" onclick="togglePostComments('${pid}')">
-                            Comments
-                        </button>
-                    </div>
-
-                    <div id="comments-${pid}" class="comments-section">
-                        <!-- Comments load here -->
-                    </div>
-                </div>
-            `;
+            let data = doc.data();
+            data.id = doc.id;
+            cachedPosts.push(data);
         });
+
+        renderFeed(cachedPosts);
+    }).catch(err => {
+        console.error(err);
+        feed.innerHTML = `<div style='color:red; text-align:center'>Error loading feed. (Check console for Index Link)</div>`;
     });
 }
 
@@ -2958,82 +2946,86 @@ async function votePost(pid, val) {
     if(!currentUser) return alert("Login to vote");
     
     const uid = currentUser.uid;
-    const name = currentUser.displayName;
-    const btnUp = document.querySelector(`.vote-arrow.up[onclick*="${pid}"]`);
-    const btnDown = document.querySelector(`.vote-arrow.down[onclick*="${pid}"]`);
-    const scoreEl = document.querySelector(`.vote-score-display-${pid}`); // Need to add this class to HTML
-    
-    let currentScore = parseInt(scoreEl ? scoreEl.innerText : 0);
-    
-    // Optimistic UI Update (Instant Feedback)
-    if(btnUp && btnDown) {
-        if(val === 1) {
-            if(btnUp.classList.contains('active')) {
-                // Remove Upvote
-                btnUp.classList.remove('active');
-                currentScore--;
-            } else {
-                // Add Upvote
-                btnUp.classList.add('active');
-                if(btnDown.classList.contains('active')) { btnDown.classList.remove('active'); currentScore++; } // Remove down if exists
-                currentScore++;
-            }
-        } else {
-            if(btnDown.classList.contains('active')) {
-                // Remove Downvote
-                btnDown.classList.remove('active');
-                currentScore++;
-            } else {
-                // Add Downvote
-                btnDown.classList.add('active');
-                if(btnUp.classList.contains('active')) { btnUp.classList.remove('active'); currentScore--; } // Remove up if exists
-                currentScore--;
-            }
-        }
-        if(scoreEl) scoreEl.innerText = currentScore;
-    }
+    const name = currentUser.displayName; // Get Name for the tooltip
 
-    // Database Transaction
     const postRef = db.collection('posts').doc(pid);
+    
     try {
         await db.runTransaction(async (t) => {
             const doc = await t.get(postRef);
+            if (!doc.exists) return;
+
             const data = doc.data();
             let up = data.upvotes || [];
             let down = data.downvotes || [];
             
-            // WHO VOTED LOGIC: Store display names
+            // WHO VOTED LOGIC (Arrays of Objects)
             let upNames = data.upNames || []; 
             let downNames = data.downNames || [];
 
-            // Helper to remove user
-            const removeUser = (id) => {
-                up = up.filter(u => u !== id);
-                down = down.filter(u => u !== id);
-                upNames = upNames.filter(u => u.id !== id);
-                downNames = downNames.filter(u => u.id !== id);
+            // Helper to clean arrays of this user (Reset user state)
+            const clearUser = () => {
+                up = up.filter(id => id !== uid);
+                down = down.filter(id => id !== uid);
+                upNames = upNames.filter(u => u.id !== uid);
+                downNames = downNames.filter(u => u.id !== uid);
             };
 
-            removeUser(uid); // Clear existing vote for this user
+            const isUpvoted = up.includes(uid);
+            const isDownvoted = down.includes(uid);
 
-            if (val === 1 && !data.upvotes.includes(uid)) {
-                up.push(uid);
-                upNames.push({id: uid, name: name});
-            } else if (val === -1 && !data.downvotes.includes(uid)) {
-                down.push(uid);
-                downNames.push({id: uid, name: name});
+            // LOGIC: 
+            // 1. If clicking UP:
+            //    - If already UP, remove it (Toggle Off).
+            //    - Else, Clear everything, then Add UP.
+            
+            if (val === 1) {
+                if (isUpvoted) {
+                    clearUser(); // Toggle Off
+                } else {
+                    clearUser(); // Remove potential downvote
+                    up.push(uid); // Add Upvote
+                    upNames.push({ id: uid, name: name });
+                }
+            } 
+            // 2. If clicking DOWN:
+            else if (val === -1) {
+                if (isDownvoted) {
+                    clearUser(); // Toggle Off
+                } else {
+                    clearUser(); // Remove potential upvote
+                    down.push(uid); // Add Downvote
+                    downNames.push({ id: uid, name: name });
+                }
             }
 
             t.update(postRef, {
-                upvotes: up, downvotes: down,
-                upNames: upNames, downNames: downNames, // Store names
+                upvotes: up, 
+                downvotes: down,
+                upNames: upNames, 
+                downNames: downNames,
                 voteScore: up.length - down.length
             });
         });
-        // Do NOT reload forum posts here to keep UI smooth
+        
+        // Refresh the specific View depending on where we are
+        if(document.getElementById('focus-view').style.display === 'block') {
+             // We need to reload the focus view data without closing it. 
+             // We can fetch the specific doc and update the DOM manually or just reload the whole view.
+             // Simplest way for now:
+             const updatedDoc = await db.collection('posts').doc(pid).get();
+             if(updatedDoc.exists) {
+                 // Update the score number immediately on screen
+                 const els = document.querySelectorAll(`.vote-score-display-${pid}`);
+                 els.forEach(el => el.innerText = updatedDoc.data().voteScore);
+                 // Reloading the whole view is heavy, so we rely on the next refresh or open
+             }
+        } else {
+            loadForumPosts(); // Refresh list
+        }
+
     } catch(e) { console.error(e); }
 }
-
 // --- COMMENTS SYSTEM ---
 function togglePostComments(pid) {
     const el = document.getElementById(`comments-${pid}`);
@@ -3065,7 +3057,8 @@ function renderComments(pid, targetId = null) {
             // ADMIN BADGE
             let adminBadge = "";
             if (c.isAdmin) { 
-                adminBadge = `<span class="admin-badge-glow">ADMIN</span>`;
+                const glow = c.adminColor || "#ff0000";
+                adminBadge = `<span class="admin-badge-glow" style="--glow-color: ${glow}">ADMIN</span>`;
             }
 
             // --- REPLY VISUALS LOGIC ---
@@ -3074,8 +3067,6 @@ function renderComments(pid, targetId = null) {
             
             if (c.replyTo) {
                 itemStyle = "border-left: none; margin-left: 0px;"; 
-                
-                // Content Logic: DB saved snippet, or fallback
                 let previewText = c.replyTo.snippet || "Click to see original";
                 
                 replyHtml = `
@@ -3098,19 +3089,30 @@ function renderComments(pid, targetId = null) {
                 }
             }
 
-            // Escape text for the onclick function to prevent errors
+            // Escape text
             const safeText = (c.text || "").replace(/'/g, "\\'").replace(/"/g, '&quot;');
             const safeImg = (c.image || "");
 
-            // Buttons
+            // Buttons (Restricted to Admin or Comment Author to fix 'p' error)
             const delBtn = (currentUser && (currentAdmin || currentUser.uid === c.authorId)) 
                 ? `<span style="color:#f44; cursor:pointer; font-size:0.7rem; margin-left:10px;" onclick="deleteComment('${pid}', '${cid}', '${c.authorId}', '${containerId}')">DELETE</span>` 
                 : "";
                 
-            // Pass safeText and safeImg to the reply function
             const replyBtn = `<span style="cursor:pointer; color:#aaa; font-size:0.8rem; margin-left:10px;" onclick="replyToUser('${cid}', '${c.authorName}', '${c.authorPfp || ''}', '${safeText}', '${safeImg}')">↩ Reply</span>`;
 
-            // ADD ID HERE id="comment-${cid}"
+            // DELETED MESSAGE HANDLING
+            if (c.isDeleted) {
+                 list.innerHTML += `
+                    <div id="comment-${cid}" style="margin-bottom: 12px; padding: 8px 12px; background: rgba(0,0,0,0.2); border-left: 3px solid #555;">
+                        <span style="color: #888; font-style: italic;">[Message deleted by Admin]</span>
+                    </div>`;
+                return;
+            }
+
+            const uid = currentUser ? currentUser.uid : null;
+            const isUp = c.upvotes && c.upvotes.includes(uid);
+            const isDown = c.downvotes && c.downvotes.includes(uid);
+
             list.innerHTML += `
                 <div id="comment-${cid}" style="margin-bottom: 12px; position:relative; scroll-margin-top: 100px;">
                     ${replyHtml}
@@ -3129,9 +3131,9 @@ function renderComments(pid, targetId = null) {
                         <div style="margin-left: 28px;">${mediaHtml}</div>
                         
                         <div style="display:flex; gap:10px; align-items:center; margin-top:5px; margin-left:28px;">
-                            <button class="vote-arrow up ${c.upvotes?.includes(currentUser?.uid)?'active':''}" onclick="voteComment('${pid}', '${cid}', 1, '${containerId}')">▲</button>
+                            <button class="vote-arrow up ${isUp?'active':''}" onclick="voteComment('${pid}', '${cid}', 1, '${containerId}')">▲</button>
                             <span style="font-size:0.8rem; font-weight:bold; color:#aaa;">${c.voteScore || 0}</span>
-                            <button class="vote-arrow down ${c.downvotes?.includes(currentUser?.uid)?'active':''}" onclick="voteComment('${pid}', '${cid}', -1, '${containerId}')">▼</button>
+                            <button class="vote-arrow down ${isDown?'active':''}" onclick="voteComment('${pid}', '${cid}', -1, '${containerId}')">▼</button>
                         </div>
                     </div>
                 </div>
@@ -3169,6 +3171,7 @@ async function postComment(pid, containerId, mode) {
         authorName: currentUser.displayName,
         authorPfp: currentUser.photoURL,
         isAdmin: currentAdmin,
+        adminColor: currentAdminColor,
         
         // --- UPDATED REPLY SAVE LOGIC ---
         replyTo: currentReplyContext ? {
@@ -3203,32 +3206,41 @@ async function voteComment(pid, cid, val, containerId = null) {
     const ref = db.collection('posts').doc(pid).collection('comments').doc(cid);
     
     try {
-        const doc = await ref.get();
-        
-        // SAFETY CHECK: If document doesn't exist, stop.
-        if (!doc.exists) {
-            console.error("Comment not found in DB");
-            return;
-        }
+        await db.runTransaction(async (t) => {
+            const doc = await t.get(ref);
+            if (!doc.exists) return;
 
-        let data = doc.data();
-        let up = data.upvotes || [];    // Default to empty array if missing
-        let down = data.downvotes || [];
+            let data = doc.data();
+            let up = data.upvotes || [];
+            let down = data.downvotes || [];
 
-        // Remove previous vote
-        if(up.includes(uid)) up = up.filter(id => id !== uid);
-        if(down.includes(uid)) down = down.filter(id => id !== uid);
+            const isUpvoted = up.includes(uid);
+            const isDownvoted = down.includes(uid);
 
-        // Add new vote
-        if (val === 1) up.push(uid);
-        else if (val === -1) down.push(uid);
+            // Clean user from both arrays first
+            const cleanUp = up.filter(id => id !== uid);
+            const cleanDown = down.filter(id => id !== uid);
 
-        await ref.update({ 
-            upvotes: up, 
-            downvotes: down, 
-            voteScore: up.length - down.length 
+            if (val === 1) {
+                // If already upvoted, we just leave it cleaned (toggle off)
+                // If not, we add to up
+                if (!isUpvoted) {
+                    cleanUp.push(uid);
+                }
+                // (If we were downvoted, it's already removed by filter)
+            } else if (val === -1) {
+                if (!isDownvoted) {
+                    cleanDown.push(uid);
+                }
+            }
+
+            t.update(ref, { 
+                upvotes: cleanUp, 
+                downvotes: cleanDown, 
+                voteScore: cleanUp.length - cleanDown.length 
+            });
         });
-        
+
         // Refresh UI
         renderComments(pid, containerId);
 
@@ -3241,7 +3253,7 @@ async function voteComment(pid, cid, val, containerId = null) {
 async function adminPanel() {
     if (!currentAdmin) return;
 
-    const choice = prompt("Admin Menu:\n1. Promote User to Admin (by Email)\n2. Reset User Password");
+     const choice = prompt("Admin Menu:\n1. Promote User (Email)\n2. Reset Password\n3. Set My Glow Color (Hex)");
 
     if (choice === "1") {
         const targetEmail = prompt("Enter the exact email of the user to promote:");
@@ -3268,8 +3280,19 @@ async function adminPanel() {
             .then(()=>alert("Reset email sent."))
             .catch(e=>alert(e.message));
     }
+     else if (choice === "3") {
+        const color = prompt("Enter Hex Color (e.g. #00ff00 for green):", currentAdminColor);
+        if(color && color.startsWith("#")) {
+            await db.collection('users').doc(currentUser.uid).update({
+                adminColor: color
+            });
+            currentAdminColor = color; // Update locally
+            alert("Color updated! Future posts/comments will use this color.");
+        } else {
+            alert("Invalid Hex Code.");
+        }
 }
-
+}
 
 
 async function deletePost(pid, authorId) {
@@ -3302,6 +3325,8 @@ async function deleteComment(pid, cid, authorId, containerId = null) {
     if (!currentUser) return;
 
     const isAuthor = currentUser.uid === authorId;
+    
+    // Permission Check
     if (!currentAdmin && !isAuthor) {
         alert("You do not have permission.");
         return;
@@ -3309,12 +3334,30 @@ async function deleteComment(pid, cid, authorId, containerId = null) {
 
     if (confirm("Delete this comment?")) {
         try {
-            await db.collection('posts').doc(pid).collection('comments').doc(cid).update({
-                isDeleted: true,
-                text: "[Deleted]",
-                image: ""
-            });
+            const commentRef = db.collection('posts').doc(pid).collection('comments').doc(cid);
+
+            if (currentAdmin) {
+                // ADMIN: Soft Delete (Update text, keep document)
+                await commentRef.update({
+                    isDeleted: true,
+                    text: "[Message deleted by Admin]",
+                    image: "", // Remove image
+                    // Optional: You can force the admin badge color on the deleted msg if you want
+                    // adminColor: "#ff0000" 
+                });
+            } else {
+                // AUTHOR: Hard Delete (Remove document completely)
+                await commentRef.delete();
+                
+                // Decrement comment count on post
+                await db.collection('posts').doc(pid).update({
+                    commentCount: firebase.firestore.FieldValue.increment(-1)
+                });
+            }
+
+            // Refresh UI
             renderComments(pid, containerId);
+
         } catch (e) {
             console.error(e);
             alert("Error: " + e.message);
@@ -3485,10 +3528,12 @@ if (auth) {
     auth.onAuthStateChanged(async (user) => {
         if (user) {
             currentUser = user;
-            // Check Admin Status from Firestore User Collection
+            // Fetch Admin Status & Color
             const doc = await db.collection('users').doc(user.uid).get();
-            if(doc.exists && doc.data().isAdmin) {
-                currentAdmin = true;
+            if(doc.exists) {
+                const data = doc.data();
+                currentAdmin = data.isAdmin || false;
+                currentAdminColor = data.adminColor || "#ff0000"; 
             } else {
                 currentAdmin = false;
             }
@@ -3496,8 +3541,15 @@ if (auth) {
             currentUser = null;
             currentAdmin = false;
         }
-        // Refresh UI if on summary tab
-        if(currentTab === 'summary') renderSummaryTab();
+
+        // FORCE UI REFRESH
+        // This ensures the "Log In" button changes to the "User Bar" automatically
+        if(currentTab === 'community') renderCommunityTab();
+        else if(currentTab === 'summary') renderSummaryTab();
+        
+        // Update any specific user bars if they exist in DOM
+        const userBarPlaceholder = document.querySelector('.user-bar-container');
+        if(userBarPlaceholder) userBarPlaceholder.innerHTML = renderUserBar();
     });
 }
 
@@ -3567,6 +3619,16 @@ function loadForumPosts() {
             // Admin Badge/Delete Logic
             const adminDel = currentAdmin ? `<span class="del-btn" onclick="deletePost('${pid}')">[DELETE POST]</span>` : '';
             const adminBadge = (p.isAdmin) ? `<span class="admin-badge">[ADMIN]</span>` : '';
+            // HANDLE DELETED COMMENTS
+            if (c.isDeleted) {
+                // We display the text stored in DB (which we set to "Message deleted by Admin")
+                // We style it grey and italic
+                list.innerHTML += `
+                    <div style="margin-bottom: 12px; padding: 8px 12px; background: rgba(0,0,0,0.2); border-left: 3px solid #555;">
+                        <span style="color: #888; font-style: italic;">${c.text}</span>
+                    </div>`;
+                return; // Skip the rest of the render for this item
+            }
 
             // Handle timestamp safely
             let timeString = "Just now";
@@ -3704,17 +3766,6 @@ function deleteComment(pid, cid) {
     }
 }
 // --- FORUM NAVIGATION LOGIC ---
-
-function openForumView() {
-    document.getElementById('forum-view').style.display = 'block';
-    document.querySelector('.browse-btn').style.display = 'none'; // Hide button
-    loadForumPosts(); // Load posts now
-}
-
-function closeForumView() {
-    document.getElementById('forum-view').style.display = 'none';
-    document.querySelector('.browse-btn').style.display = 'flex'; // Show button
-}
 
 function filterTags(tag) {
     currentTagFilter = tag;
@@ -4037,8 +4088,90 @@ function scrollToComment(cid) {
         alert("Original message not found (it might be loaded further down or deleted).");
     }
 }
+function renderCommunityTab() {
+    const container = document.getElementById('item-container');
+    
+    // Render the Forum Skeleton
+    container.innerHTML = `
+        <div class="calc-wrapper" style="max-width: 900px; min-height:80vh;">
+            
+            <!-- MOVED USER BAR HERE -->
+            <div style="margin-bottom: 20px;">
+                ${renderUserBar()}
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom: 2px solid #000; padding-bottom:10px;">
+                <h2 style="margin:0; text-transform:uppercase;">Community Builds</h2>
+                ${currentUser ? `<button class="comm-btn" style="background:#8b0000; color:#fff;" onclick="openPostModal()">+ Create Post</button>` : ``}
+            </div>
+
+            <!-- FORUM SEARCH BAR -->
+            <input type="text" id="forum-search" class="forum-search-bar" 
+                   placeholder="Search builds by title, author, or description..." 
+                   oninput="filterForumFeed()"
+                   style="width: 100%; padding: 12px; font-family: 'Lora'; margin-bottom: 15px; border: 1px solid #444; background: #fff; color: #000;">
+
+            <!-- TAG FILTERS -->
+            <div class="tag-filters" style="margin-bottom: 20px; display:flex; gap:5px; flex-wrap:wrap;">
+                <span style="font-weight:bold; margin-right:5px; align-self:center;">Filter:</span>
+                <button class="tag-pill ${currentTagFilter === null ? 'filter-active' : ''}" onclick="filterTags(null)">ALL</button>
+                ${availableTags.map(t => `<button class="tag-pill ${currentTagFilter === t ? 'filter-active' : ''}" onclick="filterTags('${t}')">${t}</button>`).join('')}
+            </div>
+
+            <!-- THE FEED -->
+            <div id="forum-feed" class="forum-feed">
+                <div style="text-align:center; padding:20px;">Loading builds...</div>
+            </div>
+        </div>
+    `;
+
+    // Trigger the database load
+    loadForumPosts();
+}
+function ensureGlobalModals() {
+    // 1. Remove existing modals to prevent duplicates/conflicts
+    const existingAuth = document.getElementById('auth-modal');
+    const existingPost = document.getElementById('post-modal');
+    if(existingAuth) existingAuth.remove();
+    if(existingPost) existingPost.remove();
+
+    // 2. Define the HTML string
+    const modalHTML = `
+    <!-- AUTH MODAL -->
+    <div id="auth-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);">
+        <div class="modal-content" style="background: var(--sidebar-bg); color: #fff; border: 1px solid #444; margin: 10% auto; padding: 20px; width: 400px; position:relative; box-shadow: 0 0 30px rgba(0,0,0,0.8);">
+            <span onclick="document.getElementById('auth-modal').style.display='none'" style="float:right; cursor:pointer; font-size:1.5rem;">&times;</span>
+            <h2 id="auth-title" style="margin-top:0; text-align:center;">Login</h2>
+            <input type="text" id="auth-user" placeholder="Username" style="display:none; width:100%; padding:10px; margin:5px 0; background:#000; color:#fff; border:1px solid #333;">
+            <input type="email" id="auth-email" placeholder="Email" style="width:100%; padding:10px; margin:5px 0; background:#000; color:#fff; border:1px solid #333;">
+            <input type="text" id="auth-pfp" placeholder="PFP URL (Optional)" style="display:none; width:100%; padding:10px; margin:5px 0; background:#000; color:#fff; border:1px solid #333;">
+            <input type="password" id="auth-pass" placeholder="Password" style="width:100%; padding:10px; margin:5px 0; background:#000; color:#fff; border:1px solid #333;">
+            <button class="action-btn" onclick="submitAuth()" style="margin-top:15px; width:100%;">SUBMIT</button>
+            <div style="margin-top:10px; font-size:0.8rem; cursor:pointer; text-decoration:underline; text-align:center;" onclick="toggleAuthMode()">Switch to Sign Up / Login</div>
+        </div>
+    </div>
+
+    <!-- POST MODAL -->
+    <div id="post-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8);">
+        <div class="modal-content" style="background: var(--sidebar-bg); color: #fff; border: 1px solid #444; margin: 5% auto; padding: 20px; width: 500px;">
+            <span onclick="document.getElementById('post-modal').style.display='none'" style="float:right; cursor:pointer;">&times;</span>
+            <h2 style="margin-top:0;">Publish Build</h2>
+            <input type="text" id="post-title" placeholder="Build Title" style="width:100%; padding:10px; margin-bottom:10px; background:#000; color:#fff; border:1px solid #333;">
+            <textarea id="post-desc" style="width:100%; height:80px; padding:10px; margin-bottom:10px; background:#000; color:#fff; border:1px solid #333;" placeholder="Description"></textarea>
+            <div style="margin-bottom:10px;">
+                <label style="color:#aaa;">Select Tags:</label><br>
+                <div id="post-tag-container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:5px;"></div>
+            </div>
+            <button class="action-btn" onclick="submitPost()">PUBLISH</button>
+        </div>
+    </div>
+    `;
+
+    // 3. Inject into Body
+    const div = document.createElement('div');
+    div.innerHTML = modalHTML;
+    document.body.appendChild(div);
+}
 </script>
 </body>
 </html>
-
-
