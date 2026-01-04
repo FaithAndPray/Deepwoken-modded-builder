@@ -844,96 +844,6 @@ body.sidebar-open-right .overlay {
     font-weight: bold;
 }
 .pin-btn:hover { text-decoration: underline; }
-.update-log-container {
-    /* --- BACKGROUND TEXTURE --- */
-    background-color: #111; /* Dark fallback color */
-    background-image: url('PASTE_IMAGE_URL_HERE'); /* <--- PASTE YOUR PATTERN LINK INSIDE THESE QUOTES */
-    background-repeat: repeat;
-    background-size: 400px; /* Adjust this number to zoom in/out the pattern */
-    background-position: center;
-    background-blend-mode: multiply; /* Helps blend it with the dark color */
-    
-    /* --- CONTAINER STYLING --- */
-    border: 1px solid #444;
-    height: 300px;
-    overflow-y: auto;
-    padding: 20px;
-    font-family: 'Lora', serif;
-    color: #ccc;
-    margin-top: 20px;
-    
-    /* Inner shadow to give it that "sunken" UI look */
-    box-shadow: inset 0 0 60px rgba(0,0,0,0.9); 
-}
-
-/* Scrollbar styling to match dark theme */
-.update-log-container::-webkit-scrollbar { width: 8px; }
-.update-log-container::-webkit-scrollbar-track { background: #111; }
-.update-log-container::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
-
-.update-card {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-}
-
-.update-header {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.update-date {
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 0 5px rgba(255,255,255,0.2);
-}
-
-.update-ago {
-    font-size: 0.7rem;
-    color: #777;
-    margin-left: 5px;
-}
-
-.update-title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #eee;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 5px;
-}
-
-.update-content {
-    font-size: 0.85rem;
-    line-height: 1.5;
-    color: #bbb;
-}
-
-.update-line {
-    display: block;
-    position: relative;
-    padding-left: 15px;
-}
-.update-line::before {
-    content: "-";
-    position: absolute;
-    left: 0;
-    color: #666;
-}
-.builder-updates-header {
-    color: #1a1a1a; /* Dark text for contrast on parchment */
-    font-family: 'Lora', serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 2px solid #1a1a1a;
-    padding-bottom: 10px;
-    margin: 20px 0 15px 0;
-    display: block;
-}
     </style>
     <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -1024,6 +934,7 @@ body.sidebar-open-right .overlay {
     <option value="Timeripper">Timeripper</option>
     <option value="Fearfighter">Fearfighter</option>
     <option value="oathless">oathless</option>
+    <option value="Edencrusher">Edencrusher</option>
 </select>
 
 <hr style="width:100%; border:0; border-top:1px solid #333; margin:15px 0;">
@@ -1108,27 +1019,9 @@ body.sidebar-open-right .overlay {
     </div>
 </div>
 </div>
-<!-- 3. UPDATE LOG MODAL (Admin Only) -->
-<div id="update-modal" class="modal" style="display:none; position:fixed; z-index:5000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8);">
-    <div class="modal-content" style="background: var(--sidebar-bg); color: #fff; border: 1px solid #444; margin: 5% auto; padding: 20px; width: 600px;">
-        <span onclick="document.getElementById('update-modal').style.display='none'" style="float:right; cursor:pointer; color:#fff; font-size:1.5rem;">&times;</span>
-        <h2 style="margin-top:0;">Post Builder Update</h2>
-        
-        <label>Update Title:</label>
-        <input type="text" id="upd-title" placeholder="e.g. Content & Systems" style="width:100%; padding:10px; margin-bottom:10px; background:#000; color:#fff; border:1px solid #333; font-family:'Lora';">
-        
-        <label>Date (YYYY-MM-DD):</label>
-        <input type="text" id="upd-date" style="width:100%; padding:10px; margin-bottom:10px; background:#000; color:#fff; border:1px solid #333; font-family:'Lora';">
-        
-        <label>Content (Each line is a bullet point):</label>
-        <textarea id="upd-content" style="width:100%; height:300px; padding:15px; background:#050505; color:#ccc; border:1px solid #333; font-family:'Lora'; line-height:1.5; resize:vertical;" placeholder="- Added new cursors&#10;- Fixed bug with talents&#10;- Updated UI colors"></textarea>
-        
-        <button class="action-btn" onclick="submitUpdateLog()">POST UPDATE</button>
-    </div>
-</div>
 </div>
 <script>
-// --- 1. THE COMPLETE GAME DATA ---
+
 
 const gameData = {
     attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
@@ -1541,7 +1434,7 @@ const gameData = {
         ],
         "Attunementless": [
             { "name": "Dread breath", "desc": "why does this mantra do so much dmg", "req": {}, "gif": "https://static.wikia.nocookie.net/project-deepwoken/images/c/c2/Dread_Breath.gif/revision/latest/scale-to-width-down/295?cb=20240706154859" },
-            { "name": "Coral Spearh", "desc": "The user grows coral on their back and sprays coral in every direction", "req": {}, "gif": "https://static.wikia.nocookie.net/project-deepwoken/images/5/55/Coral_Spear.gif/revision/latest/scale-to-width-down/295?cb=20240618210211" },
+            { "name": "Coral Spear", "desc": "The user grows coral on their back and sprays coral in every direction", "req": {}, "gif": "https://static.wikia.nocookie.net/project-deepwoken/images/5/55/Coral_Spear.gif/revision/latest/scale-to-width-down/295?cb=20240618210211" },
             { "name": "Mecha Gatling", "desc": "why does this mantra do so much dmg (v2) (will be added soon)", "req": {}, "gif": "https://static.wikia.nocookie.net/project-deepwoken/images/9/9d/Mecha_Gatling.gif/revision/latest/scale-to-width-down/295?cb=20240618210143" },
              { "name": "Enforcer Pull ", "desc": "pull from enforcer the mob", "req": {}, "gif": "https://static.wikia.nocookie.net/project-deepwoken/images/3/32/Enforcer_Pull.gif/revision/latest/scale-to-width-down/295?cb=20240618205828" },
             { "name": "prominence draw", "desc": "another gap closer slop mantra", "req": { "Medium Weapon": 50 }, "gif": "https://media.discordapp.net/attachments/1142173279029829820/1453041365741998250/RobloxStudioBeta_XsLoxIxoI9.gif?ex=694c01b9&is=694ab039&hm=46513aec82235cf161cca39ff9b4eed7572ce23e9f8025e873245bdd78ca07c4&=&width=544&height=516" },
@@ -1590,7 +1483,7 @@ const hpTalentMap = {
     "Exoskeleton": 5, "Tap Dancer": 5, "Lose Your Mind": 5, "Million Ton Piercer": 5
 };
 const effectMap = {
-    // Universal Buffs (Both Weapon & Mantra)
+    
     "Flame Within": { v: 10, t: 'u' },
     "Taunt": { v: 15, t: 'u' },
     "Lose Your Mind": { v: 10, t: 'u' },
@@ -1599,18 +1492,18 @@ const effectMap = {
     "Rush Hour": { v: 15, t: 'u' },
     "Raiton Path: Enlightened": { v: 10, t: 'u' },
 
-    // Weapon Only Buffs
+    
     "Decisive Battle": { v: 10, t: 'w' },
     "Knife's Journey": { v: 15, t: 'w' },
     "Speed Demon": { v: 7.5, t: 'w' },
     "Overflowing Dam": { v: 10, t: 'w' },
     "Manipulator": { v: 20, t: 'w' },
 
-    // Mantra Only Buffs
+    
     "Perfect Flash": { v: 25, t: 'm' },
     "Eureka": { v: 10, t: 'm' },
 
-    // Penetration
+    
     "Million Ton Piercer": { v: 5, t: 'p' },
     "Master of His Craft": { v: 20, t: 'p' },
     "Upcoming Opportunity": { v: 30, t: 'p' },
@@ -1621,7 +1514,7 @@ const effectMap = {
     "Cult of Personality": { v: 15, t: 'p' }
 };
 
-// --- 2. GLOBAL STATE & MAPS ---
+
 let userStats = {};
 let userTraits = { "Vitality": 0, "Erudition": 0, "Proficiency": 0, "Songchant": 0 };
 let selectedOath = "";
@@ -1633,11 +1526,11 @@ let currentTab = 'talents';
 let selectedWeapon = null;
 let selectedEnchant = "no enchant";
 let userNotes = "";
-let currentAdminColor = "#ff0000"; // Default Red
+let currentAdminColor = "#ff0000"; 
 
 
 
-// Short-link mapping setup
+
 const JSONBIN_KEY = '$2a$10$sLrFF.ABoJcUYrK2Ps8lxusDVHHm.E00yjgfvttWumaj34EYr61qy'; 
 const JSONBIN_BIN_ID = '';
 const talentList = Object.values(gameData.talents).flat();
@@ -1658,7 +1551,8 @@ const statShorthand = {
 const mutualExclusions = [
     ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
     ["Unyielding Frost", "Glass Path: Crystallization"],
-    ["The Final Act", "Emperor Flame", "Eruption Path: Lava Serpent"],
+    ["The Final Act", "Eruption Path: Lava Serpent"],
+    ["Emperor Flame", "Eruption Path: Lava Serpent"],
     ["Gilded Path: Scrapsinger", "Decay Path: Oxidize"],
     ["Manipulation Path: Spirit Lantern", "Manipulation Path: Agile Misery", "Simple Manipulation: Unstable Blood"],
     ["Wraith Path: Umbra", "Eruption Path: Lava Serpent", "Flashboil"],
@@ -1666,9 +1560,9 @@ const mutualExclusions = [
     ["Narcissist", "Tough Love"]
 ];
 
-// --- 3. INITIALIZATION ---
+
 function exportBuildToDWM() {
-    // Construct the object mapping the internal names to the DWM names
+    
     const dwmStats = {
         "TotalStrength": userStats["Strength"] || 0,
         "TotalAgility": userStats["Agility"] || 0,
@@ -1697,37 +1591,37 @@ function exportBuildToDWM() {
         "TraitEther": userTraits["Erudition"] || 0
     };
 
-    // Convert to formatted JSON string (2-space indentation)
+    
     const jsonOutput = JSON.stringify(dwmStats, null, 2);
 
-    // Copy to clipboard
+    
     navigator.clipboard.writeText(jsonOutput).then(() => {
         alert("Build exported to DWM format and copied to clipboard!");
     }).catch(err => {
         console.error("Failed to copy text: ", err);
-        // Fallback alert if clipboard fails
+        
         alert("Failed to copy. Check console for the JSON.");
         console.log(jsonOutput);
     });
 }
 function validateBuild() {
-    // 1. Check Weapon
+    
     if (!selectedWeapon) return "You must equip a weapon.";
     
-    // 2. Check Stats (Must use at least 250 points to be considered a 'build')
+    
     let totalStats = Object.values(userStats).reduce((a, b) => a + b, 0);
     if (totalStats < 250) return "Incomplete stats. Please invest your points.";
 
-    // 3. Check Caps (Prevent hacked inputs)
+    
     let currentAttCount = 0; 
     gameData.attunements.forEach(a => { if (userStats[a] > 0) currentAttCount++; });
     let maxPts = currentAttCount === 0 ? 410 : 420 + Math.max(0, (currentAttCount - 1) * 5);
-    if (totalStats > maxPts + 5) return "Stat limit exceeded (Cheating detected)."; // +5 buffer for rounding
+    if (totalStats > maxPts + 5) return "Stat limit exceeded (Cheating detected)."; 
 
-    // 4. Check Talents
+    
     if (selectedTalents.size < 5) return "Please select some talents.";
 
-    return null; // Valid
+    return null; 
 }
 function init() {
 ensureGlobalModals();
@@ -1877,13 +1771,13 @@ ensureGlobalModals();
             </div>`;
     });
 
-    // Parse URL
+    
     const params = new URLSearchParams(window.location.search);
     
-    // 1. Load Themes (from previous step)
+    
     loadSavedTheme();
 
-    // 2. Load Build (Short or Long)
+    
     if (params.has('id')) {
         const binId = params.get('id');
         fetch(`https://api.jsonbin.io/v3/b/${binId}/latest`, {
@@ -1905,7 +1799,7 @@ function loadBuildFromString(code) {
     try {
         const sections = code.split('_');
         
-        // 1. Stats
+        
         if (sections[0]) {
             const statsArr = sections[0].split('.');
             allStatKeys.forEach((key, i) => {
@@ -1914,21 +1808,21 @@ function loadBuildFromString(code) {
                 if (document.getElementById('in-' + key)) document.getElementById('in-' + key).value = val;
             });
         }
-        // 2. Talents
+        
         if (sections[1]) {
             sections[1].split('-').forEach(b36 => {
                 let name = talentMap[parseInt(b36, 36)];
                 if (name) selectedTalents.add(name);
             });
         }
-        // 3. Mantras
+        
         if (sections[2]) {
             sections[2].split('-').forEach(b36 => {
                 let name = mantraMap[parseInt(b36, 36)];
                 if (name) selectedMantras.add(name);
             });
         }
-        // 4. Traits
+        
         if (sections[3]) {
             const tVals = sections[3].split('.');
             const tKeys = Object.keys(userTraits);
@@ -1940,26 +1834,26 @@ function loadBuildFromString(code) {
             let total = Object.values(userTraits).reduce((a, b) => a + b, 0);
             document.getElementById('trait-sum').innerText = total;
         }
-        // 5. Oath
+        
         if (sections[4]) {
             selectedOath = sections[4];
             document.getElementById('oath-select').value = selectedOath;
         }
-        // 6. Weapon 
+        
         if (sections[5] && sections[5] !== "x") {
             const wIdx = parseInt(sections[5], 36);
             selectedWeapon = gameData.weapons[wIdx];
         }
-        // 7. Enchant 
+        
         if (sections[6] && sections[6] !== "x") {
             const eIdx = parseInt(sections[6], 36);
             selectedEnchant = gameData.enchants[eIdx];
         }
-        // 8. Buffs/Pen 
+        
         if (sections[7]) {
             activeBuffs = new Set(sections[7].split('.').filter(x => x));
         }
-        // 9. Summary
+        
         if (sections[8]) {
             userNotes = atob(sections[8]);
         }
@@ -1971,7 +1865,7 @@ function exportBuildText() {
     const s = userStats;
     const t = userTraits;
     
-    // Mapping for Attunements shorthands
+    
     const attMap = {
         "Flamecharm": "FLM", "Frostdraw": "ICE", "Thundercall": "LTN",
         "Shadowcast": "SHD", "Galebreathe": "WND", "Ironsing": "IRN",
@@ -1980,16 +1874,16 @@ function exportBuildText() {
 
     let text = `===== LVL 80 Heliodar, Castaway, ${selectedOath || "No Oath"} =====\n`;
     
-    // Attributes Section
+    
     text += `== ATTRIBUTES ==\n`;
     text += `${s["Strength"] || 0} STR; ${s["Precision"] || 0} PRC; ${s["Fortitude"] || 0} FTD; `;
     text += `${s["Agility"] || 0} AGL; ${s["Intelligence"] || 0} INT; ${s["Willpower"] || 0} WLL; ${s["Charisma"] || 0} CHA\n`;
     text += `=====\n`;
     
-    // Weapon Stats
+    
     text += `${s["Heavy Weapon"] || 0} HVY; ${s["Medium Weapon"] || 0} MED; ${s["Light Weapon"] || 0} LHT\n`;
     
-    // Attunements
+    
     text += `== ATTUNEMENTS ==\n`;
     let activeAtts = [];
     gameData.attunements.forEach(a => {
@@ -1997,27 +1891,27 @@ function exportBuildText() {
     });
     text += activeAtts.join('; ') + `\n`;
 
-    // Mantras
+    
     text += `== MANTRAS ==\n`;
     selectedMantras.forEach(m => text += `${m}\n`);
 
-    // Talents
+    
     text += `\n== TALENTS ==\n`;
     selectedTalents.forEach(talent => text += `${talent}\n`);
 
-    // Traits
+    
     text += `\n== Traits ==\n`;
     text += `${t.Vitality} Vitality\n`;
     text += `${t.Erudition} Erudition\n`;
     text += `${t.Proficiency} Proficiency\n`;
     text += `${t.Songchant} Songchant`;
 
-    // Copy to clipboard
+    
     navigator.clipboard.writeText(text).then(() => {
         alert("Build Text Copied! You can now paste it into Discord or a notepad.");
     });
 }
-// --- 4. LOGIC ---
+
 function setTrait(trait, val) {
     let n = parseInt(val) || 0;
     let sumOthers = Object.keys(userTraits).reduce((acc, key) => {
@@ -2028,11 +1922,11 @@ function setTrait(trait, val) {
     if (n > 6) n = 6;
     if (sumOthers + n > 12) n = 12 - sumOthers;
 
-    userTraits[trait] = n; // Update the global trait value
+    userTraits[trait] = n; 
     document.getElementById('trait-' + trait).value = n;
     document.getElementById('trait-sum').innerText = sumOthers + n;
     
-    updateUI(); // This forces the weapon damage to recalculate
+    updateUI(); 
 }
 
 function setOath(val) {
@@ -2043,11 +1937,11 @@ function setStat(name, val) {
     let num = parseInt(val);
     if (isNaN(num)) num = 0;
     
-    // Clamp between 0 and 100
+    
     let clamped = Math.min(100, Math.max(0, num));
     userStats[name] = clamped;
 
-    // Only force the input box value if the user tried to go over 100 or under 0
+    
     if (num !== clamped) {
         document.getElementById('in-' + name).value = clamped;
     }
@@ -2072,12 +1966,12 @@ function updateUI() {
     if(list) {
         list.innerHTML = ""; 
 
-        // 1. OATH
+        
         if(selectedOath) {
             list.innerHTML += `<div style="padding:10px; border-bottom:2px solid #000; font-weight:bold; color:var(--gold); font-size: 1.2rem; text-align:center;">${selectedOath.toUpperCase()}</div>`;
         }
 
-        // 2. WEAPON & ENCHANT 
+        
        if(selectedWeapon) {
             const { normalDmg, buffedDmg, mult } = getWeaponStats(selectedWeapon);
             let dmgDisplay = mult > 1 
@@ -2093,13 +1987,13 @@ function updateUI() {
                 </div>`;
         }
 
-        // 3. TALENTS
+        
         if(selectedTalents.size > 0) {
             list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold;">Talents (${selectedTalents.size})</div>`;
             selectedTalents.forEach(t => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem;">• ${t}</div>`);
         }
 
-        // 4. MANTRAS
+        
         if(selectedMantras.size > 0) {
             list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold; color:#2266aa; margin-top:10px;">Mantras</div>`;
             selectedMantras.forEach(m => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem; color:#2266aa;">• ${m}</div>`);
@@ -2113,21 +2007,21 @@ function checkReqs(reqObj) {
     for (let r in reqObj) {
         let reqValue = reqObj[r];
         
-        // Weapon Logic
+        
         if (r === "OR_Weapon" || r === "Weapon") {
             const val = Math.max(userStats["Light Weapon"]||0, userStats["Medium Weapon"]||0, userStats["Heavy Weapon"]||0);
             if (val < reqValue) return false;
         } 
-        // Attunement Logic
+        
         else if (r === "OR_Attunement" || r === "Elemental") {
             const val = Math.max(...gameData.attunements.map(a => userStats[a]||0));
             if (val < reqValue) return false;
         }
-        // Shorthand Logic
+        
         else if (r === "Light") { if ((userStats["Light Weapon"]||0) < reqValue) return false; }
         else if (r === "Medium") { if ((userStats["Medium Weapon"]||0) < reqValue) return false; }
         else if (r === "Heavy") { if ((userStats["Heavy Weapon"]||0) < reqValue) return false; }
-        // Exact Stat Match (Willpower, Intelligence, Charisma, etc)
+        
         else {
             if ((userStats[r] || 0) < reqValue) return false;
         }
@@ -2141,13 +2035,13 @@ function toggleItem(name, met) {
     const set = currentTab === 'talents' ? selectedTalents : selectedMantras;
 
     if (!set.has(name)) {
-        // Talent Cap Check
+        
         if (currentTab === 'talents' && selectedTalents.size >= 80) {
             alert("You have reached the maximum of 80 talents!");
             return;
         }
 
-        // Mutual Exclusion Check
+        
         for (const group of mutualExclusions) {
             if (group.includes(name)) {
                 for (const other of group) {
@@ -2165,13 +2059,13 @@ function toggleItem(name, met) {
 
     updateUI();
 }
-// Global variable to store posts for searching
+
 let cachedPosts = [];
 
 function renderSummaryTab() {
     const container = document.getElementById('item-container');
     
-    // Stats Calculation
+    
     let totalHP = 360;
     let ftdBonus = Math.min(Math.floor((userStats["Fortitude"] || 0) / 5) * 5, 50);
     let vitBonus = (userTraits["Vitality"] || 0) * 10;
@@ -2190,12 +2084,7 @@ function renderSummaryTab() {
         }
     });
 
-    // Check if user is dwmgoat67 for the Post Button
-    const isOwner = currentUser && currentUser.displayName === "dwmgoat67";
-    const postUpdateBtn = isOwner ? 
-        `<button class="action-btn" style="background:#333; font-size:0.8rem; margin-bottom:10px;" onclick="openUpdateModal()">[ADMIN] POST UPDATE LOG</button>` : "";
-
-    // --- RENDER HTML ---
+    
     container.innerHTML = `
         <div class="calc-wrapper" style="max-width: 800px;">
             <div style="margin-bottom: 20px;">
@@ -2228,22 +2117,16 @@ function renderSummaryTab() {
 
             <hr style="border: 2px solid #000; margin: 30px 0;">
 
-            <!-- UPDATE LOG SECTION -->
-            <div style="margin-top: 20px;">
-                ${postUpdateBtn}
-                <div class="builder-updates-header">Builder Updates</div>
-                <div id="update-log-feed" class="update-log-container">
-                    <div style="text-align:center; padding:20px;">Loading updates...</div>
-                </div>
+            <!-- REMOVED USER BAR FROM HERE -->
+            
+            <div style="text-align:center; font-style:italic; color:#666; margin-top:20px;">
+                To view or post builds, go to the <b>COMMUNITY</b> tab.
             </div>
         </div>
     `;
-
-    // Load the logs immediately after rendering
-    fetchUpdateLogs();
 }
 
-// Render User Bar Helper
+
 function renderUserBar() {
     if (!currentUser) {
         return `
@@ -2254,7 +2137,7 @@ function renderUserBar() {
         `;
     }
     
-    // Admin Button Logic
+    
     let adminBtn = "";
     if (currentAdmin) {
         adminBtn = `<button class="auth-btn" style="background:#333; border:1px solid #555; margin-right:10px;" onclick="adminPanel()">ADMIN</button>`;
@@ -2277,7 +2160,7 @@ function renderUserBar() {
     `;
 }
 
-// Function to keep notes updated in memory
+
 function saveNotes(val) {
     userNotes = val;
 }
@@ -2296,7 +2179,7 @@ function renderItems() {
     const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
     const selectedSet = currentTab === 'talents' ? selectedTalents : selectedMantras;
 
-    // Advanced Stat Filter Parser
+    
     let filterStat = null, filterOp = null, filterVal = null;
     const match = search.match(/^([a-z]+)\s*([>=<])\s*(\d+)$/);
     if (match) {
@@ -2317,7 +2200,7 @@ function renderItems() {
 
             let matchesSearch = false;
             if (filterStat) {
-                // Check if the talent has the requested stat in its requirements
+                
                 let reqVal = item.req[filterStat] || 0;
                 if (filterOp === '>') matchesSearch = reqVal > filterVal;
                 else if (filterOp === '<') matchesSearch = reqVal < filterVal;
@@ -2367,12 +2250,12 @@ function scrollToCategory(catName) {
         const container = document.getElementById('item-container');
 
         if (element && container) {
-            // Expand the category if it was collapsed
+            
             if (collapsedCats.has(catName)) {
                 toggleCategory(catName);
             }
             
-            // Smooth scroll to the category
+            
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     }, 50);
@@ -2415,17 +2298,17 @@ function renderCalculator() {
 function renderHPTab() {
     const container = document.getElementById('item-container');
     
-    // 1. Base HP
+    
     let totalHP = 360;
     
-    // 2. Fortitude Scaling (5 HP per 5 FTD, cap at 50 FTD)
+    
     let ftd = userStats["Fortitude"] || 0;
     let ftdBonus = Math.min(Math.floor(ftd / 5) * 5, 50);
     
-    // 3. Vitality Trait (10 HP per 1 Vitality)
+    
     let vitBonus = (userTraits["Vitality"] || 0) * 10;
     
-    // 4. Talent HP
+    
     let talentHP = 0;
     let talentListHTML = "";
     
@@ -2483,16 +2366,45 @@ function renderGuide() {
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">5. General game info</h3>
           <div style="margin-bottom: 15px;">
                 <strong>1. Leaderboard Titles</strong> 
-                <p style="margin: 5px 0 0 15px;">You might see people with custom titles or colored names. You can get a custom title by winning events. Colored names are P2W (contact devs with payment).</p>
+                <p style="margin: 5px 0 0 15px;">You might see people with custom titles or colored names. You can get a custom title by winning events (hosted/bounty). Colored names are P2W (contact devs with payment, ~$20+).</p>
             </div>
 
             <div style="margin-bottom: 15px;">
-                <strong>2. Custom Clothes (CC)</strong>
-                <p style="margin: 5px 0 0 15px;">Buy the CC gamepass OR purchase it from the <b>Blacksmith</b> for 250k notes. (Rejoin to apply, only saves on one slot if u bought it from the blacksmith)(if u paid with robux, it stays forever and saves on all slots).</p>
+                <strong>2. Lower Specs</strong>
+                <p style="margin: 5px 0 0 15px;">There are two types of Lower specs: <b>Obtainable</b> and <b>Whitelist</b>.</p>
+                <ul style="margin: 5px 0 0 15px; padding-left: 20px;">
+                    <li><strong>Obtainable (Rendbreaker):</strong> Obtained by winning dev events (might be unobtainable now).</li>
+                    <li><strong>Whitelist (Fish, Death, Mon, Globus):</strong> You must contact the spec owners for a whitelist (note: all whitelisted ppl might be removed, no confirmation yet), then visit the <b>Yzord NPC</b>.</li>
+                </ul>
+                
+                <div style="background: rgba(0,0,0,0.05); padding: 10px; margin: 10px 0 0 15px; border-left: 3px solid #8b0000; font-size: 0.85rem;">
+                    <strong>Enchant Owners:</strong><br>
+                    Fish: @lz4decompress | Mon: @monschta (note: too many people whitelisted already, GL getting whitelisted) | Death: @kyawooo | Globus: @16glo (not allowed to share his enchant)
+                </div>
+
+                <div style="margin: 10px 0 0 15px; font-size: 0.85rem;">
+                    <strong>Enchant Info:</strong>
+                    <ul style="margin-top: 5px; padding-left: 20px;">
+                        <li><strong>Fish:</strong> Anti-heal on M1 + Blue Pool after certin amount of hits (slows). Procs a 3s blue charm (5s CD) giving 33% chance for true DMG.</li>
+                        <li><strong>Mon:</strong> Detonation, Bluster, and Obfuscation combined. Powerful in PVP.</li>
+                        <li><strong>Death:</strong> Landing enough hits will take 5-6.5% of opponent's health on proc and apply slowdown.</li>
+                        <li><strong>Globus:</strong> Black Detonation. Deadass thats it.</li>
+                    </ul>
+                </div>
             </div>
 
             <div style="margin-bottom: 15px;">
-                <strong>3. Ukiels Blessing</strong>
+                <strong>3. Higher Specs (snowshatters is getting removed)</strong>
+                <p style="margin: 5px 0 0 15px;">High tier specs for Contributors or others (Auto-parry bell, Fused Blade, Snowshatters). These are not normally obtainable unless you are known and trusted or a ingame contributor.</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>4. Custom Clothes (CC)</strong>
+                <p style="margin: 5px 0 0 15px;">Buy the CC gamepass OR purchase it from the <b>Blacksmith</b> for 250k notes. (Rejoin to apply, only saves on one slot).</p>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <strong>5. Ukiels Blessing</strong>
                 <p style="margin: 5px 0 0 15px;">there is a npc where it just gives you aura whenever you use a mantra (yea deadass), it costs 15 knowledge.</p>
             </div>
             
@@ -2532,7 +2444,7 @@ function renderGuide() {
     let sSum = 0;
     let scalingText = [];
 
-    // Dictionary to map weapon list shorthands to actual build stats
+    
     const statMap = {
         "hvy": "Heavy Weapon", "med": "Medium Weapon", "light": "Light Weapon",
         "str": "Strength", "fort": "Fortitude", "agi": "Agility", 
@@ -2543,12 +2455,12 @@ function renderGuide() {
         "blood": "Bloodrend", "earth": "Earthbend"
     };
 
-    // Calculate S (Attribute Level x Attribute Scaling)
+    
     for (let rawKey in w.scaling) {
         let cleanKey = rawKey.toLowerCase().trim();
-        let statName = statMap[cleanKey] || rawKey; // Use map, or fallback to raw key
+        let statName = statMap[cleanKey] || rawKey; 
 
-        // Get your current level for this stat
+        
         let level = userStats[statName] || 0;
         let scale = w.scaling[rawKey];
         
@@ -2556,23 +2468,23 @@ function renderGuide() {
         scalingText.push(`${statName}: ${scale}`);
     }
 
-    // Proficiency Multiplier (1 + (Proficiency * 0.065))
+    
     let profLevel = userTraits.Proficiency || 0;
     let profMult = 1 + (profLevel * 0.065);
 
-    // THE FORMULA: Damage = Base + 0.75 * ( (Base * Sum(S) * ProfMult) / 1000 )
-    // Note: If Sum(S) is 0 (no stats invested), Proficiency will not increase damage.
+    
+    
     let scaledPart = (baseDmg * sSum * profMult) / 1000;
     let normalDmg = parseFloat((baseDmg + (0.75 * scaledPart)).toFixed(2));
 
-    // External Buffs (Flame Within, Taunt, etc.)
+    
     let externalMult = getCurrentDmgMultiplier();
     let buffedDmg = parseFloat((normalDmg * externalMult).toFixed(2));
 
     return { normalDmg, buffedDmg, mult: externalMult, scalingText };
 }
 function autoInvest(name, cat, event) {
-    event.stopPropagation(); // Prevents the talent from being selected yet
+    event.stopPropagation(); 
 
     const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
     const item = dataSet[cat].find(i => i.name === name);
@@ -2581,25 +2493,25 @@ function autoInvest(name, cat, event) {
     let statsToUpdate = {};
     let totalPointsNeeded = 0;
 
-    // Calculate how many points we need
+    
     for (let reqKey in item.req) {
         let targetVal = item.req[reqKey];
         let actualStatKey = reqKey;
 
-        // Handle Special Case: "Weapon" or "OR_Weapon"
+        
         if (reqKey === "Weapon" || reqKey === "OR_Weapon") {
-            // Find which weapon stat the user has invested in most
+            
             actualStatKey = ["Light Weapon", "Medium Weapon", "Heavy Weapon"].reduce((a, b) => 
                 (userStats[a] || 0) >= (userStats[b] || 0) ? a : b
             );
         } 
-        // Handle Special Case: "Elemental" or "OR_Attunement"
+        
         else if (reqKey === "Elemental" || reqKey === "OR_Attunement") {
             actualStatKey = gameData.attunements.reduce((a, b) => 
                 (userStats[a] || 0) >= (userStats[b] || 0) ? a : b
             );
         }
-        // Handle specific shorthands
+        
         else if (reqKey === "Light") actualStatKey = "Light Weapon";
         else if (reqKey === "Medium") actualStatKey = "Medium Weapon";
         else if (reqKey === "Heavy") actualStatKey = "Heavy Weapon";
@@ -2610,7 +2522,7 @@ function autoInvest(name, cat, event) {
         }
     }
 
-    // Check against max investment cap
+    
     let currentAttCount = 0; 
     gameData.attunements.forEach(a => { if (userStats[a] > 0) currentAttCount++; });
     let maxPts = currentAttCount === 0 ? 410 : 420 + Math.max(0, (currentAttCount - 1) * 5);
@@ -2623,15 +2535,15 @@ function autoInvest(name, cat, event) {
         return;
     }
 
-    // Apply the stats
+    
     for (let statKey in statsToUpdate) {
         userStats[statKey] = statsToUpdate[statKey];
-        // Update the visual input boxes on the left
+        
         const inputEl = document.getElementById('in-' + statKey);
         if (inputEl) inputEl.value = statsToUpdate[statKey];
     }
 
-    // Refresh everything
+    
     updateUI();
 }
 function getCurrentDmgMultiplier() {
@@ -2677,7 +2589,7 @@ function renderWeapons() {
     const container = document.getElementById('item-container');
     if (!gameData.enchants || !gameData.weapons) return;
 
-    // 1. Create the Shell ONLY if it doesn't exist
+    
     if (!document.getElementById('weapon-tab-layout')) {
         container.innerHTML = `
             <div id="weapon-tab-layout" class="calc-wrapper" style="max-width: 900px; background: #e8e7df; color: #1a1a1a; margin: 0 auto;">
@@ -2707,13 +2619,13 @@ function renderWeapons() {
             </div>`;
     }
 
-    // 2. Read Inputs
+    
     let search = document.getElementById('weapon-search').value.toLowerCase();
     let showMet = document.getElementById('weapon-filter-reqs').checked;
     let showBestOnly = document.getElementById('weapon-filter-best').checked;
     let grid = document.getElementById('weapon-grid-results');
 
-    // 3. Find Champions
+    
     let champions = new Set();
     let anyInvestment = false;
     for (let s in userStats) if(userStats[s] > 0) anyInvestment = true;
@@ -2723,7 +2635,7 @@ function renderWeapons() {
             if ((userStats[statKey] || 0) > 0) {
                 let topDmg = -1;
                 gameData.weapons.forEach(w => {
-                    // Check if weapon scales with this stat (handle case variations)
+                    
                     let scaleVal = w.scaling[statKey] || w.scaling[statKey.toLowerCase()] || w.scaling[statKey.replace(" Weapon", "")];
                     if (scaleVal) {
                         let { normalDmg } = getWeaponStats(w);
@@ -2743,7 +2655,7 @@ function renderWeapons() {
         });
     }
 
-    // 4. Render Grid
+    
     let cardsHtml = "";
     let count = 0;
 
@@ -2801,19 +2713,19 @@ function selectEnchant(e) {
     selectedEnchant = e;
     updateUI();
 }
-// --- 5. UI UTILITIES ---
+
 function changeTheme(themeName) {
-    // List of all possible theme classes to clean up
+    
     const themes = [
         'theme-flame', 'theme-frost', 'theme-gale', 
         'theme-thunder', 'theme-shadow', 'theme-iron', 
         'theme-blood', 'theme-earth'
     ];
     
-    // Remove any existing theme class
+    
     document.body.classList.remove(...themes);
     
-    // Add the new one if it's not default
+    
     if (themeName !== 'default') {
         document.body.classList.add(themeName);
     }
@@ -2829,10 +2741,10 @@ function loadSavedTheme() {
         changeTheme(saved);
     }
 }
-// Call loadSavedTheme() inside init() function
+
 function switchTab(t) { 
     currentTab = t; 
-    // Update active class on buttons
+    
     ['talents','mantras','summary','guide', 'weapons', 'community'].forEach(id => { 
         let el = document.getElementById('tab-'+id); 
         if(el) el.classList.toggle('active', id===t); 
@@ -2840,21 +2752,21 @@ function switchTab(t) {
     
     let searchBar = document.getElementById('search-bar'); 
     
-    // Hide the main item search bar for these tabs
+    
     if(searchBar) {
-        // We hide the main search for Summary, Guide, Weapons, AND Community
+        
         searchBar.style.display = (t==='summary' || t==='guide' || t==='weapons' || t==='community') ? 'none' : 'block'; 
     }
 
     document.getElementById('item-container').innerHTML = "";
 
-    // Route to the correct renderer
+    
     if (t === 'talents' || t === 'mantras') renderItems();
     else if (t === 'weapons') renderWeapons();
     else if (t === 'summary') renderSummaryTab();
     else if (t === 'community') renderCommunityTab();
     else if (t === 'guide') renderGuide();
-     // NEW FUNCTION CALL
+     
 }
 function toggleBuff(id) { activeBuffs.has(id) ? activeBuffs.delete(id) : activeBuffs.add(id); renderCalculator(); }
 function toggleCategory(cat) { collapsedCats.has(cat) ? collapsedCats.delete(cat) : collapsedCats.add(cat); renderItems(); }
@@ -2868,7 +2780,7 @@ async function saveBuild() {
     const originalText = btn.innerText;
     btn.innerText = "GENERATING...";
 
-    // 1. Generate the standard build string (for the builder to load)
+    
     const traitsPart = Object.values(userTraits).join('.');
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
@@ -2878,18 +2790,18 @@ async function saveBuild() {
     
     const fullData = `${statsPart}_${tIndices.join('-')}_${mIndices.join('-')}_${traitsPart}_${selectedOath || 'No Oath'}_${wIdx}_${eIdx}`;
 
-    // 2. Calculate HP for the Embed
+    
     let totalHP = 360 + Math.min(Math.floor((userStats["Fortitude"] || 0) / 5) * 5, 50) + ((userTraits["Vitality"] || 0) * 10);
     selectedTalents.forEach(n => { if(hpTalentMap[n]) totalHP += hpTalentMap[n]; });
 
-    // 3. Create the Rich Payload for Discord
+    
     const payload = {
         build: fullData,
         name: window.buildName || "Untitled Build",
         oath: selectedOath || "No Oath",
         description: userNotes || "No build description",
         hp: totalHP,
-        // Send raw stats so the worker can put them in columns
+        
         stats: userStats,
         traits: userTraits
     };
@@ -2919,20 +2831,20 @@ async function saveBuild() {
         btn.innerText = originalText;
     }
 }
-// --- AUTH LOGIC ---
+
 let isSignUp = false;
 
 function openAuthModal() {
     const modal = document.getElementById('auth-modal');
     if(modal) {
         modal.style.display = 'block';
-        // Reset to Login View
+        
         document.getElementById('auth-user').style.display = 'none';
         document.getElementById('auth-pfp').style.display = 'none';
         document.getElementById('auth-title').innerText = "Login";
         isSignUp = false;
     } else {
-        // If somehow it's missing, re-inject it
+        
         ensureGlobalModals();
         document.getElementById('auth-modal').style.display = 'block';
     }
@@ -2964,22 +2876,30 @@ async function submitAuth() {
     try {
         if (isSignUp) {
             if(!user) return alert("Username required");
+            
+            
             const cred = await auth.createUserWithEmailAndPassword(email, pass);
+            
             await cred.user.updateProfile({
                 displayName: user,
                 photoURL: pfp || "https://i.imgur.com/6U68bgZ.png"
             });
-            // Create user doc for admin tracking
+
+            
+            const emailHash = await hashString(email);
+
             await db.collection('users').doc(cred.user.uid).set({
                 username: user,
-                isAdmin: false, // Default false
-                email: email
+                isAdmin: false,
+                emailHash: emailHash 
             });
+            
+
             alert("Account Created!");
         } else {
             await auth.signInWithEmailAndPassword(email, pass);
         }
-        closeModal('auth-modal');
+        document.getElementById('auth-modal').style.display = 'none';
     } catch (e) {
         alert("Error: " + e.message);
     }
@@ -2994,7 +2914,7 @@ function forgotPassword() {
 
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-// --- FORUM POSTING LOGIC ---
+
 function openPostModal() {
     const error = validateBuild();
     if(error) { alert(error); return; }
@@ -3003,7 +2923,7 @@ function openPostModal() {
     if(modal) {
         modal.style.display = 'block';
         
-        // Inject Tags dynamically
+        
         const tagContainer = document.getElementById('post-tag-container');
         if(tagContainer) {
             tagContainer.innerHTML = availableTags.map(t => 
@@ -3020,16 +2940,16 @@ async function submitPost() {
     const title = document.getElementById('post-title').value;
     const desc = document.getElementById('post-desc').value;
     
-    // --- FIXED SECTION START ---
-    // We removed the old 'const tag =' line that was causing the error
+    
+    
     const checkboxes = document.querySelectorAll('input[name="post_tags"]:checked');
     let tags = Array.from(checkboxes).map(cb => cb.value);
     if(tags.length === 0) tags = ["#General"]; 
-    // --- FIXED SECTION END ---
+    
 
     if(!title) return alert("Title required");
 
-    // Generate Build Code
+    
     const traitsPart = Object.values(userTraits).join('.');
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
@@ -3060,11 +2980,11 @@ async function submitPost() {
         alert("Error posting: " + e.message);
     }
 }
-// --- FEED & RENDERING ---
+
 function filterTags(tag) {
     currentTagFilter = tag;
-    renderSummaryTab(); // Re-renders UI to show active pill
-    // loadForumPosts is called by renderSummaryTab
+    renderSummaryTab(); 
+    
 }
 
 async function loadForumPosts() {
@@ -3076,19 +2996,19 @@ async function loadForumPosts() {
     try {
         const postsRef = db.collection('posts');
         
-        // 1. Define Two Queries: One for Pinned, One for High Votes
-        // We do this separately so Pinned posts are ALWAYS found, even if they have 0 votes.
+        
+        
         let pinnedQuery = postsRef.where('isPinned', '==', true);
         let voteQuery = postsRef.orderBy('voteScore', 'desc').limit(50);
 
-        // 2. Apply Filters (Tags) to both queries if a tag is selected
+        
         if (currentTagFilter) {
-            // Note: DB needs 'tags' (array) not 'tag' (string)
+            
             pinnedQuery = pinnedQuery.where('tags', 'array-contains', currentTagFilter);
             voteQuery = voteQuery.where('tags', 'array-contains', currentTagFilter);
         }
 
-        // 3. Run queries in parallel
+        
         const [pinnedSnap, voteSnap] = await Promise.all([
             pinnedQuery.get(),
             voteQuery.get()
@@ -3096,14 +3016,14 @@ async function loadForumPosts() {
 
         const tempMap = new Map();
 
-        // 4. Process Pinned Posts
+        
         pinnedSnap.forEach(doc => {
             let data = doc.data();
             data.id = doc.id;
             tempMap.set(doc.id, data);
         });
 
-        // 5. Process Regular Posts (Avoid duplicates)
+        
         voteSnap.forEach(doc => {
             if (!tempMap.has(doc.id)) {
                 let data = doc.data();
@@ -3112,19 +3032,19 @@ async function loadForumPosts() {
             }
         });
 
-        // Convert Map to Array
+        
         cachedPosts = Array.from(tempMap.values());
 
-        // 6. CLIENT-SIDE SORTING (The Fix for Pinning)
-        // Forces Pinned items to top, then sorts everything else by votes
+        
+        
         cachedPosts.sort((a, b) => {
-            const aPin = !!a.isPinned; // Convert to boolean
+            const aPin = !!a.isPinned; 
             const bPin = !!b.isPinned;
 
-            if (aPin && !bPin) return -1; // A is pinned, B is not -> A comes first
-            if (!aPin && bPin) return 1;  // B is pinned, A is not -> B comes first
+            if (aPin && !bPin) return -1; 
+            if (!aPin && bPin) return 1;  
             
-            // If both pinned or both not, sort by votes (Highest first)
+            
             return (b.voteScore || 0) - (a.voteScore || 0);
         });
 
@@ -3149,12 +3069,12 @@ async function loadForumPosts() {
 
 function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
 
-// --- VOTING SYSTEM (Optimistic UI) ---
+
 async function votePost(pid, val) {
     if(!currentUser) return alert("Login to vote");
     
     const uid = currentUser.uid;
-    const name = currentUser.displayName; // Get Name for the tooltip
+    const name = currentUser.displayName; 
 
     const postRef = db.collection('posts').doc(pid);
     
@@ -3167,11 +3087,11 @@ async function votePost(pid, val) {
             let up = data.upvotes || [];
             let down = data.downvotes || [];
             
-            // WHO VOTED LOGIC (Arrays of Objects)
+            
             let upNames = data.upNames || []; 
             let downNames = data.downNames || [];
 
-            // Helper to clean arrays of this user (Reset user state)
+            
             const clearUser = () => {
                 up = up.filter(id => id !== uid);
                 down = down.filter(id => id !== uid);
@@ -3182,27 +3102,27 @@ async function votePost(pid, val) {
             const isUpvoted = up.includes(uid);
             const isDownvoted = down.includes(uid);
 
-            // LOGIC: 
-            // 1. If clicking UP:
-            //    - If already UP, remove it (Toggle Off).
-            //    - Else, Clear everything, then Add UP.
+            
+            
+            
+            
             
             if (val === 1) {
                 if (isUpvoted) {
-                    clearUser(); // Toggle Off
+                    clearUser(); 
                 } else {
-                    clearUser(); // Remove potential downvote
-                    up.push(uid); // Add Upvote
+                    clearUser(); 
+                    up.push(uid); 
                     upNames.push({ id: uid, name: name });
                 }
             } 
-            // 2. If clicking DOWN:
+            
             else if (val === -1) {
                 if (isDownvoted) {
-                    clearUser(); // Toggle Off
+                    clearUser(); 
                 } else {
-                    clearUser(); // Remove potential upvote
-                    down.push(uid); // Add Downvote
+                    clearUser(); 
+                    down.push(uid); 
                     downNames.push({ id: uid, name: name });
                 }
             }
@@ -3216,20 +3136,20 @@ async function votePost(pid, val) {
             });
         });
         
-        // Refresh the specific View depending on where we are
+        
         if(document.getElementById('focus-view').style.display === 'block') {
-             // We need to reload the focus view data without closing it. 
-             // We can fetch the specific doc and update the DOM manually or just reload the whole view.
-             // Simplest way for now:
+             
+             
+             
              const updatedDoc = await db.collection('posts').doc(pid).get();
              if(updatedDoc.exists) {
-                 // Update the score number immediately on screen
+                 
                  const els = document.querySelectorAll(`.vote-score-display-${pid}`);
                  els.forEach(el => el.innerText = updatedDoc.data().voteScore);
-                 // Reloading the whole view is heavy, so we rely on the next refresh or open
+                 
              }
         } else {
-            loadForumPosts(); // Refresh list
+            loadForumPosts(); 
         }
 
     } catch(e) { console.error(e); }
@@ -3242,19 +3162,19 @@ function renderFeed(posts) {
         const uid = currentUser ? currentUser.uid : null;
         let timeString = p.timestamp ? new Date(p.timestamp.toDate()).toLocaleDateString() : "";
 
-        // Admin Badge Logic
+        
         let adminBadge = "";
         if (p.isAdmin) {
             const glow = p.adminColor || "#ff0000"; 
             adminBadge = `<span class="admin-badge-glow" style="--glow-color: ${glow}">ADMIN</span>`;
         }
 
-        // --- PINNING LOGIC ---
+        
         const isPinned = p.isPinned === true;
         const pinBadge = isPinned ? `<span class="pinned-badge">📌 PINNED</span>` : "";
         const cardClass = isPinned ? "post-card pinned-post" : "post-card";
 
-        // Admin Buttons
+        
         let pinBtn = "";
         let deleteBtn = "";
         
@@ -3266,12 +3186,12 @@ function renderFeed(posts) {
             deleteBtn = `<span class="del-btn" style="color:red; cursor:pointer; font-size:0.8rem; margin-left:10px;" onclick="deletePost('${p.id}', '${p.authorId}'); event.stopPropagation();">[DELETE]</span>`;
         }
 
-        // Tag Logic (Handle Array)
+        
         let tagHtml = "";
         if (p.tags && Array.isArray(p.tags)) {
             tagHtml = p.tags.map(t => `<span class="tag-pill">${t}</span>`).join('');
         } else {
-            tagHtml = `<span class="tag-pill">${p.tag || 'General'}</span>`; // Fallback
+            tagHtml = `<span class="tag-pill">${p.tag || 'General'}</span>`; 
         }
 
         feed.innerHTML += `
@@ -3303,7 +3223,7 @@ function renderFeed(posts) {
         `;
     });
 }
-// --- COMMENTS SYSTEM ---
+
 function togglePostComments(pid) {
     const el = document.getElementById(`comments-${pid}`);
     if(el.innerHTML.trim() === "" || el.style.display === "none") {
@@ -3331,14 +3251,14 @@ function renderComments(pid, targetId = null) {
             const cid = doc.id;
             let timeString = c.timestamp ? timeAgo(c.timestamp.toDate()) : "Just now";
             
-            // ADMIN BADGE
+            
             let adminBadge = "";
             if (c.isAdmin) { 
                 const glow = c.adminColor || "#ff0000";
                 adminBadge = `<span class="admin-badge-glow" style="--glow-color: ${glow}">ADMIN</span>`;
             }
 
-            // --- REPLY VISUALS LOGIC ---
+            
             let replyHtml = "";
             let itemStyle = "border-left: 3px solid var(--gold);"; 
             
@@ -3356,7 +3276,7 @@ function renderComments(pid, targetId = null) {
                 `;
             }
 
-            // Media Rendering
+            
             let mediaHtml = "";
             if (c.image) {
                 if (isVideo(c.image)) {
@@ -3366,18 +3286,18 @@ function renderComments(pid, targetId = null) {
                 }
             }
 
-            // Escape text
+            
             const safeText = (c.text || "").replace(/'/g, "\\'").replace(/"/g, '&quot;');
             const safeImg = (c.image || "");
 
-            // Buttons (Restricted to Admin or Comment Author to fix 'p' error)
+            
             const delBtn = (currentUser && (currentAdmin || currentUser.uid === c.authorId)) 
                 ? `<span style="color:#f44; cursor:pointer; font-size:0.7rem; margin-left:10px;" onclick="deleteComment('${pid}', '${cid}', '${c.authorId}', '${containerId}')">DELETE</span>` 
                 : "";
                 
             const replyBtn = `<span style="cursor:pointer; color:#aaa; font-size:0.8rem; margin-left:10px;" onclick="replyToUser('${cid}', '${c.authorName}', '${c.authorPfp || ''}', '${safeText}', '${safeImg}')">↩ Reply</span>`;
 
-            // DELETED MESSAGE HANDLING
+            
             if (c.isDeleted) {
                  list.innerHTML += `
                     <div id="comment-${cid}" style="margin-bottom: 12px; padding: 8px 12px; background: rgba(0,0,0,0.2); border-left: 3px solid #555;">
@@ -3435,7 +3355,7 @@ async function postComment(pid, containerId, mode) {
     
     if(!text && !img) return;
 
-    if(img) saveToMediaLibrary(img); // Auto save used images
+    if(img) saveToMediaLibrary(img); 
 
     const batch = db.batch();
     const commentRef = db.collection('posts').doc(pid).collection('comments').doc();
@@ -3450,14 +3370,14 @@ async function postComment(pid, containerId, mode) {
         isAdmin: currentAdmin,
         adminColor: currentAdminColor,
         
-        // --- UPDATED REPLY SAVE LOGIC ---
+        
         replyTo: currentReplyContext ? {
             id: currentReplyContext.id,
             name: currentReplyContext.name,
             avatar: currentReplyContext.avatar,
-            snippet: currentReplyContext.snippet // Saving the text preview
+            snippet: currentReplyContext.snippet 
         } : null,
-        // --------------------------------
+        
         
         voteScore: 0,
         upvotes: [],
@@ -3471,7 +3391,7 @@ async function postComment(pid, containerId, mode) {
     
     textInput.value = "";
     imgInput.value = "";
-    cancelReply(); // Clear reply context
+    cancelReply(); 
     
     renderComments(pid, targetListId);
 }
@@ -3494,17 +3414,17 @@ async function voteComment(pid, cid, val, containerId = null) {
             const isUpvoted = up.includes(uid);
             const isDownvoted = down.includes(uid);
 
-            // Clean user from both arrays first
+            
             const cleanUp = up.filter(id => id !== uid);
             const cleanDown = down.filter(id => id !== uid);
 
             if (val === 1) {
-                // If already upvoted, we just leave it cleaned (toggle off)
-                // If not, we add to up
+                
+                
                 if (!isUpvoted) {
                     cleanUp.push(uid);
                 }
-                // (If we were downvoted, it's already removed by filter)
+                
             } else if (val === -1) {
                 if (!isDownvoted) {
                     cleanDown.push(uid);
@@ -3518,7 +3438,7 @@ async function voteComment(pid, cid, val, containerId = null) {
             });
         });
 
-        // Refresh UI
+        
         renderComments(pid, containerId);
 
     } catch (e) {
@@ -3526,59 +3446,72 @@ async function voteComment(pid, cid, val, containerId = null) {
     }
 }
 
-// --- ADMIN SYSTEM ---
+
 async function adminPanel() {
     if (!currentAdmin) return;
 
-     const choice = prompt("Admin Menu:\n1. Promote User (Email)\n2. Reset Password\n3. Set My Glow Color (Hex)");
+    const choice = prompt("Admin Menu:\n1. Promote User (Email)\n2. Reset Password\n3. Set My Glow Color (Hex)");
 
     if (choice === "1") {
         const targetEmail = prompt("Enter the exact email of the user to promote:");
         if (!targetEmail) return;
 
-        // Search the 'users' collection for this email
-        const snapshot = await db.collection('users').where('email', '==', targetEmail).get();
+        try {
+            
+            const targetHash = await hashString(targetEmail);
 
-        if (snapshot.empty) {
-            alert("User not found! They must sign up on the site first.");
-            return;
+            
+            const snapshot = await db.collection('users').where('emailHash', '==', targetHash).get();
+
+            if (snapshot.empty) {
+                alert("User not found! They must sign up on the site first.");
+                return;
+            }
+
+            snapshot.forEach(doc => {
+                doc.ref.update({ isAdmin: true })
+                .then(() => alert(`Success! User is now an Admin.`))
+                .catch(e => {
+                    console.error(e);
+                    alert("Request Denied: " + e.message);
+                });
+            });
+        } catch (e) {
+            console.error(e);
+            alert("Error: " + e.message);
         }
-
-        // Update the user found
-        snapshot.forEach(doc => {
-            doc.ref.update({ isAdmin: true })
-            .then(() => alert(`Success! ${targetEmail} is now an Admin.`))
-            .catch(e => alert(e.message));
-        });
     } 
     else if (choice === "2") {
+        
         const tEmail = prompt("Target Email for Password Reset:");
         if(tEmail) auth.sendPasswordResetEmail(tEmail)
             .then(()=>alert("Reset email sent."))
             .catch(e=>alert(e.message));
     }
-     else if (choice === "3") {
+    else if (choice === "3") {
         const color = prompt("Enter Hex Color (e.g. #00ff00 for green):", currentAdminColor);
         if(color && color.startsWith("#")) {
             await db.collection('users').doc(currentUser.uid).update({
                 adminColor: color
+            }).then(() => {
+                currentAdminColor = color;
+                alert("Color updated!");
+            }).catch(e => {
+                console.error(e);
+                alert("Request Denied: " + e.message);
             });
-            currentAdminColor = color; // Update locally
-            alert("Color updated! Future posts/comments will use this color.");
         } else {
             alert("Invalid Hex Code.");
         }
-}
+    }
 }
 
 
 async function deletePost(pid, authorId) {
     if (!currentUser) return alert("Please log in.");
     
-    // Check if user is Admin OR the Author
     const isAuthor = currentUser.uid === authorId;
     
-    // WE USE 'currentAdmin' HERE. The error happened because it said 'isAdmin'
     if (!currentAdmin && !isAuthor) {
         alert("You do not have permission.");
         return;
@@ -3587,13 +3520,11 @@ async function deletePost(pid, authorId) {
     if (confirm("Permanently delete this post?")) {
         try {
             await db.collection('posts').doc(pid).delete();
-            // Close focus view if open
             if(typeof closeFocusView === "function") closeFocusView();
-            // Refresh feed
             loadForumPosts();
         } catch (e) {
             console.error(e);
-            alert("Error: " + e.message);
+            alert("Request Denied: " + e.message);
         }
     }
 }
@@ -3603,7 +3534,6 @@ async function deleteComment(pid, cid, authorId, containerId = null) {
 
     const isAuthor = currentUser.uid === authorId;
     
-    // Permission Check
     if (!currentAdmin && !isAuthor) {
         alert("You do not have permission.");
         return;
@@ -3614,60 +3544,53 @@ async function deleteComment(pid, cid, authorId, containerId = null) {
             const commentRef = db.collection('posts').doc(pid).collection('comments').doc(cid);
 
             if (currentAdmin) {
-                // ADMIN: Soft Delete (Update text, keep document)
                 await commentRef.update({
                     isDeleted: true,
                     text: "[Message deleted by Admin]",
-                    image: "", // Remove image
-                    // Optional: You can force the admin badge color on the deleted msg if you want
-                    // adminColor: "#ff0000" 
+                    image: ""
                 });
             } else {
-                // AUTHOR: Hard Delete (Remove document completely)
                 await commentRef.delete();
-                
-                // Decrement comment count on post
                 await db.collection('posts').doc(pid).update({
                     commentCount: firebase.firestore.FieldValue.increment(-1)
                 });
             }
 
-            // Refresh UI
             renderComments(pid, containerId);
 
         } catch (e) {
             console.error(e);
-            alert("Error: " + e.message);
+            alert("Request Denied: " + e.message);
         }
     }
 }
 window.onload = init;
 
 function buildRoulette() {
-    // 1. Reset current build
+    
     for (let s in userStats) userStats[s] = 0;
     selectedTalents.clear();
     selectedMantras.clear();
     selectedWeapon = null;
     selectedEnchant = "no enchant";
 
-    // 2. Determine Attunement Count (Buffed Chances)
+    
     const attRand = Math.random() * 100;
     let attCount = 0;
-    if (attRand < 25) attCount = 3;      // 25% chance for 3
-    else if (attRand < 55) attCount = 2; // 30% chance for 2
-    else if (attRand < 90) attCount = 1; // 35% chance for 1
-    else attCount = 0;                  // 10% chance for Attunementless
+    if (attRand < 25) attCount = 3;      
+    else if (attRand < 55) attCount = 2; 
+    else if (attRand < 90) attCount = 1; 
+    else attCount = 0;                  
 
-    // Calculate exact max points allowed
+    
     let cap = attCount === 0 ? 410 : 420 + Math.max(0, (attCount - 1) * 5);
     let remaining = cap;
 
-    // 3. PHASE 1: INITIAL SELECTION
+    
     const weaponClasses = ["Light Weapon", "Medium Weapon", "Heavy Weapon"];
     let primaryClass = weaponClasses[Math.floor(Math.random() * weaponClasses.length)];
     
-    // Set a variable weapon base (40-75) so it's not always 100
+    
     let weaponBase = 40 + (Math.floor(Math.random() * 8) * 5); 
     userStats[primaryClass] = weaponBase;
     remaining -= weaponBase;
@@ -3684,11 +3607,11 @@ function buildRoulette() {
         }
     }
 
-    // Pick Core Stats
+    
     const coreStats = ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision"];
     let pool = [primaryClass, ...chosenAtts]; 
     
-    // Choose 4 core stats to focus on
+    
     let focusedCores = [...coreStats].sort(() => 0.5 - Math.random()).slice(0, 4);
     focusedCores.forEach(stat => {
         let val = 20 + (Math.floor(Math.random() * 6) * 5);
@@ -3699,8 +3622,8 @@ function buildRoulette() {
         }
     });
 
-    // 4. PHASE 2: BALANCED GROWTH
-    // Sprinkle remaining points across the existing pool
+    
+    
     let attempts = 0;
     while (remaining >= 5 && attempts < 500) {
         attempts++;
@@ -3710,12 +3633,12 @@ function buildRoulette() {
             remaining -= 5;
         } else {
             pool = pool.filter(s => s !== stat);
-            if (pool.length === 0) break; // Primary pool is maxed out
+            if (pool.length === 0) break; 
         }
     }
 
-    // 5. PHASE 3: THE RESIDUE DRAIN (THE 420 FIX)
-    // If we still have points (remaining > 0), find ANY stat that isn't 100 and fill it
+    
+    
     if (remaining > 0) {
         let allPossibleStats = [...weaponClasses, ...coreStats, ...gameData.attunements];
         for (let s of allPossibleStats) {
@@ -3730,7 +3653,7 @@ function buildRoulette() {
         }
     }
 
-    // 6. WEAPON SELECTION (Elemental Preferred)
+    
     const compatible = gameData.weapons.filter(w => {
         return Object.keys(w.scaling).some(s => {
             let cleanS = s.charAt(0).toUpperCase() + s.slice(1);
@@ -3740,7 +3663,7 @@ function buildRoulette() {
     });
 
     if (compatible.length > 0) {
-        // Try to find a weapon that matches both a weapon class AND an attunement
+        
         let multiScaling = compatible.filter(w => {
             let matches = Object.keys(w.scaling).filter(s => {
                 let cleanS = s.charAt(0).toUpperCase() + s.slice(1);
@@ -3754,7 +3677,7 @@ function buildRoulette() {
 
     selectedEnchant = gameData.enchants[Math.floor(Math.random() * gameData.enchants.length)];
 
-    // 7. FINALIZE
+    
     for (let s in userStats) {
         const el = document.getElementById('in-' + s);
         if (el) el.value = userStats[s];
@@ -3773,7 +3696,7 @@ function buildRoulette() {
     console.log(`Roulette Success: ${cap - remaining} / ${cap} points used.`);
     updateUI();
 }
-// --- FIREBASE CONFIG ---
+
 const firebaseConfig = {
     apiKey: "AIzaSyBiKatdnUjpHF-NiWONwo9HdeWhD4mW1mI",
     authDomain: "dwm-builder.firebaseapp.com",
@@ -3784,7 +3707,7 @@ const firebaseConfig = {
     measurementId: "G-CK717RZMP3"
 };
 
-// Define these GLOBALLY so they don't return 'undefined'
+
 let db, auth;
 let currentUser = null;
 let currentAdmin = false;
@@ -3800,12 +3723,12 @@ try {
     console.error("Firebase Error: Make sure script tags are in <head>", e);
 }
 
-// Listen for Auth Changes
+
 if (auth) {
     auth.onAuthStateChanged(async (user) => {
         if (user) {
             currentUser = user;
-            // Fetch Admin Status & Color
+            
             const doc = await db.collection('users').doc(user.uid).get();
             if(doc.exists) {
                 const data = doc.data();
@@ -3819,25 +3742,25 @@ if (auth) {
             currentAdmin = false;
         }
 
-        // FORCE UI REFRESH
-        // This ensures the "Log In" button changes to the "User Bar" automatically
+        
+        
         if(currentTab === 'community') renderCommunityTab();
         else if(currentTab === 'summary') renderSummaryTab();
         
-        // Update any specific user bars if they exist in DOM
+        
         const userBarPlaceholder = document.querySelector('.user-bar-container');
         if(userBarPlaceholder) userBarPlaceholder.innerHTML = renderUserBar();
     });
 }
 
-// 1. Post Current Build
+
 async function postCurrentBuild() {
     if(!window.buildName) { alert("Please name your build first!"); return; }
     
     const confirmPost = confirm("Post this build to the public forum?");
     if(!confirmPost) return;
 
-    // Generate Build Code
+    
     const traitsPart = Object.values(userTraits).join('.');
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
@@ -3864,7 +3787,7 @@ async function postCurrentBuild() {
 
 
 
-// 3. Voting System
+
 function vote(pid, val) {
     const votedKey = `voted_${pid}`;
     if(localStorage.getItem(votedKey)) {
@@ -3881,7 +3804,7 @@ function vote(pid, val) {
     });
 }
 
-// 4. Comments & Images
+
 function toggleComments(pid) {
     const el = document.getElementById(`comments-${pid}`);
     if(el.style.display === "block") {
@@ -3925,7 +3848,7 @@ function addComment(pid) {
     });
 }
 
-// 5. Admin Actions
+
 function deletePost(pid) {
     if(!currentAdmin) return;
     if(confirm("Delete this post?")) {
@@ -3939,23 +3862,23 @@ function deleteComment(pid, cid) {
         db.collection("posts").doc(pid).collection("comments").doc(cid).delete().then(() => loadComments(pid));
     }
 }
-// --- FORUM NAVIGATION LOGIC ---
+
 
 function filterTags(tag) {
     currentTagFilter = tag;
-    // Update UI pills
+    
     document.querySelectorAll('.tag-pill').forEach(btn => {
         btn.classList.remove('filter-active');
         if(btn.innerText === (tag || "ALL")) btn.classList.add('filter-active');
     });
-    // Reload from DB
+    
     loadForumPosts(); 
 }
 
-// --- SEARCH & FEED LOGIC ---
 
 
-// Client-Side Search
+
+
 function filterForumFeed() {
     const term = document.getElementById('forum-search').value.toLowerCase();
     const filtered = cachedPosts.filter(p => {
@@ -3967,7 +3890,7 @@ function filterForumFeed() {
 }
 
 
-// --- FOCUS VIEW LOGIC ---
+
 
 function openFocusView(pid) {
     const p = cachedPosts.find(x => x.id === pid);
@@ -3981,21 +3904,21 @@ function openFocusView(pid) {
     const isUp = p.upvotes && p.upvotes.includes(uid);
     const isDown = p.downvotes && p.downvotes.includes(uid);
     
-    // 1. Generate Voter Lists Tooltip
+    
     let upvotersHTML = (p.upNames || []).map(u => `<div style='color:#4f4'>${u.name}</div>`).join('');
     let downvotersHTML = (p.downNames || []).map(u => `<div style='color:#f44'>${u.name}</div>`).join('');
     let tooltipHTML = `<div class="voter-tooltip"><strong>Upvoters:</strong><br>${upvotersHTML || 'None'}<br><br><strong>Downvoters:</strong><br>${downvotersHTML || 'None'}</div>`;
 
-    // 2. Tags
+    
     let tagsHTML = (p.tags || [p.tag]).map(t => `<span class="tag-pill" style="margin-right:5px;">${t}</span>`).join('');
 
-    // 3. Delete Button Logic
+    
     let deleteBtn = "";
     if (currentUser && (currentAdmin || currentUser.uid === p.authorId)) {
         deleteBtn = `<button class="action-btn" style="background:red; width:auto; margin-left:10px;" onclick="deletePost('${pid}', '${p.authorId}')">DELETE POST</button>`;
     }
 
-    // 4. Render Full HTML
+    
     content.innerHTML = `
         <div class="focus-header">
             <div class="post-author-info">
@@ -4066,21 +3989,21 @@ function openFocusView(pid) {
         </div>
     `;
 
-    // Load comments specifically for this view
+    
     renderComments(pid, `focus-comments-list-${pid}`);
 }
 
 function closeFocusView() {
     document.getElementById('focus-view').style.display = 'none';
-    document.body.style.overflow = 'auto'; // Restore scrolling
-    // Refresh the list in case votes changed
+    document.body.style.overflow = 'auto'; 
+    
     loadForumPosts();
 }
 
 function refreshFocusVoteUI(pid) {
 }
-// --- MEDIA LIBRARY SYSTEM ---
-// --- UPDATED MEDIA LIBRARY ---
+
+
 function isVideo(url) {
     return url.match(/\.(mp4|webm|mov)$/i) != null;
 }
@@ -4090,10 +4013,10 @@ function saveToMediaLibrary(url) {
     let lib = JSON.parse(localStorage.getItem('dwm_media_lib') || "[]");
     if(!lib.includes(url)) {
         lib.unshift(url); 
-        if(lib.length > 20) lib.pop(); // Increased limit
+        if(lib.length > 20) lib.pop(); 
         localStorage.setItem('dwm_media_lib', JSON.stringify(lib));
     }
-    // Refresh the view if open
+    
     const openLib = document.querySelector('[id^="media-lib-"][style*="flex"]');
     if(openLib) openLib.innerHTML = getMediaLibraryHTML(openLib.id.replace('media-lib-', 'focus-c-img-'));
 }
@@ -4102,7 +4025,7 @@ function removeFromMediaLibrary(url) {
     let lib = JSON.parse(localStorage.getItem('dwm_media_lib') || "[]");
     lib = lib.filter(u => u !== url);
     localStorage.setItem('dwm_media_lib', JSON.stringify(lib));
-    // Refresh
+    
     const openLib = document.querySelector('[id^="media-lib-"][style*="flex"]');
     if(openLib) openLib.innerHTML = getMediaLibraryHTML(openLib.id.replace('media-lib-', 'focus-c-img-'));
 }
@@ -4112,14 +4035,14 @@ function getMediaLibraryHTML(inputId) {
     
     let html = `<div style="display:flex; gap:5px; overflow-x:auto; padding:5px; align-items:center;">`;
     
-    // Manual Save Button inside the UI
+    
     html += `
     <div onclick="const el=document.getElementById('${inputId}'); if(el.value) saveToMediaLibrary(el.value); else alert('Paste URL in box first');" 
          style="min-width:50px; height:50px; background:#333; color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; border:1px dashed #666; font-size:1.5rem;" title="Save URL from input">+</div>
     `;
 
     lib.forEach(url => {
-        let thumb = isVideo(url) ? 'https://cdn-icons-png.flaticon.com/512/1179/1179069.png' : url; // Generic video icon or the image
+        let thumb = isVideo(url) ? 'https://cdn-icons-png.flaticon.com/512/1179/1179069.png' : url; 
         html += `
             <div class="media-item-container">
                 <img src="${thumb}" class="media-thumb" onclick="document.getElementById('${inputId}').value = '${url}';">
@@ -4144,10 +4067,10 @@ function timeAgo(date) {
     if (interval > 1) return Math.floor(interval) + "m ago";
     return "Just now";
 }
-let currentReplyContext = null; // Stores { id, name, avatar }
+let currentReplyContext = null; 
 
 function replyToUser(commentId, authorName, avatarUrl, textContent, hasMedia) {
-    // Logic: If text exists, use text. If no text but media, use tag.
+    
     let snippet = textContent || "";
     if (!snippet && hasMedia) {
         snippet = isVideo(hasMedia) ? "[Video]" : "[Image/GIF]";
@@ -4159,10 +4082,10 @@ function replyToUser(commentId, authorName, avatarUrl, textContent, hasMedia) {
         id: commentId, 
         name: authorName, 
         avatar: avatarUrl,
-        snippet: snippet // Save the preview text
+        snippet: snippet 
     };
     
-    // Update UI
+    
     const replyBar = document.getElementById('reply-bar');
     const replyText = document.getElementById('reply-bar-text');
     
@@ -4170,7 +4093,7 @@ function replyToUser(commentId, authorName, avatarUrl, textContent, hasMedia) {
         replyBar.style.display = 'flex';
         replyText.innerHTML = `Replying to <strong>${authorName}</strong>: <span style="color:#aaa; font-style:italic;">${snippet}</span>`;
         
-        // Focus input
+        
         const input = document.querySelector('input[id^="focus-c-text-"]');
         if(input) input.focus();
     }
@@ -4194,7 +4117,7 @@ function scrollToComment(cid) {
 function renderCommunityTab() {
     const container = document.getElementById('item-container');
     
-    // Render the Forum Skeleton
+    
     container.innerHTML = `
         <div class="calc-wrapper" style="max-width: 900px; min-height:80vh;">
             
@@ -4228,17 +4151,17 @@ function renderCommunityTab() {
         </div>
     `;
 
-    // Trigger the database load
+    
     loadForumPosts();
 }
 function ensureGlobalModals() {
-    // 1. Remove existing modals to prevent duplicates/conflicts
+    
     const existingAuth = document.getElementById('auth-modal');
     const existingPost = document.getElementById('post-modal');
     if(existingAuth) existingAuth.remove();
     if(existingPost) existingPost.remove();
 
-    // 2. Define the HTML string
+    
     const modalHTML = `
     <!-- AUTH MODAL -->
     <div id="auth-modal" class="modal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);">
@@ -4270,7 +4193,7 @@ function ensureGlobalModals() {
     </div>
     `;
 
-    // 3. Inject into Body
+    
     const div = document.createElement('div');
     div.innerHTML = modalHTML;
     document.body.appendChild(div);
@@ -4280,114 +4203,20 @@ async function togglePinPost(pid, currentStatus) {
 
     try {
         await db.collection('posts').doc(pid).update({
-            isPinned: !currentStatus // Switch true/false
+            isPinned: !currentStatus 
         });
-        // Reload to see changes
+        
         loadForumPosts();
     } catch (e) {
         console.error(e);
         alert("Error pinning post: " + e.message);
     }
 }
-// --- UPDATE LOG LOGIC ---
-
-async function fetchUpdateLogs() {
-    const feed = document.getElementById('update-log-feed');
-    if (!feed) return;
-
-    try {
-        // Fetch from a new collection called 'builder_updates'
-        const snap = await db.collection('builder_updates').orderBy('timestamp', 'desc').limit(20).get();
-        
-        feed.innerHTML = "";
-        if (snap.empty) {
-            feed.innerHTML = "<div style='text-align:center; padding:20px;'>No updates yet.</div>";
-            return;
-        }
-
-        snap.forEach(doc => {
-            const data = doc.data();
-            
-            // Format Date and Time Ago
-            const dateStr = data.dateString || "Unknown Date"; // e.g. 2025-10-29
-            let agoStr = "";
-            if (data.timestamp) {
-                const diff = new Date() - data.timestamp.toDate();
-                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-                agoStr = `(${days}d ago)`;
-            }
-
-            // Format Lines (Split by new line)
-            const lines = (data.content || "").split('\n').map(line => {
-                if(line.trim()) return `<span class="update-line">${line}</span>`;
-                return "";
-            }).join('');
-
-            feed.innerHTML += `
-                <div class="update-card">
-                    <div class="update-header">
-                        <div class="update-date">${dateStr} <span class="update-ago">${agoStr}</span></div>
-                        <div class="update-title">${data.title}</div>
-                    </div>
-                    <div class="update-content">
-                        ${lines}
-                    </div>
-                </div>
-            `;
-        });
-
-    } catch (e) {
-        console.error(e);
-        feed.innerHTML = `<div style='text-align:center; color:red;'>Failed to load updates.</div>`;
-    }
-}
-
-// Function 1: Open the window
-function openUpdateModal() {
-    if (!currentUser || currentUser.displayName !== "dwmgoat67") {
-        alert("Access Denied.");
-        return;
-    }
-    
-    // Auto-fill today's date
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('upd-date').value = today;
-    
-    // Clear other fields
-    document.getElementById('upd-title').value = "";
-    document.getElementById('upd-content').value = "";
-
-    // Show Modal
-    document.getElementById('update-modal').style.display = 'block';
-}
-
-// Function 2: Send to Database
-async function submitUpdateLog() {
-    const title = document.getElementById('upd-title').value;
-    const dateStr = document.getElementById('upd-date').value;
-    const content = document.getElementById('upd-content').value;
-
-    if (!title || !content) {
-        alert("Please fill in Title and Content.");
-        return;
-    }
-
-    try {
-        await db.collection('builder_updates').add({
-            title: title,
-            content: content,
-            dateString: dateStr,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            author: currentUser.displayName
-        });
-        
-        alert("Update Posted Successfully!");
-        document.getElementById('update-modal').style.display = 'none';
-        renderSummaryTab(); // Refresh UI
-    } catch (e) {
-        console.error(e);
-        alert("Error: " + e.message);
-    }
+async function hashString(str) {
+    const msgBuffer = new TextEncoder().encode(str.toLowerCase().trim());
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 </script>
 </body>
