@@ -844,6 +844,10 @@ body.sidebar-open-right .overlay {
     font-weight: bold;
 }
 .pin-btn:hover { text-decoration: underline; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #0a0a0b; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; border: 1px solid #000; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
     <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -2361,50 +2365,21 @@ function renderGuide() {
             <p>Once your stats, talents, and mantras are selected, click the <strong>"SHARE BUILD LINK"</strong> button in the left sidebar. This copies a unique URL to your clipboard that you can send to others; it will load your exact build instantly.</p>
 
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">4. Damage Calculator</h3>
-            <p>Use the <strong>Dmg & Pen</strong> tab to simulate active buffs. Note that some multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
+            <p>Your dmg and hp show up on <strong>Summary</strong> tab. Note that dmg multipliers have a "soft cap" (diminishing returns) just like in-game.</p>
 
             <h3 style="color: #8b0000; border-bottom: 1px dotted #000; margin-top: 20px;">5. General game info</h3>
           <div style="margin-bottom: 15px;">
                 <strong>1. Leaderboard Titles</strong> 
-                <p style="margin: 5px 0 0 15px;">You might see people with custom titles or colored names. You can get a custom title by winning events (hosted/bounty). Colored names are P2W (contact devs with payment, ~$20+).</p>
+                <p style="margin: 5px 0 0 15px;">You might see people with custom titles or colored names. You can get a custom title by winning hosted events. Colored names are P2W (contact devs with payment).</p>
             </div>
 
             <div style="margin-bottom: 15px;">
-                <strong>2. Lower Specs</strong>
-                <p style="margin: 5px 0 0 15px;">There are two types of Lower specs: <b>Obtainable</b> and <b>Whitelist</b>.</p>
-                <ul style="margin: 5px 0 0 15px; padding-left: 20px;">
-                    <li><strong>Obtainable (Rendbreaker):</strong> Obtained by winning dev events (might be unobtainable now).</li>
-                    <li><strong>Whitelist (Fish, Death, Mon, Globus):</strong> You must contact the spec owners for a whitelist (note: all whitelisted ppl might be removed, no confirmation yet), then visit the <b>Yzord NPC</b>.</li>
-                </ul>
-                
-                <div style="background: rgba(0,0,0,0.05); padding: 10px; margin: 10px 0 0 15px; border-left: 3px solid #8b0000; font-size: 0.85rem;">
-                    <strong>Enchant Owners:</strong><br>
-                    Fish: @lz4decompress | Mon: @monschta (note: too many people whitelisted already, GL getting whitelisted) | Death: @kyawooo | Globus: @16glo (not allowed to share his enchant)
-                </div>
-
-                <div style="margin: 10px 0 0 15px; font-size: 0.85rem;">
-                    <strong>Enchant Info:</strong>
-                    <ul style="margin-top: 5px; padding-left: 20px;">
-                        <li><strong>Fish:</strong> Anti-heal on M1 + Blue Pool after certin amount of hits (slows). Procs a 3s blue charm (5s CD) giving 33% chance for true DMG.</li>
-                        <li><strong>Mon:</strong> Detonation, Bluster, and Obfuscation combined. Powerful in PVP.</li>
-                        <li><strong>Death:</strong> Landing enough hits will take 5-6.5% of opponent's health on proc and apply slowdown.</li>
-                        <li><strong>Globus:</strong> Black Detonation. Deadass thats it.</li>
-                    </ul>
-                </div>
+                <strong>2. Custom Clothes (CC)</strong>
+                <p style="margin: 5px 0 0 15px;">Buy the CC gamepass OR purchase it from the <b>Blacksmith</b> for 250k notes. (Rejoin to apply, the obtainable verison only saves on one slot. The gamepass verison applys to all slots if you want).</p>
             </div>
 
             <div style="margin-bottom: 15px;">
-                <strong>3. Higher Specs (snowshatters is getting removed)</strong>
-                <p style="margin: 5px 0 0 15px;">High tier specs for Contributors or others (Auto-parry bell, Fused Blade, Snowshatters). These are not normally obtainable unless you are known and trusted or a ingame contributor.</p>
-            </div>
-
-            <div style="margin-bottom: 15px;">
-                <strong>4. Custom Clothes (CC)</strong>
-                <p style="margin: 5px 0 0 15px;">Buy the CC gamepass OR purchase it from the <b>Blacksmith</b> for 250k notes. (Rejoin to apply, only saves on one slot).</p>
-            </div>
-
-            <div style="margin-bottom: 15px;">
-                <strong>5. Ukiels Blessing</strong>
+                <strong>3. Ukiels Blessing</strong>
                 <p style="margin: 5px 0 0 15px;">there is a npc where it just gives you aura whenever you use a mantra (yea deadass), it costs 15 knowledge.</p>
             </div>
             
