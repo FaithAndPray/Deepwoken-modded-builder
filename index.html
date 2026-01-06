@@ -1062,239 +1062,245 @@ const gameData = {
         "Multi-Elemental": [{ "name": "Wraith Path: Umbra", "desc": "Darkened flames refuse enemy ether gain; puppets drawn to burned targets.", "req": { "Flamecharm": 50, "Shadowcast": 50 } },{ "name": "Freezing Wight", "desc": "Haunted gale now procs Chilled.", "req": { "Galebreathe": 40, "Frostdraw": 40, "Talent": "Haunted Gale" } },{ "name": "Fulgurite Formation", "desc": "Crystals cause lightning strikes; Overload causes double crystal application.", "req": { "Frostdraw": 50, "Thundercall": 50 } },{ "name": "Flashboil", "desc": "Hitting chilled enemies with fire (and vice versa) creates steam DoT clouds.", "req": { "Flamecharm": 30, "Frostdraw": 30 } },{ "name": "Volcanic Glass", "desc": "Detonating crystals will cause an eruption.", "req": { "Flamecharm": 50, "Frostdraw": 50, "Path": "Eruption/Glass" } },{ "name": "Temperature Shock", "desc": "Flame mantras will now detonate crystals.", "req": { "Flamecharm": 40, "Path": "Glass" } },{ "name": "Scorched Peak", "desc": "Blockbreaking burning opponents strikes them with lightning.", "req": { "Flamecharm": 50, "Thundercall": 25 } },{"name": "Chorus of Souls", "desc": "Alone, the wisp lack a voice. but surrounded by so many, The frequencies overlap and you hear it true. (NEEDS OATHLESS TO WORK)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}},{"name": "Wisp Convergence", "desc": " When empowered by the Chorus, your Wisps now grant their elements to your strikes. (Oathless, All Wisps, Chorus of Souls)", "req": {"Flamecharm": 30, "Frostdraw": 30, "Thundercall": 30, "Shadowcast": 30, "Galebreathe": 30, "Ironsing": 30, "Bloodrend": 30}}, { "name": "Golden Age", "desc": "Your Iron Pull now detonates Crystals and overloads Surges.", "req": { "Frostdraw": 40, "Thundercall": 50, "Ironsing": 35 } }]
     },
     enchants: ["no enchant", "Adustio", "Astral", "Aflame", "blazing", "bluster", "Chilling", "Curse of deadlock", "Curse of Authoritative", "Curse of Lone warrior", "Curse of Yun'shul", "Curse of Bloodthirsty", "Curse of No-life king", "Curse of the Unbidden", "Curse of Repulsion", "Curse of Rhaemen's Ember", "Curse of Greed", "Deferred", "Detonation", "elastic", "Fallen knight", "Gluttony", "grim", "Harrowing", "Heroism", "Metal", "Nemesis", "nightbring", "Providence's Thorn", "Sear", "Stone", "Storm", "Solar", "Tears of the Edenkite", "Vampirism", "Obfuscation", "Wild", "Windswept", "Withering", "Tainted Sorrows", "Umbral knight", "Scalding", "Mayhem"],
-    weapons: [
-        { name: "Adretian axe", base: 24.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Acheron's Warspear", base: 18.0, scaling: { "Medium Weapon": 6.7 } },
-{ name: "Alloyed Katana", base: 23.5, scaling: { "Medium Weapon": 5.0 } },
-{ name: "Alloyed Zweihander", base: 24.5, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Ancient glaive", base: 19.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Anklets of Alsin", base: 16.0, scaling: { "Light Weapon": 6.5 } },
-{ name: "Apprentice rapier", base: 17.0, scaling: { "Light Weapon": 7.5 } },
-{ name: "Astral Greatsword", base: 24.5, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Bloodlust Katana", base: 21.0, scaling: { "Medium Weapon": 7.5 } },
-{ name: "Bloodtide Trident", base: 16.0, scaling: { "Medium Weapon": 6.0 } },
-{ name: "Bloodfouler", base: 19.5, scaling: { "Heavy Weapon": 6.5, "Bloodrend": 5.0 } },
-{ name: "Broodalloy Cestus", base: 15.0, scaling: { "Light Weapon": 9.5 } },
-{ name: "Boltcrusher", base: 25.0, scaling: { "Heavy Weapon": 4.2, "Thundercall": 7.0 } },
-{ name: "Canor Fang", base: 13.5, scaling: { "Light Weapon": 10.0 } },
-{ name: "Cavalry Saber", base: 21.0, scaling: { "Medium Weapon": 5.0 } },
-{ name: "Caestus", base: 16.0, scaling: { "Light Weapon": 8.0 } },
-{ name: "Champion's sword", base: 19.5, scaling: { "Medium Weapon": 5.5 } },
-{ name: "Chorus of agonies", base: 26.0, scaling: { "Heavy Weapon": 11.0 } },
-{ name: "Cerulean Thread", base: 15.0, scaling: { "Light Weapon": 9.0 } },
-{ name: "Crypt Blade", base: 22.0, scaling: { "Heavy Weapon": 4.0, "Shadowcast": 9.0 } },
-{ name: "Crescendo", base: 22.0, scaling: { "Medium Weapon": 6.0 } },
-{ name: "Conqueror's blade", base: 24.5, scaling: { "Heavy Weapon": 8.5 } },
-{ name: "Conqueror's Sword", base: 20.5, scaling: { "Medium Weapon": 8.5 } },
-{ name: "Curved Blade of Winds", base: 17.5, scaling: { "Medium Weapon": 5.0, "Galebreathe": 5.0 } },
-{ name: "Curved Blade", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Deepspindle", base: 14.0, scaling: { "Light Weapon": 1.7, "Shadowcast": 5.0 } },
-{ name: "Death's Reverie", base: 18.0, scaling: { "Medium Weapon": 5.0 } },
-{ name: "Darksteal Greatsword", base: 26.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Drakemaw Gauntlets", base: 16.0, scaling: { "Light Weapon": 8.5 } },
-{ name: "Edenbrand Hellcoil", base: 27.0, scaling: { "Heavy Weapon": 8.3 } },
-{ name: "Enforcer's axe", base: 25.0, scaling: { "Heavy Weapon": 11.0 } },
-{ name: "Enforcer's blade", base: 24.5, scaling: { "Heavy Weapon": 8.5 } },
-{ name: "Enforcer's hammer", base: 25.5, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Evanspear greataxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 } },
-{ name: "Eye of Malice", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Falchion", base: 16.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Flamekeeper cestus", base: 18.0, scaling: { "Light Weapon": 8.0 } },
-{ name: "Flareblood Kamas", base: 16.0, scaling: { "Light Weapon": 3.2, "Intelligence": 2.0 } },
-{ name: "First Light", base: 22.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Forgotten Gladius", base: 19.5, scaling: { "Medium Weapon": 8.2 } },
-{ name: "Fractine", base: 22.0, scaling: { "Heavy Weapon": 7.0, "Intelligence": 4.0 } },
-{ name: "Forge Greathammer", base: 25.5, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Gaunts of Emnity", base: 15.0, scaling: { "Light Weapon": 11.0 } },
-{ name: "Godseeker Wraps", base: 20.0, scaling: { "Light Weapon": 4.5 } },
-{ name: "Gran Sudaruska", base: 24.0, scaling: { "Heavy Weapon": 4.0, "Frostdraw": 8.0 } },
-{ name: "Great Maul", base: 25.5, scaling: { "Heavy Weapon": 9.5 } },
-{ name: "Hailbreaker", base: 22.0, scaling: { "Heavy Weapon": 7.0, "Frostdraw": 4.0 } },
-{ name: "Halberd", base: 23.0, scaling: { "Heavy Weapon": 9.5 } },
-{ name: "Hearthwarden", base: 26.0, scaling: { "Heavy Weapon": 5.0, "Earthbend": 3.5 } },
-{ name: "Hivelord Hubris", base: 28.0, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Hivelord Fist", base: 18.5, scaling: { "Light Weapon": 6.0, "Strength": 2.0 } },
-{ name: "Iron Blunderbuss", base: 18.5, scaling: { "Medium Weapon": 7.0 } },
-{ name: "Injuria", base: 19.5, scaling: { "Medium Weapon": 9.0 } },
-{ name: "Iron Spear", base: 17.0, scaling: { "Medium Weapon": 8.5 } },
-{ name: "Iron Twinblade", base: 22.0, scaling: { "Medium Weapon": 4.0 } },
-{ name: "Imperial Staff", base: 19.5, scaling: { "Medium Weapon": 5.0, "Strength": 3.5 } },
-{ name: "Imperators Edge", base: 20.0, scaling: { "Medium Weapon": 2.0, "Fortitude": 4.0, "Strength": 3.0 } },
-{ name: "Ignition Deepcrusher", base: 17.5, scaling: { "Medium Weapon": 2.0, "Ironsing": 3.0 } },
-{ name: "Flame HB", base: 20.0, scaling: { "Flamecharm": 7.5 } },
-{ name: "Frost HB", base: 20.0, scaling: { "Frostdraw": 7.5 } },
-{ name: "Lightning HB", base: 20.0, scaling: { "Thundercall": 7.5 } },
-{ name: "Shadow HB", base: 20.0, scaling: { "Shadowcast": 7.5 } },
-{ name: "Wind HB", base: 20.0, scaling: { "Galebreathe": 7.5 } },
-{ name: "Inferno Blade / Cleaver", base: 24.0, scaling: { "Flamecharm": 9.5 } },
-{ name: "Inferno Hammer", base: 24.5, scaling: { "Flamecharm": 9.5 } },
-{ name: "Inferno Dagger", base: 17.5, scaling: { "Flamecharm": 4.0 } },
-{ name: "Inferno Piercer", base: 16.5, scaling: { "Flamecharm": 7.5 } },
-{ name: "Inferno Gauntlet", base: 19.0, scaling: { "Flamecharm": 4.0 } },
-{ name: "Inferno Glaive", base: 18.0, scaling: { "Flamecharm": 8.0 } },
-{ name: "Inferno Club", base: 21.0, scaling: { "Flamecharm": 3.5 } },
-{ name: "Glacier Blade / Cleaver", base: 24.0, scaling: { "Frostdraw": 9.5 } },
-{ name: "Glacier Hammer", base: 24.5, scaling: { "Frostdraw": 9.5 } },
-{ name: "Glacier Dagger", base: 17.5, scaling: { "Frostdraw": 4.0 } },
-{ name: "Glacier Piercer", base: 16.5, scaling: { "Frostdraw": 7.5 } },
-{ name: "Glacier Gauntlet", base: 19.0, scaling: { "Frostdraw": 4.0 } },
-{ name: "Glacier Glaive", base: 18.0, scaling: { "Frostdraw": 8.0 } },
-{ name: "Glacier Club", base: 21.0, scaling: { "Frostdraw": 3.5 } },
-{ name: "Thunderbolt Blade / Cleaver", base: 24.0, scaling: { "Thundercall": 9.5 } },
-{ name: "Thunderbolt Hammer", base: 24.5, scaling: { "Thundercall": 9.5 } },
-{ name: "Thunderbolt Dagger", base: 17.5, scaling: { "Thundercall": 4.0 } },
-{ name: "Thunderbolt Piercer", base: 16.5, scaling: { "Thundercall": 7.5 } },
-{ name: "Thunderbolt Gauntlet", base: 19.0, scaling: { "Thundercall": 4.0 } },
-{ name: "Thunderbolt Glaive", base: 18.0, scaling: { "Thundercall": 8.0 } },
-{ name: "Thunderbolt Club", base: 21.0, scaling: { "Thundercall": 3.5 } },
-{ name: "Penumbra Blade / Cleaver", base: 24.0, scaling: { "Shadowcast": 9.5 } },
-{ name: "Penumbra Hammer", base: 24.5, scaling: { "Shadowcast": 9.5 } },
-{ name: "Penumbra Dagger", base: 17.5, scaling: { "Shadowcast": 4.0 } },
-{ name: "Penumbra Piercer", base: 16.5, scaling: { "Shadowcast": 7.5 } },
-{ name: "Penumbra Gauntlet", base: 19.0, scaling: { "Shadowcast": 4.0 } },
-{ name: "Penumbra Glaive", base: 18.0, scaling: { "Shadowcast": 8.0 } },
-{ name: "Penumbra Club", base: 21.0, scaling: { "Shadowcast": 3.5 } },
-{ name: "Zephyr Blade / Cleaver", base: 24.0, scaling: { "Galebreathe": 9.5 } },
-{ name: "Zephyr Hammer", base: 24.5, scaling: { "Galebreathe": 9.5 } },
-{ name: "Zephyr Dagger", base: 17.5, scaling: { "Galebreathe": 4.0 } },
-{ name: "Zephyr Piercer", base: 16.5, scaling: { "Galebreathe": 7.5 } },
-{ name: "Zephyr Gauntlet", base: 19.0, scaling: { "Galebreathe": 4.0 } },
-{ name: "Zephyr Glaive", base: 18.0, scaling: { "Galebreathe": 8.0 } },
-{ name: "Zephyr Club", base: 21.0, scaling: { "Galebreathe": 3.5 } },
-{ name: "Alloy Blade / Cleaver", base: 24.0, scaling: { "Ironsing": 9.5 } },
-{ name: "Alloy Hammer", base: 24.5, scaling: { "Ironsing": 9.5 } },
-{ name: "Alloy Dagger", base: 17.5, scaling: { "Ironsing": 4.0 } },
-{ name: "Alloy Piercer", base: 16.5, scaling: { "Ironsing": 7.5 } },
-{ name: "Alloy Gauntlet", base: 19.0, scaling: { "Ironsing": 4.0 } },
-{ name: "Alloy Glaive", base: 18.0, scaling: { "Ironsing": 8.0 } },
-{ name: "Alloy Club", base: 21.0, scaling: { "Ironsing": 3.5 } },
-{ name: "Vital Blade / Cleaver", base: 24.0, scaling: { "Bloodrend": 9.5 } },
-{ name: "Vital Hammer", base: 24.5, scaling: { "Bloodrend": 9.5 } },
-{ name: "Vital Dagger", base: 17.5, scaling: { "Bloodrend": 4.0 } },
-{ name: "Vital Piercer", base: 16.5, scaling: { "Bloodrend": 7.5 } },
-{ name: "Vital Gauntlet", base: 19.0, scaling: { "Bloodrend": 4.0 } },
-{ name: "Vital Glaive", base: 18.0, scaling: { "Bloodrend": 8.0 } },
-{ name: "Vital Club", base: 21.0, scaling: { "Bloodrend": 3.5 } },
-{ name: "Kanabo", base: 25.0, scaling: { "Heavy Weapon": 6.0, "Strength": 3.0 } },
-{ name: "Krulian Knife", base: 15.0, scaling: { "Light Weapon": 8.5 } },
-{ name: "Kyrsblade", base: 21.5, scaling: { "Medium Weapon": 7.5 } },
-{ name: "Kyrscleave", base: 25.0, scaling: { "Heavy Weapon": 9.5 } },
-{ name: "Kyrsglaive", base: 18.0, scaling: { "Medium Weapon": 8.5 } },
-{ name: "Kyrstreza", base: 17.0, scaling: { "Light Weapon": 7.5 } },
-{ name: "Kyrsedge", base: 16.0, scaling: { "Light Weapon": 9.0 } },
-{ name: "Kyrswynter", base: 16.5, scaling: { "Medium Weapon": 3.0, "Frostdraw": 3.0 } },
-{ name: "Legion Caestus", base: 18.0, scaling: { "Light Weapon": 8.0 } },
-{ name: "Lights Final Toll", base: 13.0, scaling: { "Willpower": 13.0 } },
-{ name: "Lifecrusher", base: 17.5, scaling: { "Medium Weapon": 1.5, "Bloodrend": 5.5 } },
-{ name: "Lords Warcry", base: 20.0, scaling: { "Medium Weapon": 3.0, "Flamecharm": 6.5 } },
-{ name: "Nemits Sickle", base: 13.0, scaling: { "Light Weapon": 13.0 } },
-{ name: "Night Axe", base: 22.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Nocturne", base: 19.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Otakemaru", base: 26.5, scaling: { "Heavy Weapon": 5.5 } },
-{ name: "Officer Saber", base: 22.0, scaling: { "Medium Weapon": 4.5 } },
-{ name: "Markors Inheritor", base: 24.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Master Hawk Handaxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 } },
-{ name: "Pale Briar", base: 25.0, scaling: { "Heavy Weapon": 7.0 } },
-{ name: "Pale Morning", base: 25.5, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Petras Anchor", base: 25.5, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Pernach", base: 20.0, scaling: { "Medium Weapon": 5.0 } },
-{ name: "Poison Spear", base: 18.0, scaling: { "Medium Weapon": 5.5, "Intelligence": 2.0 } },
-{ name: "Purple Cloud", base: 17.0, scaling: { "Medium Weapon": 9.0 } },
-{ name: "Pleekstys Inferno", base: 22.0, scaling: { "Medium Weapon": 3.0, "Flamecharm": 4.0 } },
-{ name: "Quartztone Pickaxe", base: 22.0, scaling: { "Heavy Weapon": 7.0 } },
-{ name: "Railblade", base: 25.0, scaling: { "Heavy Weapon": 6.5 } },
-{ name: "Razor Cutlass", base: 18.0, scaling: { "Medium Weapon": 8.9 } },
-{ name: "Relic Axe", base: 25.0, scaling: { "Heavy Weapon": 9.0 } },
-{ name: "Red Death", base: 16.5, scaling: { "Medium Weapon": 2.0, "Shadow": 2.0, "Bloodrend": 2.0, "Mind": 2.0 } },
-{ name: "Rifle Spear", base: 19.0, scaling: { "Medium Weapon": 8.5 } },
-{ name: "Rosens Peacemaker", base: 17.5, scaling: { "Medium Weapon": 7.5 } },
-{ name: "Rosens Hellflame", base: 18.0, scaling: { "Medium Weapon": 3.0, "Flame": 4.0 } },
-{ name: "Rockmaller", base: 25.0, scaling: { "Heavy Weapon": 7.5 } },
-{ name: "Scalesplitter", base: 20.0, scaling: { "Medium Weapon": 6.0 } },
-{ name: "Sacred Hammer", base: 21.0, scaling: { "Medium Weapon": 7.0 } },
-{ name: "Serrated Warspear", base: 18.5, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Shattered Katana", base: 20.0, scaling: { "Medium Weapon": 7.0 } },
-{ name: "Skyreap Blade", base: 24.5, scaling: { "Heavy Weapon": 7.5 } },
-{ name: "Skull Piercer", base: 16.5, scaling: { "Light Weapon": 7.5 } },
-{ name: "Staff of Blood", base: 18.0, scaling: { "Medium Weapon": 9.5 } },
-{ name: "Stormseye", base: 17.0, scaling: { "Medium Weapon": 2.0, "Thunder": 5.0 } },
-{ name: "Stoneheart", base: 24.0, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Steel Maul", base: 23.5, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Sovereign's Punishment", base: 26.0, scaling: { "Heavy Weapon": 9.0 } },
-{ name: "Soulthorn", base: 17.0, scaling: { "Medium Weapon": 7.0, "Intelligence": 3.5 } },
-{ name: "Summer Blade", base: 26.0, scaling: { "Heavy Weapon": 8.5 } },
-{ name: "Summer Kukri", base: 18.5, scaling: { "Medium Weapon": 8.3 } },
-{ name: "Summer Dagger", base: 15.0, scaling: { "Light Weapon": 8.5 } },
-{ name: "Summer Axe", base: 22.0, scaling: { "Heavy Weapon": 11.0 } },
-{ name: "Summer Staff", base: 18.0, scaling: { "Medium Weapon": 9.5 } },
-{ name: "Shotel", base: 22.0, scaling: { "Medium Weapon": 6.0 } },
-{ name: "Spectral Grasp", base: 16.0, scaling: { "Light Weapon": 7.0 } },
-{ name: "Sirens Edict", base: 22.0, scaling: { "Heavy Weapon": 4.5, "Ironsing": 7.0 } },
-{ name: "Thunderbreakers Gauntlets", base: 17.5, scaling: { "Light Weapon": 3.0, "Thunder": 6.0 } },
-{ name: "The Barrel", base: 25.5, scaling: { "Heavy Weapon": 8.5 } },
-{ name: "The Pastry Paster", base: 18.0, scaling: { "Medium Weapon": 5.0, "Mind": 3.0 } },
-{ name: "The Flippers of Fate", base: 14.5, scaling: { "Light Weapon": 8.0, "Mind": 5.0 } },
-{ name: "The Long Tong of The Law", base: 20.0, scaling: { "Heavy Weapon": 8.5, "Mind": 5.0 } },
-{ name: "Tyrant's Greatspear", base: 19.5, scaling: { "Heavy Weapon": 3.5, "Medium Weapon": 3.5 } },
-{ name: "Tyrant's Greatsword", base: 24.0, scaling: { "Light Weapon": 3.1, "Heavy Weapon": 4.1 } },
-{ name: "True Seraph Spear", base: 19.0, scaling: { "Medium Weapon": 9.0 } },
-{ name: "Trident Spear", base: 18.5, scaling: { "Medium Weapon": 7.0 } },
-{ name: "Toothed Club", base: 20.0, scaling: { "Medium Weapon": 5.0 } },
-{ name: "Tetherspear", base: 18.5, scaling: { "Medium Weapon": 8.5 } },
-{ name: "Umbrite Witherblade", base: 14.0, scaling: { "Medium Weapon": 14.0 } },
-{ name: "Volfram", base: 17.5, scaling: { "Medium Weapon": 4.0, "Ironsing": 3.0 } },
-{ name: "Vortex Echo", base: 13.5, scaling: { "Charisma": 3.5, "Light Weapon": 8.0 } },
-{ name: "Vigil Longsword", base: 20.0, scaling: { "Medium Weapon": 7.5 } },
-{ name: "Warden Ceremonial Sword", base: 17.0, scaling: { "Medium Weapon": 8.5 } },
-{ name: "Worshipper Longsword", base: 19.0, scaling: { "Medium Weapon": 4.0 } },
-{ name: "Worldpiercer Gauntlets", base: 18.0, scaling: { "Light Weapon": 8.0 } },
-{ name: "Wraithclaw", base: 16.0, scaling: { "Galebreathe": 5.5, "Light Weapon": 4.0 } },
-{ name: "Whisperwind", base: 25.0, scaling: { "Galebreathe": 6.5, "Heavy Weapon": 4.0 } },
-{ name: "Wretched Mawblades", base: 27.5, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Wrist Weights", base: 16.0, scaling: { "Light Weapon": 6.5 } },
-{ name: "Wristless Weights", base: 16.0, scaling: { "Light Weapon": 6.5 } },
-{ name: "Wyrmtooth", base: 22.0, scaling: { "Medium Weapon": 4.5, "Heavy Weapon": 4.0 } },
-{ name: "Wyvern Dualclaw", base: 22.0, scaling: { "Medium Weapon": 7.0 } },
-{ name: "Ysleys Pyre Keeper", base: 21.5, scaling: { "Heavy Weapon": 5.0, "Flamecharm": 6.0 } },
-{ name: "Ysleys Pyre Reeper (NON-CHEST)", base: 21.5, scaling: { "Heavy Weapon": 5.0, "Flamecharm": 6.0 } },
-{ name: "Golden Swordfish", base: 17.0, scaling: { "Light Weapon": 7.5 } },
-{ name: "Base sword", base: 18.0, scaling: { "Medium Weapon": 2.0 } },
-{ name: "Pasado", base: 26.0, scaling: { "Heavy Weapon": 10.5 } },
-{ name: "Clockwork Greatsword", base: 26.0, scaling: { "Heavy Weapon": 7.5, "Precision": 3.5 } },
-{ name: "Enchained song", base: 18.5, scaling: { "Light Weapon": 8.5 } },
-{ name: "Soul split katana", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Artemis", base: 16.5, scaling: { "Medium Weapon": 9.0, "Precision": 3.0 } },
-{ name: "Centurion gauntlets", base: 18.5, scaling: { "Fortitude": 3.0, "Light Weapon": 5.0 } },
-{ name: "Blinding flash", base: 17.0, scaling: { "Light Weapon": 7.0 } },
-{ name: "Endless abyss", base: 18.0, scaling: { "Medium Weapon": 10.0 } },
-{ name: "Empty abyss", base: 17.0, scaling: { "Medium Weapon": 10.0 } },
-{ name: "Unleashed purple cloud", base: 17.0, scaling: { "Medium Weapon": 10.0 } },
-{ name: "Ysleys Reaper", base: 24.5, scaling: { "Heavy Weapon": 7.5 } },
-{ name: "Azure Pinwheel", base: 26.5, scaling: { "Heavy Weapon": 8.5 } },
-{ name: "Gladius of thorns", base: 17.5, scaling: { "Medium Weapon": 5.0, "Light Weapon": 5.0 } },
-{ name: "Athompeace", base: 24.0, scaling: { "Heavy Weapon": 9.5 } },
-{ name: "Naginata", base: 17.0, scaling: { "Medium Weapon": 9.5 } },
-{ name: "Sheu Hu", base: 19.5, scaling: { "Medium Weapon": 4.5, "Heavy Weapon": 6.5 } },
-{ name: "Moon blade", base: 16.0, scaling: { "Light Weapon": 3.5, "Intelligence": 2.0 } },
-{ name: "Last Struggle", base: 16.5, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Maestro Shattered", base: 20.0, scaling: { "Medium Weapon": 8.0 } },
-{ name: "Normal claw", base: 22.0, scaling: { "Medium Weapon": 6.0 } },
-{ name: "Funky driftlander", base: 23.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Sinkindred", base: 20.0, scaling: { "Medium Weapon": 7.5 } },
-{ name: "Sunyata", base: 16.0, scaling: { "Light Weapon": 8.0 } },
-{ name: "Sealed sword", base: 19.5, scaling: { "Medium Weapon": 5.5, "Precision": 2.5 } },
-{ name: "Sporeshot", base: 14.5, scaling: { "Light Weapon": 15.0 } },
-{ name: "Shroomerang", base: 24.0, scaling: { "Medium Weapon": 4.0 } },
-{ name: "Kaide", base: 20.0, scaling: { "Medium Weapon": 7.5 } },
-{ name: "Ratboy Handgun", base: 15.0, scaling: { "Light Weapon": 11.0 } },
-{ name: "The endless wave", base: 25.0, scaling: { "Heavy Weapon": 8.0, "Strength": 1.0 } },
-{ name: "Ratking axe", base: 28.0, scaling: { "Heavy Weapon": 10.0 } },
-{ name: "Nos dywll", base: 23.0, scaling: { "Heavy Weapon": 8.0 } },
-{ name: "Snowflake Cestus", base: 17.5, scaling: { "Light Weapon": 8.0 } },
-{ name: "FairFrozen", base: 18.0, scaling: { "Medium Weapon": 9.5 } },
-{ name: "Sverovetr Greatsword", base: 24.0, scaling: { "Heavy Weapon": 8.0 } },
+weapons: [
+        { name: "Adretian axe", type: "GreatAxe", base: 24.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.55, range: 8, bleed: false, pen: 10, chip: 10 },
+        { name: "Acheron's Warspear", type: "Spear", base: 18.0, scaling: { "Medium Weapon": 6.7 }, speed: 0.72, range: 9, bleed: true, pen: 25, chip: 0 },
+        { name: "Alloyed Katana", type: "Sword", base: 23.5, scaling: { "Medium Weapon": 5.0 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Alloyed Zweihander", type: "GreatSword", base: 24.5, scaling: { "Heavy Weapon": 10.0 }, speed: 0.54, range: 10, bleed: false, pen: 10, chip: 0 },
+        { name: "Ancient glaive", type: "Spear", base: 19.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Anklets of Alsin", type: "Fist", base: 16.0, scaling: { "Light Weapon": 6.5 }, speed: 0.66, range: 7, bleed: false, pen: 20, chip: 0 },
+        { name: "Apprentice rapier", type: "Rapier", base: 17.0, scaling: { "Light Weapon": 7.5 }, speed: 0.66, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Astral Greatsword", type: "GreatSword", base: 24.5, scaling: { "Heavy Weapon": 10.0 }, speed: 0.54, range: 10, bleed: false, pen: 10, chip: 0 },
+        { name: "Bloodlust Katana", type: "Sword", base: 21.0, scaling: { "Medium Weapon": 7.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Bloodtide Trident", type: "Spear", base: 16.0, scaling: { "Medium Weapon": 6.0 }, speed: 0.72, range: 9, bleed: true, pen: 25, chip: 0 },
+        { name: "Bloodfouler", type: "GreatSword", base: 19.5, scaling: { "Heavy Weapon": 6.5, "Bloodrend": 5.0 }, speed: 0.5, range: 9, bleed: true, pen: 10, chip: 0 },
+        { name: "Broodalloy Cestus", type: "Fist", base: 15.0, scaling: { "Light Weapon": 9.5 }, speed: 0.67, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Boltcrusher", type: "GreatAxe", base: 25.0, scaling: { "Heavy Weapon": 4.2, "Thundercall": 7.0 }, speed: 0.55, range: 8.5, bleed: false, pen: 20, chip: 0 },
+        { name: "Canor Fang", type: "Dagger", base: 13.5, scaling: { "Light Weapon": 10.0 }, speed: 0.65, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Cavalry Saber", type: "Sword", base: 21.0, scaling: { "Medium Weapon": 5.0 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Caestus", type: "Fist", base: 16.0, scaling: { "Light Weapon": 8.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Champion's sword", type: "Sword", base: 19.5, scaling: { "Medium Weapon": 5.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Chorus of agonies", type: "GreatAxe", base: 26.0, scaling: { "Heavy Weapon": 11.0 }, speed: 0.63, range: 10, bleed: false, pen: 0, chip: 25 },
+        { name: "Cerulean Thread", type: "Dagger", base: 15.0, scaling: { "Light Weapon": 9.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 30, chip: 0 },
+        { name: "Crypt Blade", type: "GreatSword", base: 22.0, scaling: { "Heavy Weapon": 4.0, "Shadowcast": 9.0 }, speed: 0.57, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Crescendo", type: "Twinblades", base: 22.0, scaling: { "Medium Weapon": 6.0 }, speed: 0.72, range: 7.5, bleed: false, pen: 5, chip: 0 },
+        { name: "Conqueror's blade", type: "GreatSword", base: 24.5, scaling: { "Heavy Weapon": 8.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Conqueror's Sword", type: "Sword", base: 20.5, scaling: { "Medium Weapon": 8.5 }, speed: 0.68, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Curved Blade of Winds", type: "Sword", base: 17.5, scaling: { "Medium Weapon": 5.0, "Galebreathe": 5.0 }, speed: 0.67, range: 8, bleed: false, pen: 15, chip: 5 },
+        { name: "Curved Blade", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.65, range: 8, bleed: false, pen: 25, chip: 0 },
+        { name: "Deepspindle", type: "Rapier", base: 14.0, scaling: { "Light Weapon": 1.7, "Shadowcast": 5.0 }, speed: 0.67, range: 8, bleed: false, pen: 20, chip: 0 },
+        { name: "Death's Reverie", type: "Twinblades", base: 18.0, scaling: { "Medium Weapon": 5.0 }, speed: 0.69, range: 8, bleed: true, pen: 15, chip: 0 },
+        { name: "Darksteal Greatsword", type: "GreatSword", base: 26.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Drakemaw Gauntlets", type: "Fist", base: 16.0, scaling: { "Light Weapon": 8.5 }, speed: 0.66, range: 6, bleed: true, pen: 5, chip: 0 },
+        { name: "Edenbrand Hellcoil", type: "GreatCannon", base: 27.0, scaling: { "Heavy Weapon": 8.3 }, speed: 0.63, range: 8.5, bleed: false, pen: 0, chip: 20 },
+        { name: "Enforcer's axe", type: "GreatAxe", base: 25.0, scaling: { "Heavy Weapon": 11.0 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Enforcer's blade", type: "GreatSword", base: 24.5, scaling: { "Heavy Weapon": 8.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Enforcer's hammer", type: "GreatHammer", base: 25.5, scaling: { "Heavy Weapon": 10.0 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Evanspear greataxe", type: "GreatAxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 }, speed: 0.62, range: 9.5, bleed: true, pen: 0, chip: 0 },
+        { name: "Eye of Malice", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.77, range: 9.5, bleed: false, pen: 25, chip: 15 },
+        { name: "Falchion", type: "Sword", base: 16.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.65, range: 7.5, bleed: false, pen: 20, chip: 0 },
+        { name: "Flamekeeper cestus", type: "Fist", base: 18.0, scaling: { "Light Weapon": 8.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Flareblood Kamas", type: "Dagger", base: 16.0, scaling: { "Light Weapon": 3.2, "Intelligence": 2.0 }, speed: 0.65, range: 7, bleed: true, pen: 30, chip: 0 },
+        { name: "First Light", type: "GreatSword", base: 22.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.54, range: 9.5, bleed: false, pen: 30, chip: 10 },
+        { name: "Forgotten Gladius", type: "Sword", base: 19.5, scaling: { "Medium Weapon": 8.2 }, speed: 0.67, range: 8, bleed: false, pen: 10, chip: 0 },
+        { name: "Fractine", type: "GreatSword", base: 22.0, scaling: { "Heavy Weapon": 7.0, "Intelligence": 4.0 }, speed: 0.55, range: 9.5, bleed: false, pen: 25, chip: 20 },
+        { name: "Forge Greathammer", type: "GreatHammer", base: 25.5, scaling: { "Heavy Weapon": 8.0 }, speed: 0.55, range: 9, bleed: false, pen: 0, chip: 0 },
+        { name: "Gaunts of Emnity", type: "Fist", base: 15.0, scaling: { "Light Weapon": 11.0 }, speed: 0.66, range: 6, bleed: false, pen: 0, chip: 20 },
+        { name: "Godseeker Wraps", type: "Fist", base: 20.0, scaling: { "Light Weapon": 4.5 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Gran Sudaruska", type: "GreatAxe", base: 24.0, scaling: { "Heavy Weapon": 4.0, "Frostdraw": 8.0 }, speed: 0.53, range: 9.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Great Maul", type: "GreatHammer", base: 25.5, scaling: { "Heavy Weapon": 9.5 }, speed: 0.56, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Hailbreaker", type: "GreatSword", base: 22.0, scaling: { "Heavy Weapon": 7.0, "Frostdraw": 4.0 }, speed: 0.6, range: 8.5, bleed: false, pen: 15, chip: 10 },
+        { name: "Halberd", type: "GreatAxe", base: 23.0, scaling: { "Heavy Weapon": 9.5 }, speed: 0.53, range: 10, bleed: false, pen: 15, chip: 0 },
+        { name: "Hearthwarden", type: "GreatSword", base: 26.0, scaling: { "Heavy Weapon": 5.0, "Earthbend": 3.5 }, speed: 0.63, range: 12, bleed: false, pen: 0, chip: 0 },
+        { name: "Hivelord Hubris", type: "GreatHammer", base: 28.0, scaling: { "Heavy Weapon": 10.0 }, speed: 0.63, range: 12, bleed: false, pen: 0, chip: 0 },
+        { name: "Hivelord Fist", type: "Fist", base: 18.5, scaling: { "Light Weapon": 6.0, "Strength": 2.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Iron Blunderbuss", type: "Rifle", base: 18.5, scaling: { "Medium Weapon": 7.0 }, speed: 0.68, range: 8, bleed: false, pen: 25, chip: 0 },
+        { name: "Injuria", type: "Sword", base: 19.5, scaling: { "Medium Weapon": 9.0 }, speed: 0.72, range: 9, bleed: false, pen: 25, chip: 10 },
+        { name: "Iron Spear", type: "Spear", base: 17.0, scaling: { "Medium Weapon": 8.5 }, speed: 0.71, range: 10, bleed: false, pen: 10, chip: 0 },
+        { name: "Iron Twinblade", type: "Twinblades", base: 22.0, scaling: { "Medium Weapon": 4.0 }, speed: 0.7, range: 8, bleed: false, pen: 0, chip: 30 },
+        { name: "Imperial Staff", type: "Staff", base: 19.5, scaling: { "Medium Weapon": 5.0, "Strength": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 10, chip: 10 },
+        { name: "Imperators Edge", type: "Spear", base: 20.0, scaling: { "Medium Weapon": 2.0, "Fortitude": 4.0, "Strength": 3.0 }, speed: 0.75, range: 11, bleed: false, pen: 20, chip: 0 },
+        { name: "Ignition Deepcrusher", type: "Club", base: 17.5, scaling: { "Medium Weapon": 2.0, "Ironsing": 3.0 }, speed: 0.68, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Flame HB", type: "Sword", base: 20.0, scaling: { "Flamecharm": 7.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Frost HB", type: "Sword", base: 20.0, scaling: { "Frostdraw": 7.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Lightning HB", type: "Sword", base: 20.0, scaling: { "Thundercall": 7.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Shadow HB", type: "Sword", base: 20.0, scaling: { "Shadowcast": 7.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Wind HB", type: "Sword", base: 20.0, scaling: { "Galebreathe": 7.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Inferno Blade", type: "GreatSword", base: 24.0, scaling: { "Flamecharm": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Inferno Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Flamecharm": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Inferno Hammer", type: "GreatHammer", base: 24.5, scaling: { "Flamecharm": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Inferno Dagger", type: "Dagger", base: 17.5, scaling: { "Flamecharm": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Inferno Piercer", type: "Rapier", base: 16.5, scaling: { "Flamecharm": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Inferno Gauntlet", type: "Fist", base: 19.0, scaling: { "Flamecharm": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Inferno Glaive", type: "Spear", base: 18.0, scaling: { "Flamecharm": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Inferno Club", type: "Club", base: 21.0, scaling: { "Flamecharm": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Glacier Blade", type: "GreatSword", base: 24.0, scaling: { "Frostdraw": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Glacier Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Frostdraw": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Glacier Hammer", type: "GreatHammer", base: 24.5, scaling: { "Frostdraw": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Glacier Dagger", type: "Dagger", base: 17.5, scaling: { "Frostdraw": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Glacier Piercer", type: "Rapier", base: 16.5, scaling: { "Frostdraw": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Glacier Gauntlet", type: "Fist", base: 19.0, scaling: { "Frostdraw": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Glacier Glaive", type: "Spear", base: 18.0, scaling: { "Frostdraw": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Glacier Club", type: "Club", base: 21.0, scaling: { "Frostdraw": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Thunderbolt Blade", type: "GreatSword", base: 24.0, scaling: { "Thundercall": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Thunderbolt Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Thundercall": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Thunderbolt Hammer", type: "GreatHammer", base: 24.5, scaling: { "Thundercall": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Thunderbolt Dagger", type: "Dagger", base: 17.5, scaling: { "Thundercall": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Thunderbolt Piercer", type: "Rapier", base: 16.5, scaling: { "Thundercall": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Thunderbolt Gauntlet", type: "Fist", base: 19.0, scaling: { "Thundercall": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Thunderbolt Glaive", type: "Spear", base: 18.0, scaling: { "Thundercall": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Thunderbolt Club", type: "Club", base: 21.0, scaling: { "Thundercall": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Penumbra Blade", type: "GreatSword", base: 24.0, scaling: { "Shadowcast": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Penumbra Blade Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Shadowcast": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Penumbra Hammer", type: "GreatHammer", base: 24.5, scaling: { "Shadowcast": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Penumbra Dagger", type: "Dagger", base: 17.5, scaling: { "Shadowcast": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Penumbra Piercer", type: "Rapier", base: 16.5, scaling: { "Shadowcast": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Penumbra Gauntlet", type: "Fist", base: 19.0, scaling: { "Shadowcast": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Penumbra Glaive", type: "Spear", base: 18.0, scaling: { "Shadowcast": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Penumbra Club", type: "Club", base: 21.0, scaling: { "Shadowcast": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Zephyr Blade", type: "GreatSword", base: 24.0, scaling: { "Galebreathe": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Zephyr Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Galebreathe": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Zephyr Hammer", type: "GreatHammer", base: 24.5, scaling: { "Galebreathe": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Zephyr Dagger", type: "Dagger", base: 17.5, scaling: { "Galebreathe": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Zephyr Piercer", type: "Rapier", base: 16.5, scaling: { "Galebreathe": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Zephyr Gauntlet", type: "Fist", base: 19.0, scaling: { "Galebreathe": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Zephyr Glaive", type: "Spear", base: 18.0, scaling: { "Galebreathe": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Zephyr Club", type: "Club", base: 21.0, scaling: { "Galebreathe": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Alloy Blade", type: "GreatSword", base: 24.0, scaling: { "Ironsing": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Alloy Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Ironsing": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Alloy Hammer", type: "GreatHammer", base: 24.5, scaling: { "Ironsing": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Alloy Dagger", type: "Dagger", base: 17.5, scaling: { "Ironsing": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Alloy Piercer", type: "Rapier", base: 16.5, scaling: { "Ironsing": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Alloy Gauntlet", type: "Fist", base: 19.0, scaling: { "Ironsing": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Alloy Glaive", type: "Spear", base: 18.0, scaling: { "Ironsing": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Alloy Club", type: "Club", base: 21.0, scaling: { "Ironsing": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Vital Blade", type: "GreatSword", base: 24.0, scaling: { "Bloodrend": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Vital Cleaver", type: "GreatAxe", base: 23.5, scaling: { "Bloodrend": 9.5 }, speed: 0.55, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "Vital Hammer", type: "GreatHammer", base: 24.5, scaling: { "Bloodrend": 9.5 }, speed: 0.55, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Vital Dagger", type: "Dagger", base: 17.5, scaling: { "Bloodrend": 4.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Vital Piercer", type: "Rapier", base: 16.5, scaling: { "Bloodrend": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Vital Gauntlet", type: "Fist", base: 19.0, scaling: { "Bloodrend": 4.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Vital Glaive", type: "Spear", base: 18.0, scaling: { "Bloodrend": 8.0 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Vital Club", type: "Club", base: 21.0, scaling: { "Bloodrend": 3.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Kanabo", type: "GreatHammer", base: 25.0, scaling: { "Heavy Weapon": 6.0, "Strength": 3.0 }, speed: 0.55, range: 9, bleed: false, pen: 0, chip: 10 },
+        { name: "Krulian Knife", type: "Dagger", base: 15.0, scaling: { "Light Weapon": 8.5 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Kyrsblade", type: "Sword", base: 21.5, scaling: { "Medium Weapon": 7.5 }, speed: 0.67, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Kyrscleave", type: "GreatSword", base: 25.0, scaling: { "Heavy Weapon": 9.5 }, speed: 0.55, range: 10, bleed: true, pen: 0, chip: 10 },
+        { name: "Kyrsglaive", type: "Spear", base: 18.0, scaling: { "Medium Weapon": 8.5 }, speed: 0.72, range: 9, bleed: true, pen: 20, chip: 0 },
+        { name: "Kyrstreza", type: "Rapier", base: 17.0, scaling: { "Light Weapon": 7.5 }, speed: 0.66, range: 8.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Kyrsedge", type: "Dagger", base: 16.0, scaling: { "Light Weapon": 9.0 }, speed: 0.63, range: 7, bleed: false, pen: 20, chip: 0 },
+        { name: "Kyrswynter", type: "Spear", base: 16.5, scaling: { "Medium Weapon": 3.0, "Frostdraw": 3.0 }, speed: 0.72, range: 9, bleed: true, pen: 20, chip: 0 },
+        { name: "Legion Caestus", type: "Fist", base: 18.0, scaling: { "Light Weapon": 8.0 }, speed: 0.66, range: 7, bleed: false, pen: 5, chip: 0 },
+        { name: "Lights Final Toll", type: "Fist", base: 13.0, scaling: { "Willpower": 13.0 }, speed: 0.68, range: 7, bleed: false, pen: 5, chip: 0 },
+        { name: "Lifecrusher", type: "Club", base: 17.5, scaling: { "Medium Weapon": 1.5, "Bloodrend": 5.5 }, speed: 0.68, range: 8, bleed: true, pen: 20, chip: 0 },
+        { name: "Lords Warcry", type: "Spear", base: 20.0, scaling: { "Medium Weapon": 3.0, "Flamecharm": 6.5 }, speed: 0.67, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Nemits Sickle", type: "Dagger", base: 13.0, scaling: { "Light Weapon": 13.0 }, speed: 0.65, range: 6, bleed: false, pen: 30, chip: 0 },
+        { name: "Night Axe", type: "GreatAxe", base: 22.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.6, range: 8.5, bleed: false, pen: 5, chip: 80 },
+        { name: "Nocturne", type: "Sword", base: 19.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.66, range: 7.5, bleed: false, pen: 30, chip: 0 },
+        { name: "Otakemaru", type: "GreatSword", base: 26.5, scaling: { "Heavy Weapon": 5.5 }, speed: 0.5, range: 9.5, bleed: false, pen: 15, chip: 0 },
+        { name: "Officer Saber", type: "Sword", base: 22.0, scaling: { "Medium Weapon": 4.5 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Markors Inheritor", type: "GreatSword", base: 24.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.54, range: 9.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Master Hawk Handaxe", type: "GreatAxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 }, speed: 0.57, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Pale Briar", type: "GreatSword", base: 25.0, scaling: { "Heavy Weapon": 7.0 }, speed: 0.55, range: 10, bleed: false, pen: 25, chip: 10 },
+        { name: "Pale Morning", type: "GreatHammer", base: 25.5, scaling: { "Heavy Weapon": 10.0 }, speed: 0.57, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Petras Anchor", type: "GreatHammer", base: 25.5, scaling: { "Heavy Weapon": 10.0 }, speed: 0.56, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Pernach", type: "Club", base: 20.0, scaling: { "Medium Weapon": 5.0 }, speed: 0.68, range: 7.5, bleed: true, pen: 10, chip: 5 },
+        { name: "Poison Spear", type: "Spear", base: 18.0, scaling: { "Medium Weapon": 5.5, "Intelligence": 2.0 }, speed: 0.71, range: 10, bleed: false, pen: 10, chip: 0 },
+        { name: "Purple Cloud", type: "Sword", base: 17.0, scaling: { "Medium Weapon": 9.0 }, speed: 0.62, range: 7, bleed: false, pen: 15, chip: 0 },
+        { name: "Pleekstys Inferno", type: "Club", base: 22.0, scaling: { "Medium Weapon": 3.0, "Flamecharm": 4.0 }, speed: 0.73, range: 8, bleed: false, pen: 30, chip: 10 },
+        { name: "Quartztone Pickaxe", type: "GreatAxe", base: 22.0, scaling: { "Heavy Weapon": 7.0 }, speed: 0.48, range: 8, bleed: false, pen: 20, chip: 0 },
+        { name: "Railblade", type: "GreatSword", base: 25.0, scaling: { "Heavy Weapon": 6.5 }, speed: 0.5, range: 9.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Razor Cutlass", type: "Sword", base: 18.0, scaling: { "Medium Weapon": 8.9 }, speed: 0.72, range: 8, bleed: true, pen: 10, chip: 10 },
+        { name: "Relic Axe", type: "GreatAxe", base: 25.0, scaling: { "Heavy Weapon": 9.0 }, speed: 0.55, range: 8.5, bleed: false, pen: 25, chip: 10 },
+        { name: "Red Death", type: "Spear", base: 16.5, scaling: { "Medium Weapon": 2.0, "Shadow": 2.0, "Bloodrend": 2.0, "Mind": 2.0 }, speed: 0.71, range: 9.5, bleed: true, pen: 25, chip: 0 },
+        { name: "Rifle Spear", type: "Spear", base: 19.0, scaling: { "Medium Weapon": 8.5 }, speed: 0.72, range: 9, bleed: false, pen: 25, chip: 0 },
+        { name: "Rosens Peacemaker", type: "Rifle", base: 17.5, scaling: { "Medium Weapon": 7.5 }, speed: 0.68, range: 7.5, bleed: false, pen: 5, chip: 0 },
+        { name: "Rosens Hellflame", type: "Rifle", base: 18.0, scaling: { "Medium Weapon": 3.0, "Flame": 4.0 }, speed: 0.7, range: 7, bleed: false, pen: 0, chip: 0 },
+        { name: "Rockmaller", type: "GreatHammer", base: 25.0, scaling: { "Heavy Weapon": 7.5 }, speed: 0.54, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Scalesplitter", type: "Twinsblade", base: 20.0, scaling: { "Medium Weapon": 6.0 }, speed: 0.7, range: 8, bleed: false, pen: 15, chip: 0 },
+        { name: "Sacred Hammer", type: "Club", base: 21.0, scaling: { "Medium Weapon": 7.0 }, speed: 0.68, range: 8, bleed: false, pen: 10, chip: 0 },
+        { name: "Serrated Warspear", type: "Spear", base: 18.5, scaling: { "Medium Weapon": 8.0 }, speed: 0.72, range: 9, bleed: true, pen: 5, chip: 0 },
+        { name: "Shattered Katana", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 7.0 }, speed: 0.68, range: 8, bleed: false, pen: 25, chip: 0 },
+        { name: "Skyreap Blade", type: "GreatSword", base: 24.5, scaling: { "Heavy Weapon": 7.5 }, speed: 0.52, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Skull Piercer", type: "Rapier", base: 16.5, scaling: { "Light Weapon": 7.5 }, speed: 0.67, range: 8.5, bleed: true, pen: 0, chip: 0 },
+        { name: "Staff of Blood", type: "Sword", base: 18.0, scaling: { "Medium Weapon": 9.5 }, speed: 0.67, range: 8, bleed: false, pen: 5, chip: 10 },
+        { name: "Stormseye", type: "Rifle", base: 17.0, scaling: { "Medium Weapon": 2.0, "Thunder": 5.0 }, speed: 0.68, range: 8, bleed: false, pen: 10, chip: 0 },
+        { name: "Stoneheart", type: "GreatHammer", base: 24.0, scaling: { "Heavy Weapon": 10.0 }, speed: 0.6, range: 8.5, bleed: false, pen: 10, chip: 10 },
+        { name: "Steel Maul", type: "GreatHammer", base: 23.5, scaling: { "Heavy Weapon": 10.0 }, speed: 0.57, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Sovereign's Punishment", type: "GreatHammer", base: 26.0, scaling: { "Heavy Weapon": 9.0 }, speed: 0.58, range: 9, bleed: false, pen: 20, chip: 10 },
+        { name: "Soulthorn", type: "Sword", base: 17.0, scaling: { "Medium Weapon": 7.0, "Intelligence": 3.5 }, speed: 0.67, range: 8, bleed: false, pen: 0, chip: 30 },
+        { name: "Summer Blade", type: "GreatSword", base: 26.0, scaling: { "Heavy Weapon": 8.5 }, speed: 0.5, range: 9, bleed: false, pen: 5, chip: 0 },
+        { name: "Summer Kukri", type: "Spear", base: 18.5, scaling: { "Medium Weapon": 8.3 }, speed: 0.66, range: 8, bleed: false, pen: 25, chip: 0 },
+        { name: "Summer Dagger", type: "Dagger", base: 15.0, scaling: { "Light Weapon": 8.5 }, speed: 0.63, range: 6.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Summer Axe", type: "GreatAxe", base: 22.0, scaling: { "Heavy Weapon": 11.0 }, speed: 0.6, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Summer Staff", type: "Staff", base: 18.0, scaling: { "Medium Weapon": 9.5 }, speed: 0.67, range: 8, bleed: false, pen: 5, chip: 10 },
+        { name: "Shotel", type: "Sword", base: 22.0, scaling: { "Medium Weapon": 6.0 }, speed: 0.7, range: 8, bleed: false, pen: 10, chip: 30 },
+        { name: "Spectral Grasp", type: "Dagger", base: 16.0, scaling: { "Light Weapon": 7.0 }, speed: 0.63, range: 6.5, bleed: false, pen: 15, chip: 0 },
+        { name: "Sirens Edict", type: "GreatSpear", base: 22.0, scaling: { "Heavy Weapon": 4.5, "Ironsing": 7.0 }, speed: 0.52, range: 10, bleed: false, pen: 15, chip: 0 },
+        { name: "Thunderbreakers Gauntlets", type: "Fist", base: 17.5, scaling: { "Light Weapon": 3.0, "Thunder": 6.0 }, speed: 0.66, range: 6, bleed: false, pen: 10, chip: 0 },
+        { name: "The Barrel", type: "GreatCannon", base: 25.5, scaling: { "Heavy Weapon": 8.5 }, speed: 0.6, range: 8, bleed: false, pen: 5, chip: 15 },
+        { name: "The Pastry Paster", type: "Club", base: 18.0, scaling: { "Medium Weapon": 5.0, "Mind": 3.0 }, speed: 0.68, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "The Flippers of Fate", type: "Dagger", base: 14.5, scaling: { "Light Weapon": 8.0, "Mind": 5.0 }, speed: 0.65, range: 6.5, bleed: false, pen: 15, chip: 0 },
+        { name: "The Long Tong of The Law", type: "GreatSword", base: 20.0, scaling: { "Heavy Weapon": 8.5, "Mind": 5.0 }, speed: 0.55, range: 10, bleed: true, pen: 0, chip: 40 },
+        { name: "Tyrant's Greatspear", type: "GreatSpear", base: 19.5, scaling: { "Heavy Weapon": 3.5, "Medium Weapon": 3.5 }, speed: 0.55, range: 10, bleed: false, pen: 20, chip: 0 },
+        { name: "Tyrant's Greatsword", type: "GreatSword", base: 24.0, scaling: { "Light Weapon": 3.1, "Heavy Weapon": 4.1 }, speed: 0.5, range: 10, bleed: false, pen: 0, chip: 10 },
+        { name: "True Seraph Spear", type: "Spear", base: 19.0, scaling: { "Medium Weapon": 9.0 }, speed: 0.72, range: 9, bleed: false, pen: 20, chip: 0 },
+        { name: "Trident Spear", type: "Spear", base: 18.5, scaling: { "Medium Weapon": 7.0 }, speed: 0.72, range: 9, bleed: true, pen: 25, chip: 0 },
+        { name: "Toothed Club", type: "Club", base: 20.0, scaling: { "Medium Weapon": 5.0 }, speed: 0.68, range: 7.5, bleed: true, pen: 10, chip: 5 },
+        { name: "Tetherspear", type: "Spear", base: 18.5, scaling: { "Medium Weapon": 8.5 }, speed: 0.71, range: 10, bleed: false, pen: 10, chip: 0 },
+        { name: "Umbrite Witherblade", type: "Sword", base: 14.0, scaling: { "Medium Weapon": 14.0 }, speed: 0.69, range: 7.5, bleed: true, pen: 0, chip: 15 },
+        { name: "Volfram", type: "Sword", base: 17.5, scaling: { "Medium Weapon": 4.0, "Ironsing": 3.0 }, speed: 0.68, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Vortex Echo", type: "Fist", base: 13.5, scaling: { "Charisma": 3.5, "Light Weapon": 8.0 }, speed: 0.66, range: 6, bleed: false, pen: 0, chip: 0 },
+        { name: "Vigil Longsword", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 7.5 }, speed: 0.68, range: 8, bleed: false, pen: 20, chip: 0 },
+        { name: "Warden Ceremonial Sword", type: "Sword", base: 17.0, scaling: { "Medium Weapon": 8.5 }, speed: 0.65, range: 7.5, bleed: false, pen: 15, chip: 0 },
+        { name: "Worshipper Longsword", type: "Sword", base: 19.0, scaling: { "Medium Weapon": 4.0 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Worldpiercer Gauntlets", type: "Fist", base: 18.0, scaling: { "Light Weapon": 8.0 }, speed: 0.65, range: 6, bleed: false, pen: 15, chip: 0 },
+        { name: "Wraithclaw", type: "Fist", base: 16.0, scaling: { "Galebreathe": 5.5, "Light Weapon": 4.0 }, speed: 0.66, range: 6.5, bleed: false, pen: 10, chip: 25 },
+        { name: "Whisperwind", type: "GreatSword", base: 25.0, scaling: { "Galebreathe": 6.5, "Heavy Weapon": 4.0 }, speed: 0.5, range: 9.5, bleed: false, pen: 25, chip: 0 },
+        { name: "Wretched Mawblades", type: "GreatSword", base: 27.5, scaling: { "Heavy Weapon": 8.0 }, speed: 0.6, range: 9, bleed: false, pen: 0, chip: 15 },
+        { name: "Wrist Weights", type: "Fist", base: 16.0, scaling: { "Light Weapon": 6.5 }, speed: 0.66, range: 7, bleed: false, pen: 20, chip: 0 },
+        { name: "Wristless Weights", type: "Fist", base: 16.0, scaling: { "Light Weapon": 6.5 }, speed: 0.66, range: 7, bleed: false, pen: 20, chip: 0 },
+        { name: "Wyrmtooth", type: "GreatSword", base: 22.0, scaling: { "Medium Weapon": 4.5, "Heavy Weapon": 4.0 }, speed: 0.77, range: 10, bleed: false, pen: 20, chip: 0 },
+        { name: "Wyvern Dualclaw", type: "Sword", base: 22.0, scaling: { "Medium Weapon": 7.0 }, speed: 0.7, range: 8, bleed: false, pen: 0, chip: 30 },
+        { name: "Ysleys Pyre Keeper", type: "GreatSword", base: 21.5, scaling: { "Heavy Weapon": 5.0, "Flamecharm": 6.0 }, speed: 0.5, range: 8, bleed: false, pen: 15, chip: 0 },
+        { name: "Ysleys Pyre Reeper (NON-CHEST)", type: "GreatSword", base: 21.5, scaling: { "Heavy Weapon": 5.0, "Flamecharm": 6.0 }, speed: 0.5, range: 8, bleed: false, pen: 15, chip: 0 },
+        { name: "Golden Swordfish", type: "Rapier", base: 17.0, scaling: { "Light Weapon": 7.5 }, speed: 0.66, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Base sword", type: "Sword", base: 18.0, scaling: { "Medium Weapon": 2.0 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Pasado", type: "GreatAxe", base: 26.0, scaling: { "Heavy Weapon": 10.5 }, speed: 0.62, range: 9.5, bleed: true, pen: 0, chip: 0 },
+        { name: "Clockwork Greatsword", type: "GreatSword", base: 26.0, scaling: { "Heavy Weapon": 7.5, "Precision": 3.5 }, speed: 0.6, range: 9.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Enchained song", type: "Fist", base: 18.5, scaling: { "Light Weapon": 8.5 }, speed: 0.67, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Soul split katana", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.7, range: 8, bleed: false, pen: 25, chip: 0 },
+        { name: "Artemis", type: "Spear", base: 16.5, scaling: { "Medium Weapon": 9.0, "Precision": 3.0 }, speed: 0.71, range: 9.5, bleed: false, pen: 20, chip: 0 },
+        { name: "Centurion gauntlets", type: "Fist", base: 18.5, scaling: { "Fortitude": 3.0, "Light Weapon": 5.0 }, speed: 0.66, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "Blinding flash", type: "Fist", base: 17.0, scaling: { "Light Weapon": 7.0 }, speed: 0.62, range: 6, bleed: false, pen: 25, chip: 0 },
+        { name: "Endless abyss", type: "Spear", base: 18.0, scaling: { "Medium Weapon": 10.0 }, speed: 0.68, range: 8, bleed: false, pen: 0, chip: 0 },
+        { name: "Empty abyss", type: "Sword", base: 17.0, scaling: { "Medium Weapon": 10.0 }, speed: 0.71, range: 10, bleed: false, pen: 10, chip: 0 },
+        { name: "Unleashed purple cloud", type: "Sword", base: 17.0, scaling: { "Medium Weapon": 10.0 }, speed: 0.65, range: 7.5, bleed: false, pen: 15, chip: 0 },
+        { name: "Ysleys Reaper", type: "GreatSword", base: 24.5, scaling: { "Heavy Weapon": 7.5 }, speed: 0.52, range: 9.5, bleed: false, pen: 0, chip: 10 },
+        { name: "Azure Pinwheel", type: "GreatSword", base: 26.5, scaling: { "Heavy Weapon": 8.5 }, speed: 0.6, range: 10, bleed: true, pen: 0, chip: 0 },
+        { name: "Gladius of thorns", type: "Sword", base: 17.5, scaling: { "Medium Weapon": 5.0, "Light Weapon": 5.0 }, speed: 0.67, range: 7.5, bleed: false, pen: 20, chip: 0 },
+        { name: "Athompeace", type: "GreatAxe", base: 24.0, scaling: { "Heavy Weapon": 9.5 }, speed: 0.55, range: 9, bleed: true, pen: 0, chip: 0 },
+        { name: "Naginata", type: "Spear", base: 17.0, scaling: { "Medium Weapon": 9.5 }, speed: 0.73, range: 9, bleed: true, pen: 5, chip: 0 },
+        { name: "Sheu Hu", type: "Staff", base: 19.5, scaling: { "Medium Weapon": 4.5, "Heavy Weapon": 6.5 }, speed: 0.5, range: 8.5, bleed: false, pen: 10, chip: 10 },
+        { name: "Moon blade", type: "Dagger", base: 16.0, scaling: { "Light Weapon": 3.5, "Intelligence": 2.0 }, speed: 0.65, range: 7, bleed: true, pen: 30, chip: 0 },
+        { name: "Last Struggle", type: "Spear", base: 16.5, scaling: { "Medium Weapon": 8.0 }, speed: 0.66, range: 8, bleed: false, pen: 5, chip: 0 },
+        { name: "Maestro Shattered", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 8.0 }, speed: 0.7, range: 8, bleed: false, pen: 25, chip: 0 },
+        { name: "Normal claw", type: "Sword", base: 22.0, scaling: { "Medium Weapon": 6.0 }, speed: 0.67, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Funky driftlander", type: "GreatSword", base: 23.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.6, range: 9.5, bleed: false, pen: 30, chip: 10 },
+        { name: "Sinkindred", type: "Sword", base: 20.0, scaling: { "Medium Weapon": 7.5 }, speed: 0.68, range: 8, bleed: false, pen: 15, chip: 0 },
+        { name: "Sunyata", type: "Dagger", base: 16.0, scaling: { "Light Weapon": 8.0 }, speed: 0.65, range: 6, bleed: false, pen: 15, chip: 0 },
+        { name: "Sealed sword", type: "Sword", base: 19.5, scaling: { "Medium Weapon": 5.5, "Precision": 2.5 }, speed: 0.7, range: 8.5, bleed: false, pen: 15, chip: 0 },
+        { name: "Sporeshot", type: "Gun", base: 14.5, scaling: { "Light Weapon": 15.0 }, speed: 0.75, range: 6.5, bleed: false, pen: 10, chip: 0 },
+        { name: "Shroomerang", type: "Sword", base: 24.0, scaling: { "Medium Weapon": 4.0 }, speed: 0.68, range: 7.5, bleed: false, pen: 0, chip: 0 },
+        { name: "Kaide", type: "Twinblades", base: 20.0, scaling: { "Medium Weapon": 7.5 }, speed: 0.7, range: 8, bleed: false, pen: 0, chip: 30 },
+        { name: "Ratboy Handgun", type: "Gun", base: 15.0, scaling: { "Light Weapon": 11.0 }, speed: 0.75, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "The endless wave", type: "GreatSword", base: 25.0, scaling: { "Heavy Weapon": 8.0, "Strength": 1.0 }, speed: 0.5, range: 10, bleed: false, pen: 25, chip: 0 },
+        { name: "Ratking axe", type: "GreatAxe", base: 28.0, scaling: { "Heavy Weapon": 10.0 }, speed: 0.58, range: 10, bleed: false, pen: 0, chip: 0 },
+        { name: "Nos dywll", type: "GreatSword", base: 23.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.6, range: 10.5, bleed: true, pen: 15, chip: 0 },
+        { name: "Snowflake Cestus", type: "Fist", base: 17.5, scaling: { "Light Weapon": 8.0 }, speed: 0.68, range: 6, bleed: false, pen: 5, chip: 0 },
+        { name: "FairFrozen", type: "Spear", base: 18.0, scaling: { "Medium Weapon": 9.5 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 10 },
+        { name: "Sverovetr Greatsword", type: "GreatSword", base: 24.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.55, range: 9, bleed: false, pen: 0, chip: 0 }
     ],
-
     mantras: {
        "Flamecharm": [
             { "name": "Fire Blade", "desc": "Reversal Spark: Disables Starkindred Fire Blade Variant", "req": { "Flamecharm": 1 }, "gif": "https://trello.com/1/cards/68cf89fb32f6fe4675b80721/attachments/68d0c0aa43c9b442618ba84b/download/2025-09-2123-20-12-ezgif.com-video-to-gif-converter.gif" },
@@ -1523,7 +1529,7 @@ let userStats = {};
 let userTraits = { "Vitality": 0, "Erudition": 0, "Proficiency": 0, "Songchant": 0 };
 let selectedOath = "";
 let selectedTalents = new Set();
-let selectedMantras = new Set();
+let selectedMantras = []; 
 let activeBuffs = new Set();
 let collapsedCats = new Set();
 let currentTab = 'talents';
@@ -1563,6 +1569,7 @@ const mutualExclusions = [
     ["Flashboil", "Glass Path: Crystallization"],
     ["Narcissist", "Tough Love"]
 ];
+const deepGemList = ["No Gem", "Aegis", "Blessed", "Bloodless", "Blue", "Erosion", "Fraud", "Insignia", "Might", "Nocturnal", "Sealing", "Warped Blue", "Wayward", "Wind", "Wrath"];
 
 
 function exportBuildToDWM() {
@@ -1799,6 +1806,31 @@ ensureGlobalModals();
     updateUI();
     loadSavedTheme();
 }
+function getWeaponSubCategory(wName, type) {
+    const n = wName.toLowerCase();
+    
+    // LIGHT
+    if (type === "Light Weapon") {
+        if (n.includes("fist") || n.includes("jus karita") || n.includes("cestus") || n.includes("wrap") || n.includes("style") || n.includes("way")) return "Fist";
+        if (n.includes("rapier") || n.includes("needle") || n.includes("stiletto") || n.includes("fleuret")) return "Rapier";
+        if (n.includes("dagger") || n.includes("knife") || n.includes("shiv") || n.includes("shank")) return "Dagger";
+        return "Dagger"; // Fallback
+    }
+    // MEDIUM
+    if (type === "Medium Weapon") {
+        if (n.includes("rifle") || n.includes("dragoon") || n.includes("gun") || n.includes("pistol")) return "Rifle";
+        if (n.includes("spear") || n.includes("trident") || n.includes("glaive") || n.includes("halberd") || n.includes("naginta") || n.includes("lance")) return "Spear";
+        if (n.includes("club") || n.includes("mace") || n.includes("hammer") && !type.includes("Heavy")) return "Club";
+        return "Sword"; // Default for Katana, Swords, etc.
+    }
+    // HEAVY
+    if (type === "Heavy Weapon") {
+        if (n.includes("greataxe") || n.includes("axe") || n.includes("scythe") || n.includes("reaper") || n.includes("halberd")) return "GreatAxe";
+        if (n.includes("greathammer") || n.includes("maul") || n.includes("hammer") || n.includes("anchor")) return "GreatHammer";
+        return "GreatSword"; // Default
+    }
+    return "Other";
+}
 function loadBuildFromString(code) {
     try {
         const sections = code.split('_');
@@ -1821,9 +1853,19 @@ function loadBuildFromString(code) {
         }
         
         if (sections[2]) {
-            sections[2].split('-').forEach(b36 => {
-                let name = mantraMap[parseInt(b36, 36)];
-                if (name) selectedMantras.add(name);
+            selectedMantras = []; 
+            sections[2].split('-').forEach(entry => {
+                if(entry.includes(':')) {
+                    // New format: Name:Gem
+                    let parts = entry.split(':');
+                    let name = mantraMap[parseInt(parts[0], 36)];
+                    let gem = deepGemList[parseInt(parts[1], 36)] || "No Gem";
+                    if(name) selectedMantras.push({ name, gem });
+                } else {
+                    // Legacy support
+                    let name = mantraMap[parseInt(entry, 36)];
+                    if (name) selectedMantras.push({ name: name, gem: "No Gem" });
+                }
             });
         }
         
@@ -1998,12 +2040,43 @@ function updateUI() {
         }
 
         
-        if(selectedMantras.size > 0) {
-            list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold; color:#2266aa; margin-top:10px;">Mantras</div>`;
-            selectedMantras.forEach(m => list.innerHTML += `<div style="padding:4px 15px; font-size:0.9rem; color:#2266aa;">• ${m}</div>`);
-        }
+         if(selectedMantras.length > 0) {
+        list.innerHTML += `<div style="padding:10px; border-bottom:1px solid #000; font-weight:bold; color:#2266aa; margin-top:10px;">Mantras</div>`;
+        
+       // Inside updateUI...
+selectedMantras.forEach((mObj, index) => {
+    let gemOpts = deepGemList.map(g => `<option value="${g}" ${mObj.gem === g ? 'selected' : ''}>${g}</option>`).join('');
+
+    list.innerHTML += `
+    <div style="padding:8px 10px; border-bottom:1px dashed #333; background:rgba(0,0,0,0.1);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:#2266aa; font-weight:bold;">${mObj.name}</span>
+            
+            <!-- THIS IS THE FIXED BUTTON LINE BELOW: -->
+            <button onclick="removeMantraByIndex(${index})" style="color:red; background:none; border:none; cursor:pointer; font-weight:bold; font-size: 1.2rem;">&times;</button>
+        </div>
+        
+        <div style="margin-top:5px;">
+            <label style="font-size:0.7rem; color:#666;">Gem:</label>
+            <select onchange="updateMantraGem(${index}, this.value)" style="width:100%; font-size:0.8rem; background:#000; color:#fff; border:1px solid #444;">
+                ${gemOpts}
+            </select>
+        </div>
+    </div>`;
+});
     }
     renderItems();
+}
+}
+function updateMantraGem(index, value) {
+    if(selectedMantras[index]) {
+        selectedMantras[index].gem = value;
+    }
+}
+function updateMantraMod(index, type, value) {
+    if(selectedMantras[index]) {
+        selectedMantras[index][type] = value;
+    }
 }
 function checkReqs(reqObj) {
     if (!reqObj || Object.keys(reqObj).length === 0) return true;
@@ -2034,33 +2107,41 @@ function checkReqs(reqObj) {
 }
 
 function toggleItem(name, met) {
-    if (!met) return; 
+    if (!met) return;
 
-    const set = currentTab === 'talents' ? selectedTalents : selectedMantras;
-
-    if (!set.has(name)) {
-        
-        if (currentTab === 'talents' && selectedTalents.size >= 80) {
-            alert("You have reached the maximum of 80 talents!");
-            return;
-        }
-
-        
-        for (const group of mutualExclusions) {
-            if (group.includes(name)) {
-                for (const other of group) {
-                    if (other !== name && set.has(other)) {
-                        alert(`CONFLICT: You cannot have "${name}" while you have "${other}".`);
-                        return;
+    if (currentTab === 'talents') {
+        if (!selectedTalents.has(name)) {
+            if (selectedTalents.size >= 80) return alert("Max 80 talents!");
+            
+            // Mutual exclusion check
+             for (const group of mutualExclusions) {
+                if (group.includes(name)) {
+                    for (const other of group) {
+                        if (other !== name && selectedTalents.has(other)) {
+                            alert(`CONFLICT: You cannot have "${name}" while you have "${other}".`);
+                            return;
+                        }
                     }
                 }
             }
+            selectedTalents.add(name);
+        } else {
+            selectedTalents.delete(name);
         }
-        set.add(name);
     } else {
-        set.delete(name);
+        // MANTRA LOGIC (Gems Only)
+        const existingIdx = selectedMantras.findIndex(m => m.name === name);
+        if (existingIdx === -1) {
+            // Add new mantra with default Gem (No Spark)
+            selectedMantras.push({ 
+                name: name, 
+                gem: "No Gem" 
+            });
+        } else {
+            // Remove mantra
+            selectedMantras.splice(existingIdx, 1);
+        }
     }
-
     updateUI();
 }
 
@@ -2181,7 +2262,13 @@ function renderItems() {
     let search = document.getElementById('search-input').value.toLowerCase().trim();
     const showMet = document.getElementById('filter-reqs').checked;
     const dataSet = currentTab === 'talents' ? gameData.talents : gameData.mantras;
-    const selectedSet = currentTab === 'talents' ? selectedTalents : selectedMantras;
+    let selectedSet;
+if (currentTab === 'talents') {
+    selectedSet = selectedTalents;
+} else {
+    // Create a temporary Set of names just for checking highlighting class
+    selectedSet = new Set(selectedMantras.map(m => m.name));
+}
 
     
     let filterStat = null, filterOp = null, filterVal = null;
@@ -2414,12 +2501,6 @@ function renderGuide() {
         </div>
     `;
 }
-    function getWeaponStats(w) {
-    let baseDmg = w.base;
-    let sSum = 0;
-    let scalingText = [];
-
-    
     const statMap = {
         "hvy": "Heavy Weapon", "med": "Medium Weapon", "light": "Light Weapon",
         "str": "Strength", "fort": "Fortitude", "agi": "Agility", 
@@ -2429,35 +2510,8 @@ function renderGuide() {
         "shadow": "Shadowcast", "gale": "Galebreathe", "iron": "Ironsing",
         "blood": "Bloodrend", "earth": "Earthbend"
     };
+   
 
-    
-    for (let rawKey in w.scaling) {
-        let cleanKey = rawKey.toLowerCase().trim();
-        let statName = statMap[cleanKey] || rawKey; 
-
-        
-        let level = userStats[statName] || 0;
-        let scale = w.scaling[rawKey];
-        
-        sSum += (level * scale);
-        scalingText.push(`${statName}: ${scale}`);
-    }
-
-    
-    let profLevel = userTraits.Proficiency || 0;
-    let profMult = 1 + (profLevel * 0.065);
-
-    
-    
-    let scaledPart = (baseDmg * sSum * profMult) / 1000;
-    let normalDmg = parseFloat((baseDmg + (0.75 * scaledPart)).toFixed(2));
-
-    
-    let externalMult = getCurrentDmgMultiplier();
-    let buffedDmg = parseFloat((normalDmg * externalMult).toFixed(2));
-
-    return { normalDmg, buffedDmg, mult: externalMult, scalingText };
-}
 function autoInvest(name, cat, event) {
     event.stopPropagation(); 
 
@@ -2535,10 +2589,11 @@ function getCurrentDmgMultiplier() {
     if (multiplier > 1.25) multiplier = 1.25 + (multiplier - 1.25) / 2;
     return Math.min(1.5, multiplier);
 }
-
 function getWeaponStats(w) {
     let totalScalingValue = 0;
     let scalingText = [];
+    
+    // 1. Calculate Scaling
     for (let rawStat in w.scaling) {
         let stat = rawStat.charAt(0).toUpperCase() + rawStat.slice(1);
         if (stat === "Light" || stat === "Medium" || stat === "Heavy") stat += " Weapon";
@@ -2547,11 +2602,40 @@ function getWeaponStats(w) {
         totalScalingValue += (w.scaling[rawStat] * (userStatVal / 100));
         scalingText.push(`${stat}: ${w.scaling[rawStat]}`);
     }
+
+    // 2. Physical Damage (Base + Scaling)
     let normalDmg = parseFloat((w.base * (1 + (0.10425 * totalScalingValue))).toFixed(2));
+    
+    // 3. Bleed Calculation (Formula: ScaledDamage * 1.15)
+    let bleedDmg = 0;
+    if (w.bleed) {
+        bleedDmg = parseFloat((normalDmg * 0.15).toFixed(2));
+    }
+
+    // 4. Apply Multipliers (Buffs apply to PHYSICAL only, not BLEED)
     let mult = getCurrentDmgMultiplier();
-    let buffedDmg = parseFloat((normalDmg * mult).toFixed(2));
-    return { normalDmg, buffedDmg, mult, scalingText };
+    
+    let buffedDmg = parseFloat((normalDmg * mult).toFixed(2)); // Physical gets buffed
+    let buffedBleed = bleedDmg; // Bleed stays raw (No Multiplier)
+
+    // 5. New Stats Retrieval
+    let swingSpeed = (w.speed !== undefined) ? w.speed : 1.0;
+    let range = (w.range !== undefined) ? w.range : 0;
+    let pen = (w.pen !== undefined) ? w.pen : 0;
+    let chip = (w.chip !== undefined) ? w.chip : 0;
+
+    // 6. DPS Calculation
+    // Total Damage per hit is (Buffed Phys + Raw Bleed)
+    let totalDamagePerHit = buffedDmg + buffedBleed;
+    let dps = parseFloat((totalDamagePerHit * swingSpeed).toFixed(2));
+
+    return { 
+        normalDmg, buffedDmg, buffedBleed, 
+        swingSpeed, range, pen, chip, dps, 
+        mult, scalingText 
+    };
 }
+
 
 function selectWeaponByIndex(index) {
     const weapon = gameData.weapons[index];
@@ -2560,16 +2644,42 @@ function selectWeaponByIndex(index) {
         updateUI();
     }
 }
+function getWeaponSubCategory(wName, type) {
+    const n = wName.toLowerCase();
+    
+    // LIGHT WEAPONS
+    if (type === "Light Weapon") {
+        if (n.includes("fist") || n.includes("jus karita") || n.includes("cestus") || n.includes("wrap") || n.includes("style") || n.includes("way")) return "Fist";
+        if (n.includes("rapier") || n.includes("needle") || n.includes("stiletto") || n.includes("fleuret")) return "Rapier";
+        // Default Light
+        return "Dagger";
+    }
+    // MEDIUM WEAPONS
+    if (type === "Medium Weapon") {
+        if (n.includes("rifle") || n.includes("dragoon") || n.includes("gun") || n.includes("pistol") || n.includes("shot")) return "Rifle";
+        if (n.includes("spear") || n.includes("trident") || n.includes("glaive") || n.includes("halberd") || n.includes("naginata") || n.includes("lance")) return "Spear";
+        if (n.includes("club") || n.includes("mace") || n.includes("hammer") && !type.includes("Heavy")) return "Club";
+        // Default Medium
+        return "Sword"; 
+    }
+    // HEAVY WEAPONS
+    if (type === "Heavy Weapon") {
+        if (n.includes("greataxe") || n.includes("axe") || n.includes("scythe") || n.includes("reaper")) return "GreatAxe";
+        if (n.includes("greathammer") || n.includes("maul") || n.includes("hammer") || n.includes("anchor") || n.includes("crusher")) return "GreatHammer";
+        // Default Heavy
+        return "GreatSword"; 
+    }
+    return "Other";
+}
 function renderWeapons() {
     const container = document.getElementById('item-container');
     if (!gameData.enchants || !gameData.weapons) return;
 
-    
+    // Setup Layout if missing
     if (!document.getElementById('weapon-tab-layout')) {
         container.innerHTML = `
             <div id="weapon-tab-layout" class="calc-wrapper" style="max-width: 900px; background: #e8e7df; color: #1a1a1a; margin: 0 auto;">
                 <h2 style="text-align:center; color: #000; margin-bottom: 20px;">Weapon Selection</h2>
-                
                 <div style="background: rgba(0,0,0,0.05); padding: 15px; border-radius: 5px; margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.1);">
                     <input type="text" id="weapon-search" placeholder="Search weapons..." oninput="renderWeapons()" 
                            style="width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #999; font-family: 'Lora';">
@@ -2578,66 +2688,97 @@ function renderWeapons() {
                             <input type="checkbox" id="weapon-filter-reqs" onchange="renderWeapons()"> Show things that fit Requirements
                         </label>
                         <label style="font-size: 0.85rem; cursor: pointer; color: #8b0000; font-weight: bold;">
-                            <input type="checkbox" id="weapon-filter-best" onchange="renderWeapons()"> Filter to Highest Damage per Stat
+                            <input type="checkbox" id="weapon-filter-best" onchange="renderWeapons()"> Filter to Top Tier (Dmg/Bleed/DPS)
                         </label>
                     </div>
                 </div>
-
                 <div class="stat-row" style="margin-bottom: 20px; justify-content: space-between;">
                     <label style="color: #000; font-weight: bold;">Select Enchant:</label>
                     <select id="enchant-select" onchange="selectEnchant(this.value)" style="width: 200px; background:#fff; color:#000; border: 1px solid #999; padding:5px; font-family:'Lora';">
                         ${gameData.enchants.map(e => `<option value="${e}" ${selectedEnchant === e ? 'selected' : ''}>${e}</option>`).join('')}
                     </select>
                 </div>
-
                 <div id="weapon-grid-results" class="grid"></div>
             </div>`;
     }
 
-    
     let search = document.getElementById('weapon-search').value.toLowerCase();
     let showMet = document.getElementById('weapon-filter-reqs').checked;
     let showBestOnly = document.getElementById('weapon-filter-best').checked;
     let grid = document.getElementById('weapon-grid-results');
 
-    
+    // --- CHAMPION LOGIC ---
     let champions = new Set();
     let anyInvestment = false;
     for (let s in userStats) if(userStats[s] > 0) anyInvestment = true;
 
     if (anyInvestment) {
-        allStatKeys.forEach(statKey => {
-            if ((userStats[statKey] || 0) > 0) {
-                let topDmg = -1;
-                gameData.weapons.forEach(w => {
-                    
-                    let scaleVal = w.scaling[statKey] || w.scaling[statKey.toLowerCase()] || w.scaling[statKey.replace(" Weapon", "")];
-                    if (scaleVal) {
-                        let { normalDmg } = getWeaponStats(w);
-                        if (normalDmg > topDmg) topDmg = normalDmg;
-                    }
-                });
-                if (topDmg > 0) {
-                    gameData.weapons.forEach(w => {
-                        let scaleVal = w.scaling[statKey] || w.scaling[statKey.toLowerCase()] || w.scaling[statKey.replace(" Weapon", "")];
-                        if (scaleVal) {
-                            let { normalDmg } = getWeaponStats(w);
-                            if (Math.abs(normalDmg - topDmg) < 0.01) champions.add(w.name);
-                        }
-                    });
+        let subCats = {}; 
+
+        gameData.weapons.forEach(w => {
+            let manualType = w.type || "Uncategorized";
+            
+            if (!subCats[manualType]) {
+                subCats[manualType] = {
+                    phys: { max: -1, weapons: [] },
+                    total: { max: -1, weapons: [] },
+                    dps: { max: -1, weapons: [] }
+                };
+            }
+
+            let { buffedDmg, buffedBleed, dps } = getWeaponStats(w);
+            let totalDmg = buffedDmg + buffedBleed;
+
+            let meetsReq = true;
+            for (let r in w.scaling) {
+                let statName = r.charAt(0).toUpperCase() + r.slice(1);
+                if (statName === "Light" || statName === "Medium" || statName === "Heavy") statName += " Weapon";
+                if ((userStats[statName] || 0) <= 0) { meetsReq = false; break; }
+            }
+
+            if(meetsReq) {
+                // Phys Winner
+                if (buffedDmg > subCats[manualType].phys.max) {
+                    subCats[manualType].phys.max = buffedDmg;
+                    subCats[manualType].phys.weapons = [w.name];
+                } else if (Math.abs(buffedDmg - subCats[manualType].phys.max) < 0.01) {
+                    subCats[manualType].phys.weapons.push(w.name);
+                }
+                // Total Winner
+                if (totalDmg > subCats[manualType].total.max) {
+                    subCats[manualType].total.max = totalDmg;
+                    subCats[manualType].total.weapons = [w.name];
+                } else if (Math.abs(totalDmg - subCats[manualType].total.max) < 0.01) {
+                    subCats[manualType].total.weapons.push(w.name);
+                }
+                // DPS Winner
+                if (dps > subCats[manualType].dps.max) {
+                    subCats[manualType].dps.max = dps;
+                    subCats[manualType].dps.weapons = [w.name];
+                } else if (Math.abs(dps - subCats[manualType].dps.max) < 0.01) {
+                    subCats[manualType].dps.weapons.push(w.name);
                 }
             }
         });
+
+        Object.values(subCats).forEach(cat => {
+            cat.phys.weapons.forEach(n => champions.add(n));
+            cat.total.weapons.forEach(n => champions.add(n));
+            cat.dps.weapons.forEach(n => champions.add(n));
+        });
     }
 
-    
     let cardsHtml = "";
     let count = 0;
 
     gameData.weapons.forEach((w, idx) => {
-        const { normalDmg, buffedDmg, mult, scalingText } = getWeaponStats(w);
-        let isChampion = champions.has(w.name);
+        const { 
+            normalDmg, buffedDmg, buffedBleed, 
+            swingSpeed, range, pen, chip, dps, 
+            mult, scalingText 
+        } = getWeaponStats(w);
         
+        let isChampion = champions.has(w.name);
         if (!w.name.toLowerCase().includes(search)) return;
         if (showBestOnly && anyInvestment && !isChampion) return;
         
@@ -2648,21 +2789,65 @@ function renderWeapons() {
             if ((userStats[statName] || 0) <= 0) { meetsReq = false; break; }
         }
         if (showMet && !meetsReq) return;
-
         count++;
-        let dmgHtml = mult > 1 
-            ? `<div class="dmg-value" style="font-size: 0.95rem; color: #666 !important; text-decoration: line-through;">${normalDmg} DMG</div>
-               <div class="dmg-value" style="color: #8b0000 !important; font-size: 1.3rem;">${buffedDmg} DMG</div>`
-            : `<div class="dmg-value" style="font-size: 1.3rem;">${normalDmg} DMG</div>`;
+
+        // --- DAMAGE DISPLAY HTML (UPDATED) ---
+        let dmgDisplayHTML = "";
+        
+        if (buffedBleed > 0) {
+            // Updated to show "Phys + Bleed" instead of "Total (Phys + Bleed)"
+            dmgDisplayHTML = `
+                <div class="dmg-value" style="font-size: 1.2rem; color: #8b0000; line-height: 1.1;">
+                    ${buffedDmg} <span style="font-size:0.9rem; color:#b22222; font-weight:bold;">+ ${buffedBleed} Bleed</span>
+                </div>`;
+        } else {
+            dmgDisplayHTML = `<div class="dmg-value" style="font-size: 1.3rem; line-height: 1.1;">${buffedDmg} DMG</div>`;
+        }
+
+        let typeLabel = w.type || "Uncategorized";
+        let badgeHtml = isChampion ? '<div class="best-tag">Top Tier</div>' : '';
 
         cardsHtml += `
             <div class="weapon-card ${!meetsReq ? 'locked' : ''} ${selectedWeapon && selectedWeapon.name === w.name ? 'selected' : ''} ${isChampion ? 'best-match' : ''}" 
                  onclick="selectWeaponByIndex(${idx})">
-                ${isChampion ? '<div class="best-tag">Top Tier for Build</div>' : ''}
-                <h3 style="color:#000;">${w.name}</h3>
+                ${badgeHtml}
+                
+                <h3 style="color:#000; margin-bottom: 2px;">${w.name}</h3>
+                <div style="font-size: 0.75rem; color: #444; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                    TYPE: ${typeLabel}
+                </div>
+
+                <!-- STATS GRID -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2px; margin-bottom: 8px; background: rgba(0,0,0,0.05); padding: 5px; border-radius: 4px; text-align: center;">
+                    <div>
+                        <span style="display:block; font-size:0.6rem; color:#666;">RANGE</span>
+                        <span style="font-weight:bold; font-size:0.8rem; color:#000;">${range}</span>
+                    </div>
+                    <div>
+                        <span style="display:block; font-size:0.6rem; color:#666;">PEN</span>
+                        <span style="font-weight:bold; font-size:0.8rem; color:#000;">${pen}%</span>
+                    </div>
+                    <div>
+                        <span style="display:block; font-size:0.6rem; color:#666;">CHIP</span>
+                        <span style="font-weight:bold; font-size:0.8rem; color:#000;">${chip}%</span>
+                    </div>
+                    <div>
+                        <span style="display:block; font-size:0.6rem; color:#666;">SPEED</span>
+                        <span style="font-weight:bold; font-size:0.8rem; color:#000;">${swingSpeed}x</span>
+                    </div>
+                </div>
+
                 <p style="font-size: 0.75rem; margin: 5px 0; color:#444;">Scaling: ${scalingText.join(', ')}</p>
                 <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
-                ${dmgHtml}
+                
+                <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div>${dmgDisplayHTML}</div>
+                    <div style="text-align:right;">
+                        <span style="display:block; font-size:0.65rem; color:#666; font-weight:bold;">DPS</span>
+                        <span style="font-size: 1.1rem; font-weight:bold; color: #222;">${dps}</span>
+                    </div>
+                </div>
+                
                 ${!meetsReq ? '<div style="color: #8b0000; font-size: 0.7rem; font-weight: bold; margin-top: 5px;">⚠️ Missing Stats</div>' : ''}
             </div>`;
     });
@@ -2671,7 +2856,10 @@ function renderWeapons() {
     grid.innerHTML = cardsHtml;
 }
 
-
+function removeMantraByIndex(index) {
+    selectedMantras.splice(index, 1); // Remove item at specific index
+    updateUI(); // Refresh screen
+}
 function selectWeapon(w) {
     selectedWeapon = w;
     updateUI();
@@ -2759,7 +2947,11 @@ async function saveBuild() {
     const traitsPart = Object.values(userTraits).join('.');
     const statsPart = allStatKeys.map(k => userStats[k]||0).join('.');
     const tIndices = Array.from(selectedTalents).map(n => talentMap.indexOf(n).toString(36));
-    const mIndices = Array.from(selectedMantras).map(n => mantraMap.indexOf(n).toString(36));
+       const mIndices = selectedMantras.map(m => {
+        let mIdx = mantraMap.indexOf(m.name);
+        let gIdx = deepGemList.indexOf(m.gem);
+        return `${mIdx.toString(36)}:${gIdx.toString(36)}`; 
+    });
     const wIdx = selectedWeapon ? weaponMap.indexOf(selectedWeapon.name).toString(36) : "x";
     const eIdx = selectedEnchant ? enchantMap.indexOf(selectedEnchant).toString(36) : "x";
     
