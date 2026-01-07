@@ -5654,9 +5654,9 @@ function triggerDmReaction(type, value) {
     // --- STAT REACTIONS ---
     if (type === 'stat') {
         if (value >= 100 && userStats["Agility"] >= 100) return dmSay("100 Agility? Running away is your only plan?");
-        if (value >= 100 && userStats["Fortitude"] >= 100) return dmSay("100 Fortitude. You are a brick.");
-        if (value >= 100 && userStats["Strength"] >= 100) return dmSay("Maximum Strength. Unga Bunga.");
-        if (value >= 100 && userStats["Charisma"] >= 100) return dmSay("You cannot talk your way out of this.");
+        if (value >= 100 && userStats["Fortitude"] >= 100) return dmSay("why?");
+        if (value >= 100 && userStats["Strength"] >= 100) return dmSay("eh.");
+        if (value >= 100 && userStats["Charisma"] >= 100) return dmSay("why? this isnt even useful.");
         if (value >= 100 && userStats["Intelligence"] >= 100) return dmSay("Big brain, small muscles.");
     }
 
@@ -5665,8 +5665,7 @@ function triggerDmReaction(type, value) {
         if (value === "Brick Wall") return dmSay("Brick Wall. How original.");
         if (value === "Vow of Mastery") return dmSay("Looking for a master?");
         if (value === "Ghost") return dmSay("I can still see you.");
-        if (value === "Contractor") return dmSay("Edgy.");
-        if (value === "Silentheart") return dmSay("Oh, you can't press buttons?");
+       
     }
 
     // --- SPECIFIC WEAPON REACTIONS ---
@@ -5675,16 +5674,19 @@ function triggerDmReaction(type, value) {
 
         // Exact / Specific Checks
         if (name === "railblade") return dmSay("Railblade? Compensating for something?");
-        if (name === "kyrscleave") return dmSay("Kyrscleave. You want that bleed, don't you?");
-        if (name === "curved blade of winds") return dmSay("Curved Blade. Daring today, aren't we?");
-        if (name === "crypt blade") return dmSay("Crypt Blade. The weapon carries you.");
-        if (name === "hivelord hubris") return dmSay("Slow. Very slow.");
-        if (name === "first light") return dmSay("First Light? Go back to Layer 2.");
-        if (name === "jus karita") return dmSay("Feet pics?");
+        if (name === "kyrscleave") return dmSay("about 100 new weapons and you chose to use this.");
+        if (name === "curved blade of winds") return dmSay("boringgggg");
+        if (name === "crypt blade") return dmSay("boringgggg");
+        if (name === "hivelord hubris") return dmSay("Compensating for something?");
+        if (name === "first light") return dmSay("?");
+        if (name === "Ratking axe") return dmSay("You are NOT him");
+        if (name === "Sporeshot") return dmSay("dude.");
+        if (name === "Enchained song") return dmSay("stop");
 
         // Generic Checks (Fallback)
-        if (name.includes("gun") || name.includes("rifle")) return dmSay("A gun? Parry this.");
+        if (name.includes("gun") || name.includes("rifle")) return dmSay("Do not let me see you holding this ingame.");
         if (name.includes("hero blade")) return dmSay("Save some points for weapon stats.");
+        if (name.includes("Gauntlet")) return dmSay("you aint good bro, pick better shit");
         
         // Default response for other weapons
         return dmSay(`Using ${value}? Interesting choice.`);
