@@ -454,12 +454,33 @@ body.sidebar-open-right .overlay {
     opacity: 0.4;
     filter: grayscale(1);
 }
-/* Highlight for the highest damage weapon */
+/* Champion Weapon Styling */
 .weapon-card.best-match {
-    border-image-source: url('https://media.discordapp.net/attachments/1372657049485185125/1453153519623475384/image-removebg-preview.png?width=40&height=40') !important;
-    background: rgba(144, 238, 144, 0.2) !important; /* Slight green tint */
-    box-shadow: 0 0 15px rgba(194, 163, 93, 0.5);
+    border-image-source: url('outline.png') !important;
+    border-image-slice: 35 fill !important;
+    border-width: 25px !important;
+    border-image-repeat: round !important;
+    box-shadow: 0 0 30px rgba(194, 163, 93, 0.5) !important;
+    padding: 15px !important;
+    transform: scale(1.03);
+    z-index: 5;
 }
+.weapon-card.best-match h3 {
+    background: linear-gradient(to right, #000 20%, #8b0000 40%, #8b0000 60%, #000 80%);
+    background-size: 200% auto;
+    color: #000;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+}
+
+@keyframes shine {
+    to {
+        background-position: 200% center;
+    }
+}
+
 
 .best-tag {
     background: #c2a35d;
@@ -917,7 +938,7 @@ body.sidebar-open-right .overlay {
 <select id="oath-select" onchange="setOath(this.value)">
     <option value="">SELECT OATH</option>
     <option value="Saintsworn">Saintsworn</option>
-    <option value="Blightsurger">Blightsurger</option>
+    <option value="Blightsurger">Blightsurger</option> 
     <option value="Linkstrider">Linkstrider</option>
     <option value="Fadetrimmer">Fadetrimmer</option>
     <option value="Dawnwalker">Dawnwalker</option>
@@ -4844,133 +4865,132 @@ async function deleteComment(pid, cid, authorId, containerId = null) {
 window.onload = init;
 
 function buildRoulette() {
-    
+    // 1. RESET EVERYTHING
     for (let s in userStats) userStats[s] = 0;
-    selectedTalents.clear();
-    selectedMantras.clear();
-    selectedWeapon = null;
-    selectedEnchant = "no enchant";
-
     
+    selectedTalents.clear();
+    selectedMantras = []; 
+    selectedWeapon = null;
+    selectedEnchant = gameData.enchants[0];
+
+    // 2. RANDOMIZE ATTUNEMENTS
     const attRand = Math.random() * 100;
     let attCount = 0;
     if (attRand < 25) attCount = 3;      
     else if (attRand < 55) attCount = 2; 
     else if (attRand < 90) attCount = 1; 
-    else attCount = 0;                  
-
     
+    // Determine Cap (Usually 410, 420, etc.)
     let cap = attCount === 0 ? 410 : 420 + Math.max(0, (attCount - 1) * 5);
     let remaining = cap;
 
-    
+    // 3. INVEST WEAPON STATS (Chunks of 5)
     const weaponClasses = ["Light Weapon", "Medium Weapon", "Heavy Weapon"];
     let primaryClass = weaponClasses[Math.floor(Math.random() * weaponClasses.length)];
     
-    
-    let weaponBase = 40 + (Math.floor(Math.random() * 8) * 5); 
+    // Invest 40-80 points
+    let weaponBase = 40 + (Math.floor(Math.random() * 9) * 5); 
     userStats[primaryClass] = weaponBase;
     remaining -= weaponBase;
 
+    // 4. INVEST ATTUNEMENTS (Chunks of 5)
     let chosenAtts = [];
     if (attCount > 0) {
         let available = [...gameData.attunements];
         for (let i = 0; i < attCount; i++) {
+            if (available.length === 0) break;
             let att = available.splice(Math.floor(Math.random() * available.length), 1)[0];
-            let attVal = 25 + (Math.floor(Math.random() * 8) * 5);
+            let attVal = 20 + (Math.floor(Math.random() * 13) * 5); // 20 to 80
             userStats[att] = attVal;
             remaining -= attVal;
             chosenAtts.push(att);
         }
     }
 
-    
+    // 5. INVEST CORE STATS (Chunks of 5)
     const coreStats = ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision"];
-    let pool = [primaryClass, ...chosenAtts]; 
+    let focusedCores = [...coreStats].sort(() => 0.5 - Math.random()).slice(0, 5);
     
-    
-    let focusedCores = [...coreStats].sort(() => 0.5 - Math.random()).slice(0, 4);
     focusedCores.forEach(stat => {
-        let val = 20 + (Math.floor(Math.random() * 6) * 5);
-        if (remaining >= val) {
-            userStats[stat] = val;
-            remaining -= val;
-            pool.push(stat);
+        if (remaining > 10) {
+            let val = 20 + (Math.floor(Math.random() * 6) * 5); // 20 to 45
+            if (remaining >= val) {
+                userStats[stat] = val;
+                remaining -= val;
+            }
         }
     });
 
-    
-    
+    // 6. DUMP REMAINING POINTS
+    let pool = [primaryClass, ...chosenAtts, ...focusedCores];
     let attempts = 0;
+
+    // Pass 1: Fill with 5s
     while (remaining >= 5 && attempts < 500) {
         attempts++;
         let stat = pool[Math.floor(Math.random() * pool.length)];
-        if (userStats[stat] < 100) {
+        
+        // it doesn't exceed 100
+        if (userStats[stat] <= 95) {
             userStats[stat] += 5;
             remaining -= 5;
-        } else {
-            pool = pool.filter(s => s !== stat);
-            if (pool.length === 0) break; 
         }
     }
 
-    
-    
+    // Pass 2: Dump the tiny remainder (1-4 points) into MAIN WEAPON to keep others clean
     if (remaining > 0) {
-        let allPossibleStats = [...weaponClasses, ...coreStats, ...gameData.attunements];
-        for (let s of allPossibleStats) {
-            if (remaining <= 0) break;
-            let current = userStats[s] || 0;
-            let space = 100 - current;
-            if (space > 0) {
-                let fill = Math.min(remaining, space);
-                userStats[s] = current + fill;
-                remaining -= fill;
+        if (userStats[primaryClass] + remaining <= 100) {
+            userStats[primaryClass] += remaining;
+        } else {
+            // If weapon is full, dump into first available stat
+            for (let s of pool) {
+                if (userStats[s] + remaining <= 100) {
+                    userStats[s] += remaining;
+                    break;
+                }
             }
         }
     }
 
-    
-    const compatible = gameData.weapons.filter(w => {
-        return Object.keys(w.scaling).some(s => {
-            let cleanS = s.charAt(0).toUpperCase() + s.slice(1);
-            if (["Light", "Medium", "Heavy"].includes(cleanS)) cleanS += " Weapon";
-            return userStats[cleanS] > 0;
-        });
-    });
+    // 7. SELECT WEAPON
+    const compatible = gameData.weapons.filter(w => w.scaling[primaryClass] !== undefined);
+    selectedWeapon = compatible.length > 0 ? compatible[Math.floor(Math.random() * compatible.length)] : gameData.weapons[0];
 
-    if (compatible.length > 0) {
-        
-        let multiScaling = compatible.filter(w => {
-            let matches = Object.keys(w.scaling).filter(s => {
-                let cleanS = s.charAt(0).toUpperCase() + s.slice(1);
-                if (["Light", "Medium", "Heavy"].includes(cleanS)) cleanS += " Weapon";
-                return userStats[cleanS] > 20;
-            });
-            return matches.length >= 2;
-        });
-        selectedWeapon = multiScaling.length > 0 ? multiScaling[Math.floor(Math.random() * multiScaling.length)] : compatible[Math.floor(Math.random() * compatible.length)];
+    // 8. SELECT ENCHANT
+    if (gameData.enchants && gameData.enchants.length > 0) {
+        selectedEnchant = gameData.enchants[Math.floor(Math.random() * gameData.enchants.length)];
     }
 
-    selectedEnchant = gameData.enchants[Math.floor(Math.random() * gameData.enchants.length)];
-
-    
+    // 9. UPDATE INPUTS
     for (let s in userStats) {
         const el = document.getElementById('in-' + s);
         if (el) el.value = userStats[s];
     }
 
+    // 10. SELECT TALENTS
     const allT = Object.values(gameData.talents).flat();
-    allT.forEach(t => { if (checkReqs(t.req) && selectedTalents.size < 80) selectedTalents.add(t.name); });
+    const shuffledTalents = allT.sort(() => 0.5 - Math.random());
+    shuffledTalents.forEach(t => {
+        if (selectedTalents.size < 60 && checkReqs(t.req)) selectedTalents.add(t.name);
+    });
     
+    // 11. SELECT MANTRAS (With Random Gems)
     const allM = Object.values(gameData.mantras).flat();
-    allM.filter(m => checkReqs(m.req)).sort(() => 0.5 - Math.random()).slice(0, 10).forEach(m => selectedMantras.add(m.name));
+    const shuffledMantras = allM.sort(() => 0.5 - Math.random());
+    shuffledMantras.forEach(m => {
+        if (selectedMantras.length < 8 && checkReqs(m.req)) {
+            const randomGem = deepGemList[Math.floor(Math.random() * deepGemList.length)];
+            selectedMantras.push({ name: m.name, gem: randomGem });
+        }
+    });
 
-    const oaths = ["Saintsworn", "Blightsurger", "Dawnwalker", "Contractor", "Silentheart", "Starkindred", "Jetstriker", "Aetherkeeper", "BladeHarper", "Tetherlance", "Linkstrider"];
+    // 12. SELECT OATH
+    const oaths = ["Saintsworn", "Blightsurger", "Linkstrider", "Fadetrimmer", "Dawnwalker", "Contractor", "Soulbreaker", "Silentheart", "Warmaster", "Starkindred", "BladeHarper", "Tetherlance", "Blindseer", "Chainwarden", "Ironfist", "Arcwarder", "Jetstriker", "Aetherkeeper", "Kingslayer", "Timeripper", "Fearfighter", "oathless", "Edencrusher"];
     selectedOath = oaths[Math.floor(Math.random() * oaths.length)];
-    document.getElementById('oath-select').value = selectedOath;
+    const oathEl = document.getElementById('oath-select');
+    if(oathEl) oathEl.value = selectedOath;
 
-    console.log(`Roulette Success: ${cap - remaining} / ${cap} points used.`);
+    console.log("Evil.");
     updateUI();
 }
 
