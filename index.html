@@ -481,7 +481,6 @@ body.sidebar-open-right .overlay {
     }
 }
 
-
 .best-tag {
     background: #c2a35d;
     color: #000;
@@ -938,7 +937,7 @@ body.sidebar-open-right .overlay {
 <select id="oath-select" onchange="setOath(this.value)">
     <option value="">SELECT OATH</option>
     <option value="Saintsworn">Saintsworn</option>
-    <option value="Blightsurger">Blightsurger</option> 
+    <option value="Blightsurger">Blightsurger</option>
     <option value="Linkstrider">Linkstrider</option>
     <option value="Fadetrimmer">Fadetrimmer</option>
     <option value="Dawnwalker">Dawnwalker</option>
@@ -1003,9 +1002,6 @@ body.sidebar-open-right .overlay {
     <div class="focus-inner">
         <div id="focus-content"></div>
     </div>
-<!-- ================================================= -->
-<!-- PERMANENT MODALS (Paste at bottom of <body> tag) -->
-<!-- ================================================= -->
 
 <!-- 1. AUTH MODAL -->
 <div id="auth-modal" class="modal" style="display:none; position:fixed; z-index:4000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);">
@@ -1047,7 +1043,10 @@ body.sidebar-open-right .overlay {
 </div>
 <script>
 
-
+// how to add talents / { "name": "Return to the Dark Ages", "desc": "10% less Outgoing and Incoming Mantra DMG.", "req": {} } 
+// the req should be like "Strength": 20 if no req, leave it empty
+// OR_weapon means any weapon req for example, 80 light or hvy or med works 
+// there are: MedOrHeavy , MedOrLight , LightOrHeavy for better reqs
 const gameData = {
     attributes: ["Strength", "Fortitude", "Agility", "Intelligence", "Willpower", "Charisma", "Precision", "Light Weapon", "Medium Weapon", "Heavy Weapon"],
     attunements: ["Flamecharm", "Frostdraw", "Thundercall", "Shadowcast", "Galebreathe", "Ironsing", "Bloodrend", "Earthbend"],
@@ -1066,11 +1065,12 @@ const gameData = {
             { "name": "Knife's Journey", "desc": "Cancelling enemy mantra windup with M1 deals 15% more damage.", "req": { "Light Weapon": 30 } },
             { "name": "Decisive Blow", "desc": "Critting after an enemy dodge procs Knife's Journey for 2x Armor dmg.", "req": { "Light Weapon": 30 } },
             { "name": "Successive Throw", "desc": "Throw a dagger after a successful flourish.", "req": { "Light Weapon": 35 } },
-            { "name": "Switchblade", "desc": "Utilize Dagger Talents when not wielding a dagger.", "req": { "Light Weapon": 50, "Weapon": 50 } },
+            { "name": "Switchblade", "desc": "Utilize Dagger Talents when not wielding a dagger.", "req": { "Light Weapon": 50, "MedOrHeavy": 50 } },
             { "name": "Mayday", "desc": "Aerial flourishes knockdown for much longer.", "req": { "Precision": 80, "Weapon": 40 } },
             { "name": "Virtuoso", "desc": "Temporarily proc talents of other weapon types in same class.", "req": { "Precision": 80, "OR_Weapon": 80 } },
             { "name": "Prodigy of All", "desc": "Flourish/Uppercut allows procing talents from other weapon classes for 15s.", "req": { "Light Weapon": 80, "Medium Weapon": 80, "Heavy Weapon": 80 } },
-            { "name": "Critical Engine", "desc": "Ability to use Deep Gems on your critical attack.", "req": { "Intelligence": 90, "Weapon": 30 } }
+            { "name": "Critical Engine", "desc": "Ability to use Deep Gems on your critical attack.", "req": { "Intelligence": 90, "Weapon": 30 } },
+            {  "name": "Ambidexterity", "desc": "Shields and parrying daggers by default are slightly stronger. Offhand guns are slightly faster.", "req": { "Light Weapon": 80, "MedOrHeavy": 50 } }
         ],
         "Flamecharm": [{ "name": "Eruption Path: Lava Serpent", "desc": "Every time you would set people aflame, eruptions spawn at their feet instead.", "req": { "Flamecharm": 50 } },{ "name": "Molten Defense", "desc": "Upon being Block Broken, cause an eruption. (30s CD)", "req": { "Flamecharm": 75, "Path": "Eruption" } },{ "name": "Flash Point", "desc": "Landing 3 fire mantras will set your enemy aflame.", "req": { "Flamecharm": 100, "Path": "Eruption" } },{ "name": "Double Trouble", "desc": "Landing a fire attack while eruption is charging causes an explosion.", "req": { "Flamecharm": 100, "Path": "Eruption" } },{ "name": "The Floor is Lava", "desc": "Your eruptions leave burning pools of lava beneath them.", "req": { "Flamecharm": 100, "Path": "Eruption" } },{ "name": "Flaming Flourish", "desc": "Your Flourish applies burn.", "req": { "Flamecharm": 25 } },{ "name": "Pleeksty’s Faith", "desc": "When on fire, automatically put out the flames at the cost of some ether.", "req": { "Flamecharm": 25, "Willpower": 15, "Charisma": 15 } },{ "name": "Meteor Impact", "desc": "Aerial moves follow up into a devastating slam.", "req": { "Flamecharm": 25 } },{ "name": "Dancing Steps", "desc": "Dash forward whenever using a flame mantra.", "req": { "Flamecharm": 35 } },{ "name": "Cauterized Wounds", "desc": "Blood loss from all sources is lowered.", "req": { "Flamecharm": 40, "Fortitude": 5 } },{ "name": "Explosive Flourish", "desc": "Hitting opponents with a fire attack after a flourish causes an explosion. (15s CD)", "req": { "Flamecharm": 50 } },{ "name": "Flame Within", "desc": "Set yourself on fire for a 10% DMG and 10% speed increase.", "req": { "Flamecharm": 50 } },{ "name": "Immolation", "desc": "Mantras cost 70% less ether while burning. M1s gain innate blazing. Take 50% less dmg from Flame Within.", "req": { "Flamecharm": 50 } },{ "name": "Mirage Clone", "desc": "Dodging an attack successfully sets the attacker on fire.", "req": { "Flamecharm": 65 } },{ "name": "Azure Flames", "desc": "Flames burn blue, increasing DoT. Eruption variant delays eruptions but increases dmg.", "req": { "Flamecharm": 75, "Willpower": 40 } },{ "name": "Ash Ember", "desc": "The more wither your opponent has, the more damage your burn deals.", "req": { "Flamecharm": 90, "Weapon": 1 } },{ "name": "Scorching Decay", "desc": "The wither dealt from Emperor's Flame is massively increased.", "req": { "Flamecharm": 100, "Weapon": 100 } },{ "name": "The Final Act", "desc": "M1s on burning enemies cause explosions. (15s CD) (Mutual with Eruption)", "req": { "Flamecharm": 75 } },{ "name": "Emperor Flame", "desc": "Upon activating Final Act, coat yourself in flames, increasing DMG and speed for 20s. (60s CD)", "req": { "Flamecharm": 80 } }],
         "Frostdraw": [{ "name": "Glass Path: Crystallization", "desc": "Ice mantras no longer slow; instead, they grow crystals on opponents.", "req": { "Frostdraw": 40 } },{ "name": "Crystal Shrapnel", "desc": "Crystal explosions have an AoE that applies crystals to all hit.", "req": { "Frostdraw": 60, "Path": "Glass" } },{ "name": "Reclaimed Glass", "desc": "Crystal Shrapnel grants you and allies 10% Elemental Resistance for 10s.", "req": { "Frostdraw": 65, "Path": "Glass" } },{ "name": "Frostbite", "desc": "Enemies no longer heal when under the effect of chill.", "req": { "Frostdraw": 25 } },{ "name": "Saint Jay", "desc": "Redirect 60% of an enemy's nullified healing to yourself. Increased if enemy is on ice.", "req": { "Frostdraw": 25, "Talent": "Frostbite" } },{ "name": "Cool Head", "desc": "Being set on fire while on ice puts it out and grants fire immunity for 30s. (15s CD)", "req": { "Frostdraw": 30 } },{ "name": "Cryonis", "desc": "All ice spells cast on ice cost less ether.", "req": { "Frostdraw": 40 } },{ "name": "Cold Front", "desc": "Your vent is imbued with glacial frost.", "req": { "Frostdraw": 40, "Talent": "Cryonis" } },{ "name": "Chilling Flourish", "desc": "Flourish applies chill or crystals.", "req": { "Frostdraw": 50 } },{ "name": "Fragile Freeze", "desc": "Light attacks and criticals freeze chilled opponents on guardbreak.", "req": { "Frostdraw": 55 } },{ "name": "Frozen Pin-Cushion", "desc": "Ice Daggers freeze opponents in place.", "req": { "Frostdraw": 60, "Mantra": "Ice Daggers" } },{ "name": "Orbital Ice", "desc": "Parrying on ice forms a ring that absorbs 15% physical damage.", "req": { "Frostdraw": 65 } },{ "name": "Cryostasis", "desc": "Take decreased damage for 3s after being guard broken. (25s CD)", "req": { "Frostdraw": 80 } },{ "name": "Stasis Strike", "desc": "Crystal explosions deal more damage if the opponent is bottom frozen.", "req": { "Frostdraw": 90, "Weapon": 90 } },{ "name": "Frozen Anchor", "desc": "Apply bottom freeze and chill on flourish, uppercut, or crit.", "req": { "Frostdraw": 100, "Weapon": 100 } },{ "name": "Unyielding Frost", "desc": "Chill procs through block at 80% duration.", "req": { "Frostdraw": 100 } }],
@@ -1322,6 +1322,8 @@ weapons: [
         { name: "FairFrozen", type: "Spear", base: 18.0, scaling: { "Medium Weapon": 9.5 }, speed: 0.7, range: 9, bleed: false, pen: 25, chip: 10 },
         { name: "Sverovetr Greatsword", type: "GreatSword", base: 24.0, scaling: { "Heavy Weapon": 8.0 }, speed: 0.55, range: 9, bleed: false, pen: 0, chip: 0 }
     ],
+    
+    // the template is very easy to use man, just dont be a retard
     mantras: {
     "Flamecharm": [
         {
@@ -2945,20 +2947,20 @@ function getWeaponSubCategory(wName, type) {
         if (n.includes("fist") || n.includes("jus karita") || n.includes("cestus") || n.includes("wrap") || n.includes("style") || n.includes("way")) return "Fist";
         if (n.includes("rapier") || n.includes("needle") || n.includes("stiletto") || n.includes("fleuret")) return "Rapier";
         if (n.includes("dagger") || n.includes("knife") || n.includes("shiv") || n.includes("shank")) return "Dagger";
-        return "Dagger"; // Fallback
+        return "Dagger"; 
     }
     // MEDIUM
     if (type === "Medium Weapon") {
         if (n.includes("rifle") || n.includes("dragoon") || n.includes("gun") || n.includes("pistol")) return "Rifle";
         if (n.includes("spear") || n.includes("trident") || n.includes("glaive") || n.includes("halberd") || n.includes("naginta") || n.includes("lance")) return "Spear";
         if (n.includes("club") || n.includes("mace") || n.includes("hammer") && !type.includes("Heavy")) return "Club";
-        return "Sword"; // Default for Katana, Swords, etc.
+        return "Sword"; 
     }
     // HEAVY
     if (type === "Heavy Weapon") {
         if (n.includes("greataxe") || n.includes("axe") || n.includes("scythe") || n.includes("reaper") || n.includes("halberd")) return "GreatAxe";
         if (n.includes("greathammer") || n.includes("maul") || n.includes("hammer") || n.includes("anchor")) return "GreatHammer";
-        return "GreatSword"; // Default
+        return "GreatSword"; 
     }
     return "Other";
 }
@@ -3215,17 +3217,38 @@ function checkReqs(reqObj) {
     for (let r in reqObj) {
         let reqValue = reqObj[r];
         
-        
+        // 1. Check for "Any Weapon" 
         if (r === "OR_Weapon" || r === "Weapon") {
             const val = Math.max(userStats["Light Weapon"]||0, userStats["Medium Weapon"]||0, userStats["Heavy Weapon"]||0);
             if (val < reqValue) return false;
         } 
         
+        // 2. Check for "Any Attunement"
         else if (r === "OR_Attunement" || r === "Elemental") {
             const val = Math.max(...gameData.attunements.map(a => userStats[a]||0));
             if (val < reqValue) return false;
         }
+
         
+        // some bullshit checks
+        else if (r === "MedOrHeavy") {
+            const med = userStats["Medium Weapon"] || 0;
+            const hvy = userStats["Heavy Weapon"] || 0;
+            if (Math.max(med, hvy) < reqValue) return false;
+        }
+        else if (r === "MedOrLight") {
+            const med = userStats["Medium Weapon"] || 0;
+            const Light = userStats["Light Weapon"] || 0;
+            if (Math.max(med, Light) < reqValue) return false;
+        }
+        else if (r === "LightOrHeavy") {
+            const Light = userStats["Light Weapon"] || 0;
+            const hvy = userStats["Heavy Weapon"] || 0;
+            if (Math.max(Light, hvy) < reqValue) return false;
+        }
+        
+        
+        // 3. Standard Checks (Specific stats)
         else if (r === "Light") { if ((userStats["Light Weapon"]||0) < reqValue) return false; }
         else if (r === "Medium") { if ((userStats["Medium Weapon"]||0) < reqValue) return false; }
         else if (r === "Heavy") { if ((userStats["Heavy Weapon"]||0) < reqValue) return false; }
