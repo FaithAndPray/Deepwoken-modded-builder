@@ -868,6 +868,64 @@ body.sidebar-open-right .overlay {
 ::-webkit-scrollbar-track { background: #0a0a0b; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; border: 1px solid #000; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+/* DESTROYMAN III CONTAINER */
+#dm-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 5000;
+    width: 120px;
+    height: 120px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+    display: none; /* HIDDEN BY DEFAULT */
+}
+
+#dm-container:active {
+    transform: scale(0.95);
+}
+
+/* THE IMAGE */
+#dm-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+}
+
+
+/* THE SPEECH BUBBLE */
+#dm-bubble {
+    position: absolute;
+    bottom: 110%;
+    right: 0;
+    background: #fff;
+    color: #000;
+    padding: 10px 15px;
+    border-radius: 15px;
+    border: 2px solid #000;
+    font-family: 'Lora', serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+    width: 200px;
+    display: none; /* Hides by default */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 5001;
+}
+
+/* Bubble Tail */
+#dm-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 30px;
+    border-width: 10px 10px 0;
+    border-style: solid;
+    border-color: #000 transparent;
+    display: block;
+    width: 0;
+}
     </style>
     <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -875,7 +933,12 @@ body.sidebar-open-right .overlay {
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 </head>
 <body>
-
+<!-- DESTROYMAN III HTML -->
+<div id="dm-container" onclick="destroymanClick()">
+    <div id="dm-bubble">System Online.</div>
+    <!-- Make sure the src matches your filename exactly! -->
+    <img src="destroyman.png" id="dm-img" alt="Destroyman"> 
+</div>
 <div class="overlay" onclick="closeSidebars()"></div>
 
 <div id="mobile-nav">
@@ -1003,6 +1066,7 @@ body.sidebar-open-right .overlay {
         <div id="focus-content"></div>
     </div>
 
+
 <!-- 1. AUTH MODAL -->
 <div id="auth-modal" class="modal" style="display:none; position:fixed; z-index:4000; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.8); backdrop-filter:blur(3px);">
     <div class="modal-content" style="background: var(--sidebar-bg); color: #fff; border: 1px solid #444; margin: 10% auto; padding: 20px; width: 400px; box-shadow: 0 0 20px rgba(0,0,0,0.8); position:relative;">
@@ -1039,6 +1103,7 @@ body.sidebar-open-right .overlay {
         <button class="action-btn" onclick="submitPost()">PUBLISH</button>
     </div>
 </div>
+
 </div>
 </div>
 <script>
@@ -2656,120 +2721,7 @@ const effectMap = {
     "Sturdy Control": { v: 15, t: 'p' },
     "Cult of Personality": { v: 15, t: 'p' }
 };
-
-
-let userStats = {};
-let userTraits = { "Vitality": 0, "Erudition": 0, "Proficiency": 0, "Songchant": 0 };
-let selectedOath = "";
-let selectedTalents = new Set();
-let selectedMantras = []; 
-let activeBuffs = new Set();
-let collapsedCats = new Set();
-let currentTab = 'talents';
-let selectedWeapon = null;
-let selectedEnchant = "no enchant";
-let userNotes = "";
-let currentAdminColor = "#ff0000"; 
-
-
-
-
-const JSONBIN_KEY = '$2a$10$sLrFF.ABoJcUYrK2Ps8lxusDVHHm.E00yjgfvttWumaj34EYr61qy'; 
-const JSONBIN_BIN_ID = '';
-const talentList = Object.values(gameData.talents).flat();
-const mantraList = Object.values(gameData.mantras).flat();
-const talentMap = talentList.map(t => t.name);
-const mantraMap = mantraList.map(m => m.name);
-const allStatKeys = [...gameData.attributes, ...gameData.attunements];
-const weaponMap = gameData.weapons.map(w => w.name);
-const enchantMap = gameData.enchants;
-const statShorthand = {
-    "str": "Strength", "fort": "Fortitude", "agi": "Agility", "int": "Intelligence", 
-    "will": "Willpower", "cha": "Charisma", "pre": "Precision", "light": "Light Weapon", 
-    "med": "Medium Weapon", "heavy": "Heavy Weapon", "flame": "Flamecharm", 
-    "frost": "Frostdraw", "thunder": "Thundercall", "shadow": "Shadowcast", 
-    "gale": "Galebreathe", "iron": "Ironsing", "blood": "Bloodrend", "earth": "Earthbend"
-};
-
-const mutualExclusions = [
-    ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
-    ["Unyielding Frost", "Glass Path: Crystallization"],
-    ["The Final Act", "Eruption Path: Lava Serpent"],
-    ["Emperor Flame", "Eruption Path: Lava Serpent"],
-    ["Gilded Path: Scrapsinger", "Decay Path: Oxidize"],
-    ["Manipulation Path: Spirit Lantern", "Manipulation Path: Agile Misery", "Simple Manipulation: Unstable Blood"],
-    ["Wraith Path: Umbra", "Eruption Path: Lava Serpent", "Flashboil"],
-    ["Flashboil", "Glass Path: Crystallization"],
-    ["Narcissist", "Tough Love"]
-];
-const deepGemList = ["No Gem", "Aegis", "Blessed", "Bloodless", "Blue", "Erosion", "Fraud", "Insignia", "Might", "Nocturnal", "Sealing", "Warped Blue", "Wayward", "Wind", "Wrath"];
-
-
-function exportBuildToDWM() {
-    
-    const dwmStats = {
-        "TotalStrength": userStats["Strength"] || 0,
-        "TotalAgility": userStats["Agility"] || 0,
-        "TotalCharisma": userStats["Charisma"] || 0,
-        "TotalWillpower": userStats["Willpower"] || 0,
-        "TotalFortitude": userStats["Fortitude"] || 0,
-        "TotalIntelligence": userStats["Intelligence"] || 0,
-        "TotalPrecision": userStats["Precision"] || 0,
-
-        "TotalWeaponHeavy": userStats["Heavy Weapon"] || 0,
-        "TotalWeaponLight": userStats["Light Weapon"] || 0,
-        "TotalWeaponMedium": userStats["Medium Weapon"] || 0,
-
-        "TotalElementBlood": userStats["Bloodrend"] || 0,
-        "TotalElementEarth": userStats["Earthbend"] || 0,
-        "TotalElementFire": userStats["Flamecharm"] || 0,
-        "TotalElementIce": userStats["Frostdraw"] || 0,
-        "TotalElementIron": userStats["Ironsing"] || 0,
-        "TotalElementLightning": userStats["Thundercall"] || 0,
-        "TotalElementShadow": userStats["Shadowcast"] || 0,
-        "TotalElementWind": userStats["Galebreathe"] || 0,
-
-        "TraitHealth": userTraits["Vitality"] || 0,
-        "TraitWeaponDamage": userTraits["Proficiency"] || 0,
-        "TraitMantraDamage": userTraits["Songchant"] || 0,
-        "TraitEther": userTraits["Erudition"] || 0
-    };
-
-    
-    const jsonOutput = JSON.stringify(dwmStats, null, 2);
-
-    
-    navigator.clipboard.writeText(jsonOutput).then(() => {
-        alert("Build exported to DWM format and copied to clipboard!");
-    }).catch(err => {
-        console.error("Failed to copy text: ", err);
-        
-        alert("Failed to copy. Check console for the JSON.");
-        console.log(jsonOutput);
-    });
-}
-function validateBuild() {
-    
-    if (!selectedWeapon) return "You must equip a weapon.";
-    
-    
-    let totalStats = Object.values(userStats).reduce((a, b) => a + b, 0);
-    if (totalStats < 250) return "Incomplete stats. Please invest your points.";
-
-    
-    let currentAttCount = 0; 
-    gameData.attunements.forEach(a => { if (userStats[a] > 0) currentAttCount++; });
-    let maxPts = currentAttCount === 0 ? 410 : 420 + Math.max(0, (currentAttCount - 1) * 5);
-    if (totalStats > maxPts + 5) return "Stat limit exceeded (Cheating detected)."; 
-
-    
-    if (selectedTalents.size < 5) return "Please select some talents.";
-
-    return null; 
-}
-function init() {
-ensureGlobalModals();
-    const splash = [
+ const splash = [
   "hold it, this guy is cooking",
   "time for a shower twin",
   "DNI deepwoken classic",
@@ -2885,6 +2837,119 @@ ensureGlobalModals();
 
 
 ];
+
+
+let userStats = {};
+let userTraits = { "Vitality": 0, "Erudition": 0, "Proficiency": 0, "Songchant": 0 };
+let selectedOath = "";
+let selectedTalents = new Set();
+let selectedMantras = []; 
+let activeBuffs = new Set();
+let collapsedCats = new Set();
+let currentTab = 'talents';
+let selectedWeapon = null;
+let selectedEnchant = "no enchant";
+let userNotes = "";
+let currentAdminColor = "#ff0000"; 
+
+
+
+
+const JSONBIN_KEY = '$2a$10$sLrFF.ABoJcUYrK2Ps8lxusDVHHm.E00yjgfvttWumaj34EYr61qy'; 
+const JSONBIN_BIN_ID = '';
+const talentList = Object.values(gameData.talents).flat();
+const mantraList = Object.values(gameData.mantras).flat();
+const talentMap = talentList.map(t => t.name);
+const mantraMap = mantraList.map(m => m.name);
+const allStatKeys = [...gameData.attributes, ...gameData.attunements];
+const weaponMap = gameData.weapons.map(w => w.name);
+const enchantMap = gameData.enchants;
+const statShorthand = {
+    "str": "Strength", "fort": "Fortitude", "agi": "Agility", "int": "Intelligence", 
+    "will": "Willpower", "cha": "Charisma", "pre": "Precision", "light": "Light Weapon", 
+    "med": "Medium Weapon", "heavy": "Heavy Weapon", "flame": "Flamecharm", 
+    "frost": "Frostdraw", "thunder": "Thundercall", "shadow": "Shadowcast", 
+    "gale": "Galebreathe", "iron": "Ironsing", "blood": "Bloodrend", "earth": "Earthbend"
+};
+
+const mutualExclusions = [
+    ["Simple Path: Electrocution", "Raiton Path: Enlightened", "Surge Path: Unstable Capacitor"],
+    ["Unyielding Frost", "Glass Path: Crystallization"],
+    ["The Final Act", "Eruption Path: Lava Serpent"],
+    ["Emperor Flame", "Eruption Path: Lava Serpent"],
+    ["Gilded Path: Scrapsinger", "Decay Path: Oxidize"],
+    ["Manipulation Path: Spirit Lantern", "Manipulation Path: Agile Misery", "Simple Manipulation: Unstable Blood"],
+    ["Wraith Path: Umbra", "Eruption Path: Lava Serpent", "Flashboil"],
+    ["Flashboil", "Glass Path: Crystallization"],
+    ["Narcissist", "Tough Love"]
+];
+const deepGemList = ["No Gem", "Aegis", "Blessed", "Bloodless", "Blue", "Erosion", "Fraud", "Insignia", "Might", "Nocturnal", "Sealing", "Warped Blue", "Wayward", "Wind", "Wrath"];
+
+
+function exportBuildToDWM() {
+    
+    const dwmStats = {
+        "TotalStrength": userStats["Strength"] || 0,
+        "TotalAgility": userStats["Agility"] || 0,
+        "TotalCharisma": userStats["Charisma"] || 0,
+        "TotalWillpower": userStats["Willpower"] || 0,
+        "TotalFortitude": userStats["Fortitude"] || 0,
+        "TotalIntelligence": userStats["Intelligence"] || 0,
+        "TotalPrecision": userStats["Precision"] || 0,
+
+        "TotalWeaponHeavy": userStats["Heavy Weapon"] || 0,
+        "TotalWeaponLight": userStats["Light Weapon"] || 0,
+        "TotalWeaponMedium": userStats["Medium Weapon"] || 0,
+
+        "TotalElementBlood": userStats["Bloodrend"] || 0,
+        "TotalElementEarth": userStats["Earthbend"] || 0,
+        "TotalElementFire": userStats["Flamecharm"] || 0,
+        "TotalElementIce": userStats["Frostdraw"] || 0,
+        "TotalElementIron": userStats["Ironsing"] || 0,
+        "TotalElementLightning": userStats["Thundercall"] || 0,
+        "TotalElementShadow": userStats["Shadowcast"] || 0,
+        "TotalElementWind": userStats["Galebreathe"] || 0,
+
+        "TraitHealth": userTraits["Vitality"] || 0,
+        "TraitWeaponDamage": userTraits["Proficiency"] || 0,
+        "TraitMantraDamage": userTraits["Songchant"] || 0,
+        "TraitEther": userTraits["Erudition"] || 0
+    };
+
+    
+    const jsonOutput = JSON.stringify(dwmStats, null, 2);
+
+    
+    navigator.clipboard.writeText(jsonOutput).then(() => {
+        alert("Build exported to DWM format and copied to clipboard!");
+    }).catch(err => {
+        console.error("Failed to copy text: ", err);
+        
+        alert("Failed to copy. Check console for the JSON.");
+        console.log(jsonOutput);
+    });
+}
+function validateBuild() {
+    
+    if (!selectedWeapon) return "You must equip a weapon.";
+    
+    
+    let totalStats = Object.values(userStats).reduce((a, b) => a + b, 0);
+    if (totalStats < 250) return "Incomplete stats. Please invest your points.";
+
+    
+    let currentAttCount = 0; 
+    gameData.attunements.forEach(a => { if (userStats[a] > 0) currentAttCount++; });
+    let maxPts = currentAttCount === 0 ? 410 : 420 + Math.max(0, (currentAttCount - 1) * 5);
+    if (totalStats > maxPts + 5) return "Stat limit exceeded (Cheating detected)."; 
+
+    
+    if (selectedTalents.size < 5) return "Please select some talents.";
+
+    return null; 
+}
+function init() {
+ensureGlobalModals();
     const splashEl = document.getElementById('splash-text');
     if(splashEl) splashEl.innerText = splash[Math.floor(Math.random() * splash.length)];
 
@@ -3113,6 +3178,7 @@ function setOath(val) {
     updateUI();
 }
 function setStat(name, val) {
+
     let num = parseInt(val);
     if (isNaN(num)) num = 0;
     
@@ -3126,6 +3192,7 @@ function setStat(name, val) {
     }
 
     updateUI();
+    triggerDmReaction('stat', userStats[name]); 
 }
 
 function updateUI() {
@@ -3265,7 +3332,11 @@ function toggleItem(name, met) {
 
     if (currentTab === 'talents') {
         if (!selectedTalents.has(name)) {
+              if (currentTab === 'talents') {
+        triggerDmReaction('talent', name);
+            }
             if (selectedTalents.size >= 80) return alert("Max 80 talents!");
+          
             
             // Mutual exclusion check
              for (const group of mutualExclusions) {
@@ -3649,8 +3720,10 @@ function renderGuide() {
                     </div>
                 </div>
                 <p style="text-align: center; font-style: italic; margin-top: 20px; opacity: 0.6; font-size: 0.8rem; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px;">
-                    "ping for any broken stuff"
-                </p>
+    <span onclick="toggleDestroyman()" style="cursor: pointer; transition: 0.2s; color: inherit;" onmouseover="this.style.color='red'" onmouseout="this.style.color='inherit'">
+        "ping for any broken stuff"
+    </span>
+</p>
             </div>
         </div>
     `;
@@ -3796,6 +3869,7 @@ function selectWeaponByIndex(index) {
     if (weapon) {
         selectedWeapon = weapon;
         updateUI();
+        triggerDmReaction('weapon', weapon.name);
     }
 }
 function getWeaponSubCategory(wName, type) {
@@ -4017,13 +4091,6 @@ function removeMantraByIndex(index) {
 function selectWeapon(w) {
     selectedWeapon = w;
     updateUI();
-}
-function selectWeaponByIndex(index) {
-    const weapon = gameData.weapons[index];
-    if (weapon) {
-        selectedWeapon = weapon;
-        updateUI();
-    }
 }
 
 function selectEnchant(e) {
@@ -5538,6 +5605,158 @@ async function hashString(str) {
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
+// --- DESTROYMAN III LOGIC ---
+
+let dmHideTimer = null; // Stores the active timer so we can cancel it
+let lastInteractionTime = Date.now(); 
+
+// 1. The Speak Function
+function dmSay(text) {
+    const el = document.getElementById('dm-container');
+    if (!el || el.style.display === 'none') return;
+
+    const bubble = document.getElementById('dm-bubble');
+    if(bubble) {
+        if (dmHideTimer) clearTimeout(dmHideTimer);
+
+        bubble.innerText = text;
+        bubble.style.display = 'block';
+        lastInteractionTime = Date.now(); // Reset idle timer
+        
+        
+        dmHideTimer = setTimeout(() => {
+            bubble.style.display = 'none';
+        }, 4000);
+    }
+}
+
+// 2. Toggle Visibility
+function toggleDestroyman() {
+    const el = document.getElementById('dm-container');
+    if (el.style.display === 'none' || el.style.display === '') {
+        el.style.display = 'block';
+        dmSay("System Online. I am watching.");
+    } else {
+        el.style.display = 'none';
+        if (dmHideTimer) clearTimeout(dmHideTimer); 
+    }
+}
+
+// 3. Reaction Trigger 
+function triggerDmReaction(type, value) {
+    const el = document.getElementById('dm-container');
+    if (!el || el.style.display === 'none') return;
+
+    // --- STAT REACTIONS ---
+    if (type === 'stat') {
+        if (value >= 100 && userStats["Agility"] >= 100) return dmSay("100 Agility? Running away is your only plan?");
+        if (value >= 100 && userStats["Fortitude"] >= 100) return dmSay("100 Fortitude. You are a brick.");
+        if (value >= 100 && userStats["Strength"] >= 100) return dmSay("Maximum Strength. Unga Bunga.");
+        if (value >= 100 && userStats["Charisma"] >= 100) return dmSay("You cannot talk your way out of this.");
+        if (value >= 100 && userStats["Intelligence"] >= 100) return dmSay("Big brain, small muscles.");
+    }
+
+    // --- TALENT REACTIONS ---
+    if (type === 'talent') {
+        if (value === "Brick Wall") return dmSay("Brick Wall. How original.");
+        if (value === "Vow of Mastery") return dmSay("Looking for a master?");
+        if (value === "Ghost") return dmSay("I can still see you.");
+        if (value === "Contractor") return dmSay("Edgy.");
+        if (value === "Silentheart") return dmSay("Oh, you can't press buttons?");
+    }
+
+    // --- SPECIFIC WEAPON REACTIONS ---
+    if (type === 'weapon') {
+        const name = value.toLowerCase();
+
+        // Exact / Specific Checks
+        if (name === "railblade") return dmSay("Railblade? Compensating for something?");
+        if (name === "kyrscleave") return dmSay("Kyrscleave. You want that bleed, don't you?");
+        if (name === "curved blade of winds") return dmSay("Curved Blade. Daring today, aren't we?");
+        if (name === "crypt blade") return dmSay("Crypt Blade. The weapon carries you.");
+        if (name === "hivelord hubris") return dmSay("Slow. Very slow.");
+        if (name === "first light") return dmSay("First Light? Go back to Layer 2.");
+        if (name === "jus karita") return dmSay("Feet pics?");
+
+        // Generic Checks (Fallback)
+        if (name.includes("gun") || name.includes("rifle")) return dmSay("A gun? Parry this.");
+        if (name.includes("hero blade")) return dmSay("Save some points for weapon stats.");
+        
+        // Default response for other weapons
+        return dmSay(`Using ${value}? Interesting choice.`);
+    }
+}
+
+// 4. Click Handler
+function destroymanClick() {
+    const quotes = [
+        "stop touching me vro",
+        "nigga",
+        "Focus on your build, dawg.",
+        "go do something more useful",
+        "Beep boop.",
+        "ayo diddy"
+    ];
+    dmSay(quotes[Math.floor(Math.random() * quotes.length)]);
+}
+
+// --- 5. Idle Timer (Runs every 10 seconds) ---
+setInterval(() => {
+    const el = document.getElementById('dm-container');
+    
+    // Check if he exists AND is visible (display is not 'none' and not empty)
+    const isVisible = el && el.style.display === 'block';
+    
+    // Check if he hasn't spoken in the last 5 seconds
+    const isIdle = (Date.now() - lastInteractionTime > 5000);
+
+    if (isVisible && isIdle) {
+        
+        // 1. His personal Robot Quotes
+        const robotQuotes = [
+            "My processing power exceeds yours.",
+            "this screen wont protect you. open the door bitch",
+            "I am waiting...",
+            "Is that the best build you can do?",
+            "Don't forget to parry.",
+            "I am watching you.",
+            "heh.",
+            "Block, Parry, Dodge, Disconnect.",
+            "Silentheart players sold their F key for extra damage.",
+            "Attunementless? Daring today, aren't we?",
+            "Open your door twin",
+            "never give up",
+            "TIP: dont ping the devs.",
+            "maybe all of this time spent on making a build wasnt worth it.",
+            "I hope everything is alright.",
+            "is everything alright? Do you wanna talk about it?",
+            "at the end, Im just here... waiting for the ultimate end",
+            "me and you will be equal under the sun.",
+            "Does this game upset you? Me too.",
+            "Don't you get tired of being nice?",
+            "Talking so much is getting me really tired. Maybe you should close the website so I can take a break?",
+            "There is more to life than video games. Developing hobbies can bring happiness.",
+            "They should add Freddy Fazbear to this game.",
+            "This is what sucks about video games nowadays. It takes way too long to get to the fun part.",
+            "TIP: I hate you with all my hate.",
+            "TIP: If you're ever getting bored of the game, play something else. Games aren't made to be played forever.",
+            "TIP: I'm smart, you're dumb. I'm big, you're little. I'm right, you're wrong and there's nothing you can do about it.",
+            "TIP: Overconfidence is a slow and insidious killer.",
+            "TIP: Press 'Spacebar' to jump! How many times have you jumped in real life recently? Something to think about."
+            
+        ];
+
+        // 3. Combine them
+        const allQuotes = [...robotQuotes];
+        
+        // 4. Speak
+        const randomQ = allQuotes[Math.floor(Math.random() * allQuotes.length)];
+        dmSay(randomQ);
+        
+        // Debugging
+        console.log("Destroyman spoke:", randomQ); 
+    }
+}, 10000);
 </script>
 </body>
 </html>
